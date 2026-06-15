@@ -9,8 +9,8 @@ public class OrderStatusHistory
     public Guid OrderId { get; set; }
     public Order Order { get; set; } = default!;
 
-    public Guid ChangedById { get; set; }
-    public User User { get; set; } = default!;
+    public Guid? ChangedByUserId { get; set; }
+    public User? ChangedByUser { get; set; } = default!;
 
     public OrderStatus Status { get; set; }
 

@@ -12,15 +12,15 @@ public class Product
     public Guid BrandId { get; set; }
     public Brand Brand { get; set; } = default!;
 
-    // public Inventory Inventory { get; set; } = default!;
+    public Inventory Inventory { get; set; } = default!;
 
     public string Name { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
+    public string? Description { get; set; }
 
     public decimal Price { get; set; }
 
     public string Type { get; set; } = string.Empty; // phone, tv, cloths, books, perfume, other.
-    public string Specifications { get; set; } = null!;
+    public string Specifications { get; set; } = string.Empty;
 
     public bool IsActive { get; set; }
 

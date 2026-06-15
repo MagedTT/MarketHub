@@ -9,8 +9,8 @@ public class Order
     public Guid UserId { get; set; }
     public User User { get; set; } = default!;
 
-    public Guid PromoCodeId { get; set; }
-    public PromoCode PromoCode { get; set; } = default!;
+    public Guid? PromoCodeId { get; set; }
+    public PromoCode? PromoCode { get; set; } = default!;
 
     public OrderStatus Status { get; set; }
     public decimal TotalAmount { get; set; }
