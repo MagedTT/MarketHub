@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/API/">
+    <Project Path="src/API/MarketHub.API/MarketHub.API.csproj" />
+  </Folder>
+  <Folder Name="/src/Core/">
+    <Project Path="src/Core/MarketHub.Application/MarketHub.Application.csproj" />
+    <Project Path="src/Core/MarketHub.Domain/MarketHub.Domain.csproj" />
+  </Folder>
+  <Folder Name="/src/Infrastructure/">
+    <Project Path="src/Infrastructure/MarketHub.Identity/MarketHub.Identity.csproj" />
+    <Project Path="src/Infrastructure/MarketHub.Infrastructure/MarketHub.Infrastructure.csproj" />
+    <Project Path="src/Infrastructure/MarketHub.Persistence/MarketHub.Persistence.csproj" />
+  </Folder>
+</Solution>
