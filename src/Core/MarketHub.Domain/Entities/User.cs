@@ -16,6 +16,9 @@ public class User : IdentityUser<Guid>
     public Cart Cart { get; set; } = default!;
     public Wishlist Wishlist { get; set; } = default!;
 
+    public string? RefreshToken { get; set; }
+    public DateTime? RefreshTokenExpiryTime { get; set; }
+
     public ICollection<Order> Orders { get; set; } = new List<Order>();
     public ICollection<Review> Reviews { get; set; } = new List<Review>();
     public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
