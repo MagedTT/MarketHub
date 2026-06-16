@@ -9,8 +9,8 @@ public class Product
     public Guid StoreId { get; set; }
     public Store Store { get; set; } = default!;
 
-    public Guid BrandId { get; set; }
-    public Brand Brand { get; set; } = default!;
+    public Guid? BrandId { get; set; }
+    public Brand? Brand { get; set; } = default!;
 
     public Inventory Inventory { get; set; } = default!;
 
@@ -21,6 +21,9 @@ public class Product
 
     public string Type { get; set; } = string.Empty; // phone, tv, cloths, books, perfume, other.
     public string Specifications { get; set; } = string.Empty;
+
+    public bool IsDeleted { get; set; }
+    public DateTime DeletedAt { get; set; }
 
     public bool IsActive { get; set; }
 

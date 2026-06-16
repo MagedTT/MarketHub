@@ -9,8 +9,8 @@ public class Report
     public Guid ReporterUserId { get; set; }
     public User ReporterUser { get; set; } = default!;
 
-    public Guid? ProductId { get; set; }
-    public Product? Product { get; set; } = default!;
+    public Guid ProductId { get; set; }
+    public Product Product { get; set; } = default!;
 
     public Guid? StoreId { get; set; }
     public Store? Store { get; set; } = default!;

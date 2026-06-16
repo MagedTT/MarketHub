@@ -21,6 +21,6 @@ public class WishlistItemConfiguration : IEntityTypeConfiguration<WishlistItem>
             .WithMany(x => x.WishlistItems)
             .HasForeignKey(x => x.ProductId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

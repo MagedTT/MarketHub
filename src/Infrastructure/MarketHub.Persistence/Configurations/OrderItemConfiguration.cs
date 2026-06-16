@@ -12,10 +12,6 @@ public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
             .HasPrecision(6, 2)
             .IsRequired();
 
-        builder.Property(x => x.LineTotal)
-            .HasPrecision(6, 2)
-            .IsRequired();
-
         builder.HasOne(x => x.Order)
             .WithMany(x => x.OrderItems)
             .HasForeignKey(x => x.OrderId)
@@ -26,6 +22,6 @@ public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
             .WithMany(x => x.OrderItems)
             .HasForeignKey(x => x.ProductId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

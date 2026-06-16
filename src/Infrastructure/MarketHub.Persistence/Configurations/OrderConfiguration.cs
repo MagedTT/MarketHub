@@ -19,6 +19,6 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .WithMany(x => x.Orders)
             .HasForeignKey(x => x.UserId)
             .IsRequired()
-            .OnDelete(DeleteBehavior.SetNull); // ?
+            .OnDelete(DeleteBehavior.Restrict); // ?
     }
 }

@@ -21,8 +21,8 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
         builder.HasOne(x => x.Product)
             .WithMany(x => x.Reports)
             .HasForeignKey(x => x.ProductId)
-            .IsRequired(false)
-            .OnDelete(DeleteBehavior.SetNull);
+            .IsRequired()
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne(x => x.Store)
             .WithMany(x => x.Reports)
