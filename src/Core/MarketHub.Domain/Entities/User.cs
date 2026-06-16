@@ -1,9 +1,9 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace MarketHub.Domain.Entities;
 
-public class User
+public class User : IdentityUser<Guid>
 {
-    public Guid Id { get; set; }
-
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
 
@@ -14,6 +14,7 @@ public class User
 
     public Store Store { get; set; } = default!;
     public Cart Cart { get; set; } = default!;
+    public Wishlist Wishlist { get; set; } = default!;
 
     public ICollection<Order> Orders { get; set; } = new List<Order>();
     public ICollection<Review> Reviews { get; set; } = new List<Review>();

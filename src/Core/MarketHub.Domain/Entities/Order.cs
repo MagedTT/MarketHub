@@ -17,7 +17,7 @@ public class Order
     public string ShippingAddress { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
 
-    // public Shipment Shipment { get; set; } = default!;
+    public Shipment Shipment { get; set; } = default!;
 
     public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     public ICollection<OrderStatusHistory> OrderStatusHistories { get; set; } = new List<OrderStatusHistory>();
