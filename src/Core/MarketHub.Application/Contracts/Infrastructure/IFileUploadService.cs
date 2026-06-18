@@ -4,5 +4,5 @@ namespace MarketHub.Application.Contracts.Infrastructure;
 
 public interface IFileUploadService
 {
-    Task<string> UploadFile(FileUploadDto file);
+    Task<(bool status, string message, string filePath)> UploadFile(FileUploadDto file);
 }

@@ -1,5 +1,6 @@
 using AutoMapper;
 using MarketHub.Application.DTOs.Persistence.Product;
+using MarketHub.Application.Features.Products.Commands.AddProductCommand;
 using MarketHub.Application.Models.Authentication;
 using MarketHub.Domain.Entities;
 
@@ -10,5 +11,8 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<UserForRegisterationDto, User>();
+        CreateMap<AddProductCommand, Product>()
+            .ForMember(product => product.Specifications,
+                options => options.MapFrom(x => x.Specifications.GetRawText()));
     }
 }

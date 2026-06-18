@@ -1,3 +1,4 @@
+using System.Text.Json;
 using MarketHub.Application.DTOs.Persistence.Review;
 
 namespace MarketHub.Application.DTOs.Persistence.Product;
@@ -12,6 +13,7 @@ public class ProductDetailsDto
     public decimal Price { get; set; }
     public int AvailableAmountInStock { get; set; }
     public string Type { get; set; } = string.Empty;
+    public JsonElement Specifications { get; set; }
     public int NumberOfReviews { get; set; }
     public int AverageRating { get; set; }
     public byte[] BaseImage { get; set; } = default!;
