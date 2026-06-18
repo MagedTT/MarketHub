@@ -1,4 +1,5 @@
 using AutoMapper;
+using MarketHub.Application.DTOs.Persistence.Product;
 using MarketHub.Application.Models.Authentication;
 using MarketHub.Domain.Entities;
 
