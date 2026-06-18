@@ -1,3 +1,5 @@
+using MarketHub.Application;
+using MarketHub.Infrastructure;
 using MarketHub.Persistence;
 
 namespace MarketHub.API;
@@ -10,6 +12,8 @@ public static class Extensions
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        builder.Services.AddApplicationLayerServices();
+        builder.Services.AddInfrastructureServices(builder.Configuration);
         builder.Services.AddPersistenceServices(builder.Configuration);
 
         return builder.Build();
