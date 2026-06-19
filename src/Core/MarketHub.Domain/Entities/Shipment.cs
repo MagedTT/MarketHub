@@ -4,7 +4,7 @@ namespace MarketHub.Domain.Entities;
 
 public class Shipment
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public Guid OrderId { get; set; }
     public Order Order { get; set; } = default!;

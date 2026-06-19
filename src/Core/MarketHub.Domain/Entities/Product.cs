@@ -4,7 +4,7 @@ namespace MarketHub.Domain.Entities;
 
 public class Product
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public Guid StoreId { get; set; }
     public Store Store { get; set; } = default!;
@@ -15,7 +15,7 @@ public class Product
     public Inventory Inventory { get; set; } = default!;
 
     public string Name { get; set; } = string.Empty;
-    public string? Description { get; set; }
+    public string Description { get; set; } = string.Empty;
 
     public decimal Price { get; set; }
 

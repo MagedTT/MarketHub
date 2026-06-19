@@ -12,6 +12,6 @@ public interface IProductRepository
     Task<PagedList<ProductCardDto>> GetProductCardsAsync(ProductParameters productParameters, bool trackChanges);
     // Task<PagedList<ProductCardDto>> GetProductCardsByConditionAsync(Expression<Func<Product, bool>> expression, bool trackChanges);
     Task<Guid> AddProductAsync(Product product);
-    Task UpdateProductAsync(Product product);
+    void UpdateProductAsync(Product product);
     Task MarkAsDeletedAsync(Guid id);
 }

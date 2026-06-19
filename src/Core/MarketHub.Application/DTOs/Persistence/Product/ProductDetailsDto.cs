@@ -16,7 +16,6 @@ public class ProductDetailsDto
     public JsonElement Specifications { get; set; }
     public int NumberOfReviews { get; set; }
     public int AverageRating { get; set; }
-    public byte[] BaseImage { get; set; } = default!;
     public ICollection<ReviewDto>? Reviews { get; set; }
-    public ICollection<ProductImageDto> Images { get; set; } = new List<ProductImageDto>();
+    public ICollection<string> ImagesUrls { get; set; } = new List<string>();
 }

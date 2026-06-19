@@ -4,7 +4,7 @@ namespace MarketHub.Domain.Entities;
 
 public class Report
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public Guid ReporterUserId { get; set; }
     public User ReporterUser { get; set; } = default!;

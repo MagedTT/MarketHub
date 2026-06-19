@@ -76,11 +76,11 @@ public class AddProductCommandValidator : AbstractValidator<AddProductCommand>
     }
 
     private async Task<bool> StoreExists(Guid storeId, CancellationToken cancellationToken)
-        => await _reopsitoryManager.StoreRepository.CheckStoreExistsAsync(storeId, trackChanges: false);
+        => await _reopsitoryManager.StoreRepository.CheckStoreExistsAsync(storeId);
 
 
     private async Task<bool> BrandExists(Guid brandId, CancellationToken cancellationToken)
-        => await _reopsitoryManager.BrandRepository.CheckBrandExistsAsync(brandId, trackChanges: false);
+        => await _reopsitoryManager.BrandRepository.CheckBrandExistsAsync(brandId);
 }
 
 //     public Guid StoreId { get; set; }
