@@ -71,8 +71,6 @@ public class ProductRepository : IProductRepository
 
         int count = await productCards.CountAsync();
 
-        Console.WriteLine($"Count: ====> {count}");
-
         List<ProductCardDto> productCardsList = await productCards.Skip((productParameters.PageNumber - 1) * productParameters.PageSize).Take(productParameters.PageSize).ToListAsync();
 
         return new PagedList<ProductCardDto>(productCardsList, count, productParameters.PageNumber, productParameters.PageSize);
