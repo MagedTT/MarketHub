@@ -11,6 +11,7 @@ public interface IBrandRepository
 
     void AddBrand(Brand brand);
     Task<bool> CheckBrandExistsAsync(Guid id);
+    Task<bool> BrandExistsByNameAsync(string brandName);
 
     void DeleteBrand(Brand brand);
     Task DeleteBrandAsync(Guid id);
