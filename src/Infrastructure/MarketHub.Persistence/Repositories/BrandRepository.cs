@@ -69,6 +69,9 @@ public class BrandRepository : IBrandRepository
     public async Task<bool> CheckBrandExistsAsync(Guid id)
         => await _context.Brands.AnyAsync(brand => brand.Id.Equals(id));
 
+    public async Task<bool> BrandExistsByNameAsync(string brandName)
+        => await _context.Brands.AnyAsync(brand => brand.Name == brandName);
+
     public void AddBrand(Brand brand)
         => _context.Brands.Add(brand);
 
