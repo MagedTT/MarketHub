@@ -2,6 +2,7 @@ using MarketHub.Application;
 using MarketHub.Identity;
 using MarketHub.Infrastructure;
 using MarketHub.Persistence;
+using Serilog;
 
 namespace MarketHub.API;
 
@@ -12,6 +13,13 @@ public static class Extensions
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Host.UseSerilog((HostBuilderContext hostBuilderContext, IServiceProvider serviceProvider, LoggerConfiguration loggerConfiguration) =>
+        {
+            loggerConfiguration
+                .ReadFrom.Configuration(hostBuilderContext.Configuration)
+                .ReadFrom.Services(serviceProvider);
+        });
 
         builder.Services.AddPersistenceServices(builder.Configuration);
         builder.Services.AddAutoMapper(configs =>
