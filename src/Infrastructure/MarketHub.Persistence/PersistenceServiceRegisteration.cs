@@ -1,4 +1,6 @@
+using MarketHub.Application.Contracts.Persistence;
 using MarketHub.Domain.Entities;
+using MarketHub.Persistence.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +12,8 @@ public static class PersistenceServiceRegisteration
 {
     public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddScoped<IRepositoryManager, RepositoryManager>();
+
         services.AddDbContext<MarketHubDbContext>(options =>
             options.UseSqlServer(Environment.GetEnvironmentVariable("MarketHub__ConnectionString")));
 
