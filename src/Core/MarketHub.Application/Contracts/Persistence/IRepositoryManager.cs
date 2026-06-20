@@ -6,6 +6,6 @@ public interface IRepositoryManager
     IStoreRepository StoreRepository { get; }
     IProductRepository ProductRepository { get; }
     IProductImageRepository ProductImageRepository { get; }
-    InventoryRepository InventoryRepository { get; }
+    IInventoryRepository InventoryRepository { get; }
     Task<int> SaveAsync();
 }

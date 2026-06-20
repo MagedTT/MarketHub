@@ -42,9 +42,11 @@ public class AddProductCommandHandler : IRequestHandler<AddProductCommand, AddPr
 
         Product product = _mapper.Map<Product>(request);
 
-        Console.WriteLine($"====> ProductId from AddProductCommandHandler: {product}");
+        Console.WriteLine($"====> Product Id from Mapper: {product.Id}");
 
         Guid productId = await _repositoryManager.ProductRepository.AddProductAsync(product);
+
+        Console.WriteLine($"====> Product Id from AddProductCommandHandler: {productId}");
 
         int idx = 1;
 
@@ -59,7 +61,7 @@ public class AddProductCommandHandler : IRequestHandler<AddProductCommand, AddPr
                 DisplayOrder = idx++
             };
 
-            await _repositoryManager.ProductImageRepository.AddImageForProductAsync(productId, productImage);
+            _repositoryManager.ProductImageRepository.AddImageForProductAsync(productImage);
         }
 
         Inventory inventory = new()
@@ -68,7 +70,7 @@ public class AddProductCommandHandler : IRequestHandler<AddProductCommand, AddPr
             AvailableQuantity = request.AvailableQuantityInStock
         };
 
-        await _repositoryManager.InventoryRepository.AddAmountToProductAsync(productId, inventory);
+        _repositoryManager.InventoryRepository.AddAmountToProductAsync(inventory);
 
         await _repositoryManager.SaveAsync();
 

@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using MarketHub.Application.DTOs.Persistence.Product;
 using MarketHub.Application.Shared;
 using MarketHub.Domain.Entities;
