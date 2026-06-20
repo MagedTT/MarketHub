@@ -70,7 +70,7 @@ public class AddProductCommandValidator : AbstractValidator<AddProductCommand>
                 .WithMessage("file type should be either image/jpeg or image/png");
 
             image.RuleFor(i => i.LengthInBytes)
-                .LessThanOrEqualTo(4096)
+                .LessThanOrEqualTo(5 * 1024 * 1024)
                 .WithMessage("Image size in bytes must be less than 5 MB");
         });
     }

@@ -13,6 +13,7 @@ public class MappingProfile : Profile
         CreateMap<UserForRegisterationDto, User>();
         CreateMap<AddProductCommand, Product>()
             .ForMember(product => product.Specifications,
-                options => options.MapFrom(x => x.Specifications.GetRawText()));
+                options => options.MapFrom(x => x.Specifications.GetRawText()))
+            .ForMember(product => product.Images, options => options.Ignore());
     }
 }

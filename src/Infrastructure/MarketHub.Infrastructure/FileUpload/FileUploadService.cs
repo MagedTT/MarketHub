@@ -10,7 +10,9 @@ public class FileUploadService : IFileUploadService
         if (file is null)
             return await Task.FromResult((false, "File is null", ""));
 
-        string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "../../../API/wwwroot/uploads");
+        string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
+
+        Console.WriteLine($"======> {uploadsFolder}");
 
         if (!Directory.Exists(uploadsFolder))
             Directory.CreateDirectory(uploadsFolder);

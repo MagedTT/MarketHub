@@ -17,5 +17,5 @@ public class Report
 
     public string Description { get; set; } = string.Empty;
     public ReportStatus Status { get; set; }
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 }

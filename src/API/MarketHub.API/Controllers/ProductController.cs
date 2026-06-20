@@ -1,5 +1,5 @@
 using System.Text.Json;
-using MarketHub.Application.Contracts.Persistence;
+using AutoMapper;
 using MarketHub.Application.DTOs.Persistence.Product;
 using MarketHub.Application.Features.Products.Commands.AddProductCommand;
 using MarketHub.Application.Features.Products.Queries.GetProductCard;
@@ -9,13 +9,19 @@ using MarketHub.Application.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
+namespace MarketHub.API.Controllers;
+
 [ApiController]
 [Route("api/products")]
 public class ProductController : ControllerBase
 {
     private readonly IMediator _mediator;
-    public ProductController(IMediator mediator)
-        => _mediator = mediator;
+    private readonly IMapper _mapper;
+    public ProductController(IMediator mediator, IMapper mapper)
+    {
+        _mediator = mediator;
+        _mapper = mapper;
+    }
 
     [HttpGet]
     [Route("productCard/{id:guid}")]
@@ -50,7 +56,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    [Route("productDetails/{id:guid}")]
+    [Route("{id:guid}")]
     public async Task<IActionResult> GetProductDetails(Guid id)
     {
         GetProductDetailsQuery request = new()
@@ -99,8 +105,10 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] AddProductCommand request)
+    public async Task<IActionResult> Create([FromForm] ProductDto product)
     {
+        AddProductCommand request = _mapper.Map<AddProductCommand>(product);
+
         AddProductCommandResponse response = await _mediator.Send(request);
 
         if (!response.Success && response.StatusCode == StatusCodes.Status400BadRequest)
@@ -114,6 +122,20 @@ public class ProductController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        return CreatedAtAction(nameof(GetProductDetails), new { id = response.CreatedProductId });
+        // return CreatedAtAction(nameof(GetProductDetails), new { id = response.CreatedProductId });
+        return NoContent();
     }
+}
+
+public class ProductDto
+{
+    public Guid StoreId { get; set; }
+    public Guid BrandId { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string? Description { get; set; }
+    public double Price { get; set; }
+    public string Type { get; set; } = string.Empty;
+    public string Specifications { get; set; } = string.Empty;
+    public int AvailableQuantityInStock { get; set; }
+    public List<IFormFile> Images { get; set; } = new();
 }

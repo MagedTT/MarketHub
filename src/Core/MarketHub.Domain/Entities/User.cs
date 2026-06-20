@@ -9,7 +9,7 @@ public class User : IdentityUser<Guid>
 
     public bool IsActive { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; }
 
     public Store Store { get; set; } = default!;

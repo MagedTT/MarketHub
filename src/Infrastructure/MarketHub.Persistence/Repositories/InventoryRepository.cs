@@ -11,8 +11,6 @@ public class InventoryRepository : IInventoryRepository
         _context = context;
     }
 
-    public void AddAmountToProductAsync(Inventory inventory)
-    {
-        _context.Inventories.Add(inventory);
-    }
+    public Task AddAmountToProductAsync(Inventory inventory)
+        => Task.FromResult(_context.Inventories.Add(inventory));
 }

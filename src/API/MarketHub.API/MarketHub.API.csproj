@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\MarketHub.Infrastructure\MarketHub.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\MarketHub.Persistence\MarketHub.Persistence.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\MarketHub.Identity\MarketHub.Identity.csproj" />
   </ItemGroup>
 
   <ItemGroup>

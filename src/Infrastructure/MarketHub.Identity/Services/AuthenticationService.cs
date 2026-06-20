@@ -95,7 +95,7 @@ public class AuthenticationService : IAuthenticationService
 
         string encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
-        string confirmationEmail = $"https://localhost:5001/confirm-email?email={request.Email}&token={encodedToken}";
+        string confirmationEmail = $"https://localhost:5001/api/authentication/confirm-email?email={request.Email}&token={encodedToken}";
 
         Email email = new Email
         {
@@ -103,10 +103,11 @@ public class AuthenticationService : IAuthenticationService
             ToEmail = request.Email,
             Subject = "MarketHub: Email Confirmation",
             Body = "Please Confirm Your Email",
-            HtmlContent = $"""
-                <p>This is an email to confirm your email my bro.</p>
-                <a href=${confirmationEmail}>Click Here</a> to Confirm Your Email and be able to login
-            """
+            HtmlContent = confirmationEmail
+            // HtmlContent = $"""
+            //     <p>This is an email to confirm your email my bro.</p>
+            //     <a href=${confirmationEmail}>Click Here</a> to Confirm Your Email and be able to login
+            // """
         };
 
         Response emailResponse = await _emailService.SendEmailAsync(email);
@@ -174,6 +175,17 @@ public class AuthenticationService : IAuthenticationService
             response.Success = false;
             response.StatusCode = (int)HttpStatusCode.NotFound;
             response.Message = "User not found";
+
+            return response;
+        }
+
+        if (!await _userManager.IsEmailConfirmedAsync(_user))
+        {
+            response.Success = false;
+            response.StatusCode = (int)HttpStatusCode.BadRequest;
+            response.Message = "Email not confirmed.";
+
+            return response;
         }
 
         if (!await _userManager.CheckPasswordAsync(_user!, request.Password))

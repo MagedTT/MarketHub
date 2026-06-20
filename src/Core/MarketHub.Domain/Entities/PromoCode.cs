@@ -11,7 +11,7 @@ public class PromoCode
     public DiscountType DiscountType { get; set; }
     public decimal DiscountValue { get; set; }
 
-    public DateTime StartDate { get; set; }
+    public DateTime StartDate { get; set; } = DateTime.Now;
     public DateTime EndDate { get; set; }
 
     public int UsageLimit { get; set; }

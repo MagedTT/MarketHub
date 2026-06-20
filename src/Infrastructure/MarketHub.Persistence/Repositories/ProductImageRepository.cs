@@ -11,6 +11,6 @@ public class ProductImageRepository : IProductImageRepository
         _context = context;
     }
 
-    public void AddImageForProductAsync(ProductImage productImage)
-        => _context.ProductImages.Add(productImage);
+    public Task AddImageForProductAsync(ProductImage productImage)
+        => Task.FromResult(_context.ProductImages.Add(productImage));
 }

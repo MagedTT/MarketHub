@@ -4,5 +4,5 @@ namespace MarketHub.Application.Contracts.Persistence;
 
 public interface IProductImageRepository
 {
-    void AddImageForProductAsync(ProductImage productImage);
+    Task AddImageForProductAsync(ProductImage productImage);
 }

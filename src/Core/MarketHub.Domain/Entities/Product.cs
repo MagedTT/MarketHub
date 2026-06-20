@@ -22,15 +22,15 @@ public class Product
     public string Type { get; set; } = string.Empty; // phone, tv, cloths, books, perfume, other.
     public string Specifications { get; set; } = string.Empty;
 
-    public bool IsDeleted { get; set; }
+    public bool IsDeleted { get; set; } = false;
     public DateTime DeletedAt { get; set; }
 
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
 
     public int NumberOfReviews { get; set; }
     public int AverageRating { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; }
 
     [Timestamp]
