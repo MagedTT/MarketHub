@@ -14,9 +14,9 @@ public class UpdateBrandCommandValidator : AbstractValidator<UpdateBrandCommand>
             .NotEmpty()
             .WithMessage("{PropertyName} is Required.")
             .MaximumLength(100)
-            .WithMessage("Maximum number of characters is 100 character.")
-            .MustAsync(BeUniqueBrandNameAsync)
-            .WithMessage("Brand name already exists.");
+            .WithMessage("Maximum number of characters is 100 character.");
+        // .MustAsync(BeUniqueBrandNameAsync)
+        // .WithMessage("Brand name already exists.");
     }
 
     private async Task<bool> BeUniqueBrandNameAsync(string brandName, CancellationToken cancellationToken)

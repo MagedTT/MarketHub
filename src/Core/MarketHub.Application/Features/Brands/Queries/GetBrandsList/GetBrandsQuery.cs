@@ -4,7 +4,7 @@ using MediatR;
 
 namespace MarketHub.Application.Features.Brands.Queries.GetBrandsList;
 
-public class GetBrandsQuery : IRequest<(IEnumerable<Brand>, MetaData metaData)>
+public class GetBrandsQuery : IRequest<(IEnumerable<Brand> brands, MetaData metaData)>
 {
     public bool TrackChanges { get; set; }
     public BrandParameters BrandParameters { get; set; } = new();

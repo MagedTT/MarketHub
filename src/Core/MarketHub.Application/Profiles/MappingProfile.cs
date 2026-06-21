@@ -1,5 +1,6 @@
 using AutoMapper;
 using MarketHub.Application.DTOs.Persistence.Product;
+using MarketHub.Application.Features.Brands.Commands.AddBrand;
 using MarketHub.Application.Features.Brands.Commands.UpdateBrand;
 using MarketHub.Application.Features.Products.Commands.AddProductCommand;
 using MarketHub.Application.Models.Authentication;
@@ -17,6 +18,7 @@ public class MappingProfile : Profile
                 options => options.MapFrom(x => x.Specifications.GetRawText()))
             .ForMember(product => product.Images, options => options.Ignore());
 
+        CreateMap<AddBrandCommand, Brand>();
         CreateMap<UpdateBrandCommand, Brand>();
     }
 }

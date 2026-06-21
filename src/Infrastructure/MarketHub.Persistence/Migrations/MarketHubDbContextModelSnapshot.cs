@@ -39,7 +39,7 @@ namespace MarketHub.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brands", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.Cart", b =>
@@ -59,7 +59,7 @@ namespace MarketHub.Persistence.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Carts");
+                    b.ToTable("Carts", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.CartItem", b =>
@@ -83,7 +83,7 @@ namespace MarketHub.Persistence.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CartItems");
+                    b.ToTable("CartItems", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.Inventory", b =>
@@ -112,7 +112,7 @@ namespace MarketHub.Persistence.Migrations
                     b.HasIndex("ProductId")
                         .IsUnique();
 
-                    b.ToTable("Inventories");
+                    b.ToTable("Inventories", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.Notification", b =>
@@ -147,7 +147,7 @@ namespace MarketHub.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notifications", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.Order", b =>
@@ -183,7 +183,7 @@ namespace MarketHub.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.OrderItem", b =>
@@ -211,7 +211,7 @@ namespace MarketHub.Persistence.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.OrderStatusHistory", b =>
@@ -240,7 +240,7 @@ namespace MarketHub.Persistence.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderStatusHistories");
+                    b.ToTable("OrderStatusHistories", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.Product", b =>
@@ -310,7 +310,7 @@ namespace MarketHub.Persistence.Migrations
 
                     b.HasIndex("StoreId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.ProductImage", b =>
@@ -333,7 +333,7 @@ namespace MarketHub.Persistence.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductImages");
+                    b.ToTable("ProductImages", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.PromoCode", b =>
@@ -370,7 +370,7 @@ namespace MarketHub.Persistence.Migrations
                     b.HasIndex("Code")
                         .IsUnique();
 
-                    b.ToTable("PromoCodes");
+                    b.ToTable("PromoCodes", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.Report", b =>
@@ -407,7 +407,7 @@ namespace MarketHub.Persistence.Migrations
 
                     b.HasIndex("StoreId");
 
-                    b.ToTable("Reports");
+                    b.ToTable("Reports", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.Review", b =>
@@ -439,7 +439,7 @@ namespace MarketHub.Persistence.Migrations
                     b.HasIndex("UserId", "ProductId")
                         .IsUnique();
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.Shipment", b =>
@@ -477,7 +477,7 @@ namespace MarketHub.Persistence.Migrations
                     b.HasIndex("TrackingNumber")
                         .IsUnique();
 
-                    b.ToTable("Shipments");
+                    b.ToTable("Shipments", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.ShipmentTracking", b =>
@@ -504,7 +504,7 @@ namespace MarketHub.Persistence.Migrations
 
                     b.HasIndex("ShipmentId");
 
-                    b.ToTable("ShipmentTrackings");
+                    b.ToTable("ShipmentTrackings", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.Store", b =>
@@ -539,7 +539,7 @@ namespace MarketHub.Persistence.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Stores");
+                    b.ToTable("Stores", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.User", b =>
@@ -645,7 +645,7 @@ namespace MarketHub.Persistence.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Wishlists");
+                    b.ToTable("Wishlists", (string)null);
                 });
 
             modelBuilder.Entity("MarketHub.Domain.Entities.WishlistItem", b =>
@@ -667,7 +667,7 @@ namespace MarketHub.Persistence.Migrations
                     b.HasIndex("WishlistId", "ProductId")
                         .IsUnique();
 
-                    b.ToTable("WishlistItems");
+                    b.ToTable("WishlistItems", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
