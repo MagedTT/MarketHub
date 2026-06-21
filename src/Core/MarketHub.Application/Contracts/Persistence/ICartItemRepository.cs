@@ -5,7 +5,7 @@ namespace MarketHub.Application.Contracts.Persistence;
 
 public interface ICartItemRepository
 {
-    Task AddCartItemAsync(Guid cartId, Guid productId, int quanitty);
     Task<IEnumerable<CartItem>> GetCartItemsByCartIdAsync(Guid cartId); // when user leaves the cart page the cartId, and its cartItems Ids is sent to the server then you call this function and check for each if it exists and if not remove from db and if yes then update quantity and check if quantity in stock is enough
-    Task UpdateCartItemQuantityAsync(Guid cartId, Guid productId, int quantity);
+    void AddCartItem(CartItem cartItem);
+    void UpdateCartItemQuantity(CartItem cartItem);
 }
