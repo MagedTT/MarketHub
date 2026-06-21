@@ -12,12 +12,9 @@ public class CartRepository : ICartRepository
     public CartRepository(MarketHubDbContext context)
         => _context = context;
 
-    public async Task<CartDto?> GetCartByUserIdAsync(Guid userId, bool trackChanges)
+    public async Task<CartDto?> GetCartByUserIdAsync(Guid userId)
     {
         IQueryable<Cart> carts = _context.Carts;
-
-        if (!trackChanges)
-            carts = carts.AsNoTracking();
 
         CartDto? cartDto = await carts.Where(x => x.UserId == userId)
             .Select(x => new CartDto
@@ -47,9 +44,9 @@ public class CartRepository : ICartRepository
     public async Task<Guid?> CartExistsByUserIdAsync(Guid userId)
         => await _context.Carts.Where(x => x.UserId == userId).Select(cart => cart.Id).FirstOrDefaultAsync();
 
-
     public async Task<bool> CartExistsAsync(Guid userId)
         => await _context.Carts.AnyAsync(x => x.UserId == userId);
+
     public Task<Guid> CreateCartAsync(Cart cart)
     {
         _context.Carts.Add(cart);
