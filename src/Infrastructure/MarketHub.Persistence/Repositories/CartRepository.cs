@@ -45,8 +45,11 @@ public class CartRepository : ICartRepository
     }
 
     public async Task<Guid?> CartExistsByUserIdAsync(Guid userId)
-        => await _context.Carts.Select(cart => cart.Id).FirstOrDefaultAsync();
+        => await _context.Carts.Where(x => x.UserId == userId).Select(cart => cart.Id).FirstOrDefaultAsync();
 
+
+    public async Task<bool> CartExistsAsync(Guid userId)
+        => await _context.Carts.AnyAsync(x => x.UserId == userId);
     public Task<Guid> CreateCartAsync(Cart cart)
     {
         _context.Carts.Add(cart);

@@ -7,5 +7,8 @@ public interface IRepositoryManager
     IProductRepository ProductRepository { get; }
     IProductImageRepository ProductImageRepository { get; }
     IInventoryRepository InventoryRepository { get; }
+    ICartRepository CartRepository { get; }
+    ICartItemRepository CartItemRepository { get; }
+    IUserRepository UserRepository { get; }
     Task<int> SaveAsync();
 }

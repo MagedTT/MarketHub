@@ -2,6 +2,7 @@ using AutoMapper;
 using MarketHub.Application.DTOs.Persistence.Product;
 using MarketHub.Application.Features.Brands.Commands.AddBrand;
 using MarketHub.Application.Features.Brands.Commands.UpdateBrand;
+using MarketHub.Application.Features.Carts.Commands.CreateCart;
 using MarketHub.Application.Features.Products.Commands.AddProductCommand;
 using MarketHub.Application.Models.Authentication;
 using MarketHub.Domain.Entities;
@@ -20,5 +21,7 @@ public class MappingProfile : Profile
 
         CreateMap<AddBrandCommand, Brand>();
         CreateMap<UpdateBrandCommand, Brand>();
+
+        CreateMap<CreateCartCommand, Cart>();
     }
 }

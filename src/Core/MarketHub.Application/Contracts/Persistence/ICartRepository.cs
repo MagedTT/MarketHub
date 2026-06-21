@@ -8,6 +8,7 @@ public interface ICartRepository
     Task<Guid> CreateCartAsync(Cart cart);
     Task<CartDto?> GetCartByUserIdAsync(Guid userId, bool trackChanges);
     Task<Guid?> CartExistsByUserIdAsync(Guid userId);
+    Task<bool> CartExistsAsync(Guid userId);
     Task<bool> DeletCartForUserWithIdAsync(Guid userId);
     void DeleteCart(Cart cart);
 }
