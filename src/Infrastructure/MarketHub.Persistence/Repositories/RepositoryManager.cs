@@ -11,6 +11,9 @@ public class RepositoryManager : IRepositoryManager
     private readonly Lazy<IProductRepository> _productRepository;
     private readonly Lazy<IProductImageRepository> _productImageRepository;
     private readonly Lazy<IInventoryRepository> _inventoryRepository;
+    private readonly Lazy<ICartRepository> _cartRepository;
+    private readonly Lazy<ICartItemRepository> _cartItemRepository;
+    private readonly Lazy<IUserRepository> _userRepository;
     public RepositoryManager(MarketHubDbContext context)
     {
         _context = context;
@@ -19,6 +22,9 @@ public class RepositoryManager : IRepositoryManager
         _productRepository = new Lazy<IProductRepository>(() => new ProductRepository(context));
         _productImageRepository = new Lazy<IProductImageRepository>(() => new ProductImageRepository(context));
         _inventoryRepository = new Lazy<IInventoryRepository>(() => new InventoryRepository(context));
+        _cartRepository = new Lazy<ICartRepository>(() => new CartRepository(context));
+        _cartItemRepository = new Lazy<ICartItemRepository>(() => new CartItemRepository(context));
+        _userRepository = new Lazy<IUserRepository>(() => new UserRepository(context));
     }
     public IBrandRepository BrandRepository => _brandRepository.Value;
 
@@ -29,6 +35,12 @@ public class RepositoryManager : IRepositoryManager
     public IProductImageRepository ProductImageRepository => _productImageRepository.Value;
 
     public IInventoryRepository InventoryRepository => _inventoryRepository.Value;
+
+    public ICartRepository CartRepository => _cartRepository.Value;
+
+    public ICartItemRepository CartItemRepository => _cartItemRepository.Value;
+
+    public IUserRepository UserRepository => _userRepository.Value;
 
     public async Task<int> SaveAsync()
         => await _context.SaveChangesAsync();
