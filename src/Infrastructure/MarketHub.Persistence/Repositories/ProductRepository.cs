@@ -131,6 +131,9 @@ public class ProductRepository : IProductRepository
         return productDetails;
     }
 
+    public async Task<bool> CheckProductExistsByIsAsync(Guid productId)
+        => await _context.Products.AnyAsync(x => x.Id == productId && !x.IsDeleted && x.IsActive);
+
     public Task<Guid> AddProductAsync(Product product)
     {
         _context.Products.Add(product);
