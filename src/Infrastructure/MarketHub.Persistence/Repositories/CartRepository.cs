@@ -44,6 +44,9 @@ public class CartRepository : ICartRepository
     public async Task<Cart?> GetCartByIdAsync(Guid cartId)
         => await _context.Carts.FirstOrDefaultAsync(x => x.Id == cartId);
 
+    public async Task<bool> CartExistsByIdAsync(Guid cartId)
+        => await _context.Carts.AnyAsync(x => x.Id == cartId);
+
     public async Task<Guid?> CartExistsByUserIdAsync(Guid userId)
         => await _context.Carts.Where(x => x.UserId == userId).Select(cart => cart.Id).FirstOrDefaultAsync();
 

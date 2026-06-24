@@ -22,4 +22,7 @@ public class CartItemRepository : ICartItemRepository
 
     public void UpdateCartItemQuantity(CartItem cartItem)
         => _context.CartItems.Update(cartItem);
+
+    public void DeleteCartItem(CartItem cartItem)
+        => _context.CartItems.Remove(cartItem);
 }
