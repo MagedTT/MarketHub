@@ -45,7 +45,7 @@ public class UpdateCartItemQuantityCommandValidator : AbstractValidator<UpdateCa
             => await _repositoryManager.UserRepository.CheckUserExistsAsync(userId);
 
     private async Task<bool> CartExists(Guid cartId, CancellationToken cancellationToken)
-            => await _repositoryManager.CartRepository.CartExistsAsync(cartId);
+            => await _repositoryManager.CartRepository.CartExistsByIdAsync(cartId);
 
     private async Task<bool> ProductExists(Guid productId, CancellationToken cancellationToken)
         => await _repositoryManager.ProductRepository.CheckProductExistsByIsAsync(productId);
