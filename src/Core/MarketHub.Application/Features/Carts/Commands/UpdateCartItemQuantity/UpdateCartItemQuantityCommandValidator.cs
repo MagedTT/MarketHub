@@ -14,11 +14,17 @@ public class UpdateCartItemQuantityCommandValidator : AbstractValidator<UpdateCa
             .NotEmpty()
             .WithMessage("{ProeprtyName} is Required.");
 
-        // RuleFor(x => x.CartId)
-        //     .NotEmpty()
-        //     .WithMessage("{ProeprtyName} is Required.")
-        //     .MustAsync(CartExists)
-        //     .WithMessage("Cart is not found."); ;
+        RuleFor(x => x.UserId)
+            .NotEmpty()
+            .WithMessage("{ProeprtyName} is Required.")
+            .MustAsync(UserExists)
+            .WithMessage("User is not found.");
+
+        RuleFor(x => x.CartId)
+            .NotEmpty()
+            .WithMessage("{ProeprtyName} is Required.")
+            .MustAsync(CartExists)
+            .WithMessage("Cart is not found.");
 
         RuleFor(x => x.ProductId)
             .NotEmpty()
@@ -35,8 +41,11 @@ public class UpdateCartItemQuantityCommandValidator : AbstractValidator<UpdateCa
             .WithMessage("Amount in Stock is not Enough"); ;
     }
 
-    // private async Task<bool> CartExists(Guid cartId, CancellationToken cancellationToken)
-    //         => await _repositoryManager.CartRepository.CartExistsAsync(cartId);
+    private async Task<bool> UserExists(Guid userId, CancellationToken cancellationToken)
+            => await _repositoryManager.UserRepository.CheckUserExistsAsync(userId);
+
+    private async Task<bool> CartExists(Guid cartId, CancellationToken cancellationToken)
+            => await _repositoryManager.CartRepository.CartExistsAsync(cartId);
 
     private async Task<bool> ProductExists(Guid productId, CancellationToken cancellationToken)
         => await _repositoryManager.ProductRepository.CheckProductExistsByIsAsync(productId);

@@ -11,6 +11,12 @@ public class RemoveCartItemCommandValidator : AbstractValidator<RemoveCartItemCo
     {
         _repositoryManager = repositoryManager;
 
+        RuleFor(x => x.UserId)
+            .NotEmpty()
+            .WithMessage("{PropertyName} is Required.")
+            .MustAsync(UserExists)
+            .WithMessage("User is not found.");
+
         RuleFor(x => x.CartId)
             .NotEmpty()
             .WithMessage("{PropertyName} is Required.")
@@ -21,6 +27,9 @@ public class RemoveCartItemCommandValidator : AbstractValidator<RemoveCartItemCo
             .NotEmpty()
             .WithMessage("{PropertyName} is Required.");
     }
+
+    private async Task<bool> UserExists(Guid userId, CancellationToken cancellationToken)
+            => await _repositoryManager.UserRepository.CheckUserExistsAsync(userId);
 
     private async Task<bool> CartExists(Guid cartId, CancellationToken cancellationToken)
         => await _repositoryManager.CartRepository.CartExistsByIdAsync(cartId);
