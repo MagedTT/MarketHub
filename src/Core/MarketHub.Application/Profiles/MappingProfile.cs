@@ -1,5 +1,6 @@
 using AutoMapper;
 using MarketHub.Application.DTOs.Persistence.Product;
+using MarketHub.Application.DTOs.Persistence.Wishlist;
 using MarketHub.Application.Features.Brands.Commands.AddBrand;
 using MarketHub.Application.Features.Brands.Commands.UpdateBrand;
 using MarketHub.Application.Features.Carts.Commands.CreateCart;
@@ -23,5 +24,8 @@ public class MappingProfile : Profile
         CreateMap<UpdateBrandCommand, Brand>();
 
         CreateMap<CreateCartCommand, Cart>();
+
+        CreateMap<Wishlist, WishlistDto>()
+            .ForMember(dest => dest.WishlistItems, options => options.Ignore());
     }
 }
