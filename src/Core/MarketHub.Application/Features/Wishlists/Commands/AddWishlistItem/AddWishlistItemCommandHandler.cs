@@ -34,7 +34,7 @@ public class AddWishlistItemCommandHandler : IRequestHandler<AddWishlistItemComm
             return response;
         }
 
-        Guid? wishlistId = await _repositoryManager.WishlistRepository.GetWishlistIdByUserIddAsync(request.UserId);
+        Guid? wishlistId = await _repositoryManager.WishlistRepository.GetWishlistIdByUserIdAsync(request.UserId);
 
         if (wishlistId is null)
         {
