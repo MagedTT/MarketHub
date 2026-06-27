@@ -1,5 +1,4 @@
 using MarketHub.Application.Contracts.Identity;
-using MarketHub.Application.Models.Mail;
 using MarketHub.Identity.Models;
 using MarketHub.Identity.Services;
 using Microsoft.Extensions.Configuration;

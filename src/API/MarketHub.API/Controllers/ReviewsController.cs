@@ -29,6 +29,7 @@ public class ReviewsController : ControllerBase
 
     [HttpGet]
     [Route("review")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetReview([FromBody] GetReviewByUserIdAndProductIdQuery request)
     {
         GetReviewByUserIdAndProductIdQueryResponse response = await _mediator.Send(request);
@@ -57,6 +58,7 @@ public class ReviewsController : ControllerBase
 
     [HttpGet]
     [Route("reviews")]
+    [AllowAnonymous]
     public async Task<IActionResult> GetReviews([FromBody] GetReviewsListQuery request)
     {
         GetReviewsListQueryResponse response = await _mediator.Send(request);
@@ -100,12 +102,13 @@ public class ReviewsController : ControllerBase
     [Route("{reviewId:guid}")]
     public async Task<IActionResult> UpdateReview(Guid reviewId, [FromBody] UpdateReviewRequest updateReviewRequest)
     {
-        if (!Guid.TryParse(User.FindFirstValue("sub"), out Guid userId))
+        if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userId))
             return Unauthorized();
 
         UpdateReviewCommand request = _mapper.Map<UpdateReviewCommand>(updateReviewRequest);
 
         request.CurrentUserId = userId;
+        request.ReviewId = reviewId;
 
         BaseResponse response = await _mediator.Send(request);
 
@@ -138,7 +141,7 @@ public class ReviewsController : ControllerBase
     [Route("{reviewId:guid}")]
     public async Task<IActionResult> DeleteReview(Guid reviewId)
     {
-        if (!Guid.TryParse(User.FindFirstValue("sub"), out Guid userId))
+        if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out Guid userId))
             return Unauthorized();
 
         DeleteReviewCommand request = new()

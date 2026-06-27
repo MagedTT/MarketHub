@@ -37,7 +37,7 @@ public class UpdateReviewCommandHandler : IRequestHandler<UpdateReviewCommand, B
             return response;
         }
 
-        Review? review = await _repositoryManager.ReviewRepository.GetReviewByIdAsync(request.ReviewId);
+        Review? review = await _repositoryManager.ReviewRepository.GetReviewByUserIdAndProductIdAsync(request.CurrentUserId, request.ProductId);
 
         if (review is null)
         {

@@ -17,7 +17,10 @@ public class ReviewRepository : IReviewRepository
     public async Task<Review?> GetReviewByIdAsync(Guid reviewId)
         => await _context.Reviews.FirstOrDefaultAsync(x => x.Id == reviewId);
 
-    public async Task<ReviewDto?> GetReviewByUserIdAndProductIdAsync(Guid userId, Guid productId, bool trackChanges)
+    public async Task<Review?> GetReviewByUserIdAndProductIdAsync(Guid userId, Guid productId)
+        => await _context.Reviews.FirstOrDefaultAsync(x => x.UserId == userId && x.ProductId == productId);
+
+    public async Task<ReviewDto?> GetReviewDtoByUserIdAndProductIdAsync(Guid userId, Guid productId, bool trackChanges)
     {
         IQueryable<Review> reviews = _context.Reviews;
 
@@ -62,6 +65,9 @@ public class ReviewRepository : IReviewRepository
 
         return new PagedList<ReviewDto>(reviewsDtosList, count, requestParameters.PageNumber, requestParameters.PageSize);
     }
+
+    public async Task<bool> ReviewExists(Guid userId, Guid productId)
+        => await _context.Reviews.AnyAsync(x => x.UserId == userId && x.ProductId == productId);
 
     public void CreateReview(Review review)
         => _context.Reviews.Add(review);

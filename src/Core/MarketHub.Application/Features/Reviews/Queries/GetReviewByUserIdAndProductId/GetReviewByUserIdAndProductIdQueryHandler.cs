@@ -33,7 +33,7 @@ public class GetReviewByUserIdQueryHandler : IRequestHandler<GetReviewByUserIdAn
             return response;
         }
 
-        ReviewDto? review = await _repositoryManager.ReviewRepository.GetReviewByUserIdAndProductIdAsync(request.UserId, request.ProductId, request.TrackChanges);
+        ReviewDto? review = await _repositoryManager.ReviewRepository.GetReviewDtoByUserIdAndProductIdAsync(request.UserId, request.ProductId, request.TrackChanges);
 
         if (review is null)
         {

@@ -8,7 +8,9 @@ public interface IReviewRepository
 {
     Task<Review?> GetReviewByIdAsync(Guid reviewId);
     Task<PagedList<ReviewDto>> GetReviewsForProductWithIdAsync(Guid productId, RequestParameters requestParameters, bool trackChanges);
-    Task<ReviewDto?> GetReviewByUserIdAndProductIdAsync(Guid userId, Guid productId, bool trackChanges);
+    Task<ReviewDto?> GetReviewDtoByUserIdAndProductIdAsync(Guid userId, Guid productId, bool trackChanges);
+    Task<Review?> GetReviewByUserIdAndProductIdAsync(Guid userId, Guid productId);
+    Task<bool> ReviewExists(Guid userId, Guid productId);
     void CreateReview(Review review);
     void DeleteReview(Review review);
 }
