@@ -11,5 +11,6 @@ public interface IRepositoryManager
     ICartItemRepository CartItemRepository { get; }
     IUserRepository UserRepository { get; }
     IWishlistReposiotry WishlistRepository { get; }
+    IReviewRepository ReviewRepository { get; }
     Task<int> SaveAsync();
 }

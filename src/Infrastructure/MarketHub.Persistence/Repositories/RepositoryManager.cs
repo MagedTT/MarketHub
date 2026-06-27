@@ -15,6 +15,7 @@ public class RepositoryManager : IRepositoryManager
     private readonly Lazy<ICartItemRepository> _cartItemRepository;
     private readonly Lazy<IUserRepository> _userRepository;
     private readonly Lazy<IWishlistReposiotry> _wishlistRepository;
+    private readonly Lazy<IReviewRepository> _reviewRepository;
     public RepositoryManager(MarketHubDbContext context)
     {
         _context = context;
@@ -27,6 +28,7 @@ public class RepositoryManager : IRepositoryManager
         _cartItemRepository = new Lazy<ICartItemRepository>(() => new CartItemRepository(context));
         _userRepository = new Lazy<IUserRepository>(() => new UserRepository(context));
         _wishlistRepository = new Lazy<IWishlistReposiotry>(() => new WishlistRepository(context));
+        _reviewRepository = new Lazy<IReviewRepository>(() => new ReviewRepository(context));
     }
     public IBrandRepository BrandRepository => _brandRepository.Value;
 
@@ -45,6 +47,8 @@ public class RepositoryManager : IRepositoryManager
     public IUserRepository UserRepository => _userRepository.Value;
 
     public IWishlistReposiotry WishlistRepository => _wishlistRepository.Value;
+
+    public IReviewRepository ReviewRepository => _reviewRepository.Value;
 
     public async Task<int> SaveAsync()
         => await _context.SaveChangesAsync();
