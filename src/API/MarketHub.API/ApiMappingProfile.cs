@@ -1,7 +1,9 @@
 using System.Text.Json;
 using AutoMapper;
 using MarketHub.API.Controllers;
+using MarketHub.Application.DTOs.Persistence.Review;
 using MarketHub.Application.Features.Products.Commands.AddProductCommand;
+using MarketHub.Application.Features.Reviews.Commands.UpdateReview;
 
 namespace MarketHub.API;
 
@@ -24,5 +26,7 @@ public class ApiMappingProfile : Profile
         CreateMap<ProductDto, AddProductCommand>()
             .ForMember(dest => dest.Specifications, options =>
                 options.MapFrom(src => JsonSerializer.Deserialize<JsonElement>(src.Specifications)));
+
+        CreateMap<UpdateReviewRequest, UpdateReviewCommand>();
     }
 }
