@@ -14,14 +14,23 @@ public class ReviewRepository : IReviewRepository
     public ReviewRepository(MarketHubDbContext context)
         => _context = context;
 
-    public async Task<Review?> GetReviewByUserIdAsync(Guid userId, bool trackChanges)
+    public async Task<ReviewDto?> GetReviewByUserIdAndProductIdAsync(Guid userId, Guid productId, bool trackChanges)
     {
         IQueryable<Review> reviews = _context.Reviews;
 
         if (!trackChanges)
             reviews = reviews.AsNoTracking();
 
-        return await reviews.FirstOrDefaultAsync(x => x.UserId == userId);
+        return await reviews
+            .Where(x => x.UserId == userId && x.ProductId == productId)
+            .Select(x => new ReviewDto
+            {
+                Id = x.Id,
+                ReviewerName = x.User.FirstName + " " + x.User.LastName,
+                ReviewerRating = x.Rating,
+                Comment = x.Comment,
+                CreatedAt = x.CreatedAt
+            }).FirstOrDefaultAsync();
     }
 
     public async Task<PagedList<ReviewDto>> GetReviewsForProductWithIdAsync(Guid productId, RequestParameters requestParameters, bool trackChanges)
