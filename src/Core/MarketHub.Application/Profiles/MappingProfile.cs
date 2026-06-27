@@ -5,6 +5,7 @@ using MarketHub.Application.Features.Brands.Commands.AddBrand;
 using MarketHub.Application.Features.Brands.Commands.UpdateBrand;
 using MarketHub.Application.Features.Carts.Commands.CreateCart;
 using MarketHub.Application.Features.Products.Commands.AddProductCommand;
+using MarketHub.Application.Features.Reviews.Commands.CreateReview;
 using MarketHub.Application.Models.Authentication;
 using MarketHub.Domain.Entities;
 
@@ -27,5 +28,7 @@ public class MappingProfile : Profile
 
         CreateMap<Wishlist, WishlistDto>()
             .ForMember(dest => dest.WishlistItems, options => options.Ignore());
+
+        CreateMap<CreateReviewCommand, Review>();
     }
 }
