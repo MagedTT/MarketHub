@@ -6,6 +6,7 @@ using MarketHub.Application.Features.Brands.Commands.UpdateBrand;
 using MarketHub.Application.Features.Carts.Commands.CreateCart;
 using MarketHub.Application.Features.Products.Commands.AddProductCommand;
 using MarketHub.Application.Features.Reviews.Commands.CreateReview;
+using MarketHub.Application.Features.Reviews.Commands.UpdateReview;
 using MarketHub.Application.Models.Authentication;
 using MarketHub.Domain.Entities;
 
@@ -17,9 +18,9 @@ public class MappingProfile : Profile
     {
         CreateMap<UserForRegisterationDto, User>();
         CreateMap<AddProductCommand, Product>()
-            .ForMember(product => product.Specifications,
-                options => options.MapFrom(x => x.Specifications.GetRawText()))
-            .ForMember(product => product.Images, options => options.Ignore());
+            .ForMember(dest => dest.Specifications,
+                options => options.MapFrom(src => src.Specifications.GetRawText()))
+            .ForMember(dest => dest.Images, options => options.Ignore());
 
         CreateMap<AddBrandCommand, Brand>();
         CreateMap<UpdateBrandCommand, Brand>();
@@ -30,5 +31,8 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.WishlistItems, options => options.Ignore());
 
         CreateMap<CreateReviewCommand, Review>();
+        CreateMap<UpdateReviewCommand, Review>()
+            .ForMember(dest => dest.Id, options => options.MapFrom(src => src.ReviewId))
+            .ForMember(dest => dest.UserId, options => options.MapFrom(src => src.CurrentUserId));
     }
 }
