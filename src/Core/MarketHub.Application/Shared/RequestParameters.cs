@@ -1,6 +1,6 @@
 namespace MarketHub.Application.Shared;
 
-public abstract class RequestParameters
+public class RequestParameters
 {
     private const int MAX_PAGE_SIZE = 50;
     private int _pageSize = 10;
