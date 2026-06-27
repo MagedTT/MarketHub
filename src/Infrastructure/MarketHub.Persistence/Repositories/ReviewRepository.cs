@@ -14,6 +14,9 @@ public class ReviewRepository : IReviewRepository
     public ReviewRepository(MarketHubDbContext context)
         => _context = context;
 
+    public async Task<Review?> GetReviewByIdAsync(Guid reviewId)
+        => await _context.Reviews.FirstOrDefaultAsync(x => x.Id == reviewId);
+
     public async Task<ReviewDto?> GetReviewByUserIdAndProductIdAsync(Guid userId, Guid productId, bool trackChanges)
     {
         IQueryable<Review> reviews = _context.Reviews;
