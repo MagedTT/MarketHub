@@ -3,10 +3,8 @@ using MediatR;
 
 namespace MarketHub.Application.Features.Inventories.Commands.DeleteInventory;
 
-public class UpdateInventoryCommand : IRequest<BaseResponse>
+public class DeleteInventoryCommand : IRequest<BaseResponse>
 {
     public Guid Id { get; set; }
     public Guid ProductId { get; set; }
-    public int AvailableQuantity { get; set; }
-    public int ReservedQuantity { get; set; }
 }

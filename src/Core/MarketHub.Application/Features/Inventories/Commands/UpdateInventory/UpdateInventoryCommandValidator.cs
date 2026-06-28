@@ -2,7 +2,7 @@ using FluentValidation;
 using MarketHub.Application.Responses;
 using MediatR;
 
-namespace MarketHub.Application.Features.Inventories.Commans.UpdateInventory;
+namespace MarketHub.Application.Features.Inventories.Commands.DeleteInventory;
 
 public class UpdateInventoryCommandValidator : AbstractValidator<UpdateInventoryCommand>
 {
@@ -26,6 +26,6 @@ public class UpdateInventoryCommandValidator : AbstractValidator<UpdateInventory
             .NotEmpty()
             .WithMessage("{PropertyName} is Required.")
             .GreaterThanOrEqualTo(0)
-            .WithMessage("{PropertyName} should be greather than or equal to 0"); ;
+            .WithMessage("{PropertyName} should be greather than or equal to 0");
     }
 }

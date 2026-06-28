@@ -6,22 +6,22 @@ using MarketHub.Application.Responses;
 using MarketHub.Domain.Entities;
 using MediatR;
 
-namespace MarketHub.Application.Features.Inventories.Commands.DeleteInventory;
+namespace MarketHub.Application.Features.Inventories.COmmands.CreateInventory;
 
-public class UpdateInventoryCommandHandler : IRequestHandler<UpdateInventoryCommand, BaseResponse>
+public class CreateInventoryCommandHandler : IRequestHandler<CreateInventoryCommand, BaseResponse>
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryManager _repositoryManager;
-    public UpdateInventoryCommandHandler(IMapper mapper, IRepositoryManager repositoryManager)
+    public CreateInventoryCommandHandler(IMapper mapper, IRepositoryManager repositoryManager)
     {
         _mapper = mapper;
         _repositoryManager = repositoryManager;
     }
 
-    public async Task<BaseResponse> Handle(UpdateInventoryCommand request, CancellationToken cancellationToken)
+    public async Task<BaseResponse> Handle(CreateInventoryCommand request, CancellationToken cancellationToken)
     {
         BaseResponse response = new();
-        UpdateInventoryCommandValidator validator = new();
+        CreateInventoryCommandValidator validator = new(_repositoryManager);
 
         ValidationResult validationResult = await validator.ValidateAsync(request);
 
@@ -37,18 +37,9 @@ public class UpdateInventoryCommandHandler : IRequestHandler<UpdateInventoryComm
             return response;
         }
 
-        Inventory? inventory = await _repositoryManager.InventoryRepository.GetByProductIdAsync(request.ProductId, trackChanges: true);
+        Inventory inventory = _mapper.Map<Inventory>(request);
 
-        if (inventory is null || inventory.Id != request.Id)
-        {
-            response.Success = false;
-            response.StatusCode = (int)HttpStatusCode.NotFound;
-            response.Message = $"Invetory for product with Id: {request.ProductId} is not found.";
-
-            return response;
-        }
-
-        _mapper.Map(request, inventory);
+        _repositoryManager.InventoryRepository.CreateInventory(inventory);
 
         await _repositoryManager.SaveAsync();
 

@@ -1,5 +1,4 @@
 using System.Net;
-using AutoMapper;
 using FluentValidation.Results;
 using MarketHub.Application.Contracts.Persistence;
 using MarketHub.Application.Responses;
@@ -8,20 +7,16 @@ using MediatR;
 
 namespace MarketHub.Application.Features.Inventories.Commands.DeleteInventory;
 
-public class UpdateInventoryCommandHandler : IRequestHandler<UpdateInventoryCommand, BaseResponse>
+public class DeleteInventoryCommandHandler : IRequestHandler<DeleteInventoryCommand, BaseResponse>
 {
-    private readonly IMapper _mapper;
     private readonly IRepositoryManager _repositoryManager;
-    public UpdateInventoryCommandHandler(IMapper mapper, IRepositoryManager repositoryManager)
-    {
-        _mapper = mapper;
-        _repositoryManager = repositoryManager;
-    }
+    public DeleteInventoryCommandHandler(IRepositoryManager repositoryManager)
+        => _repositoryManager = repositoryManager;
 
-    public async Task<BaseResponse> Handle(UpdateInventoryCommand request, CancellationToken cancellationToken)
+    public async Task<BaseResponse> Handle(DeleteInventoryCommand request, CancellationToken cancellationToken)
     {
         BaseResponse response = new();
-        UpdateInventoryCommandValidator validator = new();
+        DeleteInventoryCommandValidator validator = new();
 
         ValidationResult validationResult = await validator.ValidateAsync(request);
 
@@ -48,7 +43,7 @@ public class UpdateInventoryCommandHandler : IRequestHandler<UpdateInventoryComm
             return response;
         }
 
-        _mapper.Map(request, inventory);
+        _repositoryManager.InventoryRepository.DeleteInventory(inventory);
 
         await _repositoryManager.SaveAsync();
 
