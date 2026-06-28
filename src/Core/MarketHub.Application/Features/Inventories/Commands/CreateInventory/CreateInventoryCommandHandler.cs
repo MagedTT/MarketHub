@@ -37,6 +37,17 @@ public class CreateInventoryCommandHandler : IRequestHandler<CreateInventoryComm
             return response;
         }
 
+        bool inventoryExists = await _repositoryManager.InventoryRepository.InvenotryExistsByProductIdAsync(request.ProductId);
+
+        if (inventoryExists)
+        {
+            response.Success = false;
+            response.StatusCode = (int)HttpStatusCode.Forbidden;
+            response.Message = $"Inventory for product with Id: {request.ProductId} already exists.";
+
+            return response;
+        }
+
         Inventory inventory = _mapper.Map<Inventory>(request);
 
         _repositoryManager.InventoryRepository.CreateInventory(inventory);

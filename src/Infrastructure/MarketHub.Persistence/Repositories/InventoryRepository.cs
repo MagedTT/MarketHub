@@ -52,6 +52,9 @@ public class InventoryRepository : IInventoryRepository
         }).FirstOrDefaultAsync(x => x.ProductId == productId);
     }
 
+    public async Task<bool> InvenotryExistsByProductIdAsync(Guid productId)
+        => await _context.Inventories.AnyAsync(x => x.ProductId == productId);
+
     public Task AddAmountToProductAsync(Inventory inventory)
         => Task.FromResult(_context.Inventories.Add(inventory));
 
