@@ -4,6 +4,7 @@ using MarketHub.Application.DTOs.Persistence.Wishlist;
 using MarketHub.Application.Features.Brands.Commands.AddBrand;
 using MarketHub.Application.Features.Brands.Commands.UpdateBrand;
 using MarketHub.Application.Features.Carts.Commands.CreateCart;
+using MarketHub.Application.Features.Inventories.Commans.UpdateInventory;
 using MarketHub.Application.Features.Products.Commands.AddProductCommand;
 using MarketHub.Application.Features.Reviews.Commands.CreateReview;
 using MarketHub.Application.Features.Reviews.Commands.UpdateReview;
@@ -34,5 +35,7 @@ public class MappingProfile : Profile
         CreateMap<UpdateReviewCommand, Review>()
             .ForMember(dest => dest.Id, options => options.MapFrom(src => src.ReviewId))
             .ForMember(dest => dest.UserId, options => options.MapFrom(src => src.CurrentUserId));
+
+        CreateMap<UpdateInventoryCommand, Inventory>();
     }
 }
