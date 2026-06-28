@@ -1,4 +1,5 @@
 using MarketHub.Application.Contracts.Persistence;
+using MarketHub.Application.DTOs.Persistence.Inventories;
 using MarketHub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,6 +31,25 @@ public class InventoryRepository : IInventoryRepository
             inventories = inventories.AsNoTracking();
 
         return await _context.Inventories.FirstOrDefaultAsync(x => x.ProductId == productId);
+    }
+
+    public async Task<InventoryDto?> GetInventoryDtoByProductIdAsync(Guid productId, bool trackChanges)
+    {
+        IQueryable<Inventory> inventories = _context.Inventories;
+
+        if (!trackChanges)
+            inventories = inventories.AsNoTracking();
+
+        return await _context.Inventories.Where(x => x.ProductId == productId).Select(x => new InventoryDto
+        {
+            Id = x.Id,
+            ProductId = x.ProductId,
+            ProductName = x.Product.Name,
+            ProductPrice = x.Product.Price,
+            ProductIsActive = x.Product.IsActive,
+            AvailableQuantity = x.AvailableQuantity,
+            ReservedQuantity = x.ReservedQuantity
+        }).FirstOrDefaultAsync(x => x.ProductId == productId);
     }
 
     public Task AddAmountToProductAsync(Inventory inventory)
