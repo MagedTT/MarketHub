@@ -14,4 +14,6 @@ public class Inventory
 
     [Timestamp]
     public byte[] RowVersion { get; set; } = default!;
+
+    public ICollection<InventoryReservation> InventoryReservations { get; set; } = new List<InventoryReservation>();
 }

@@ -1,5 +1,6 @@
 using MarketHub.Application.Contracts.Persistence;
 using MarketHub.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace MarketHub.Persistence.Repositories;
 
@@ -9,8 +10,6 @@ public class PromoCodeRepository : IPromoCodeRepository
     public PromoCodeRepository(MarketHubDbContext context)
         => _context = context;
 
-    public Task<PromoCode?> PromoCodeExistsByCodeAsync(string code)
-    {
-        throw new NotImplementedException();
-    }
+    public async Task<PromoCode?> PromoCodeExistsByCodeAsync(string code)
+        => await _context.PromoCodes.FirstOrDefaultAsync(x => x.Code == code);
 }

@@ -68,7 +68,7 @@ public class CheckoutCommandHandler : IRequestHandler<CheckoutCommand, BaseRespo
         //     }
         // }
 
-        DateTime now = DateTime.UtcNow;
+        DateTime now = DateTime.Now;
 
         foreach (CartItemDto cartItem in cart.Items)
         {

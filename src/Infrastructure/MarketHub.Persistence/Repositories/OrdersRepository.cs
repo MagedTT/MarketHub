@@ -1,8 +1,6 @@
-using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using MarketHub.Application.Contracts.Persistence;
 using MarketHub.Application.DTOs.Persistence.Orders;
-using MarketHub.Application.Features.Carts.Queries.GetCartByUserId;
 using MarketHub.Application.Shared;
 using MarketHub.Domain.Entities;
 using MarketHub.Domain.Enums;

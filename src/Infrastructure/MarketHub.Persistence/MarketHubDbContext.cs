@@ -12,6 +12,7 @@ public class MarketHubDbContext : IdentityDbContext<User, IdentityRole<Guid>, Gu
     public DbSet<Cart> Carts { get; set; }
     public DbSet<CartItem> CartItems { get; set; }
     public DbSet<Inventory> Inventories { get; set; }
+    public DbSet<InventoryReservation> InventoryReservations { get; set; }
     public DbSet<Notification> Notifications { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderItem> OrderItems { get; set; }
