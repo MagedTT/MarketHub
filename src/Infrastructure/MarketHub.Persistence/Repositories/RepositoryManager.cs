@@ -1,5 +1,4 @@
 using MarketHub.Application.Contracts.Persistence;
-using MarketHub.Domain.Entities;
 
 namespace MarketHub.Persistence.Repositories;
 
@@ -19,6 +18,7 @@ public class RepositoryManager : IRepositoryManager
     private readonly Lazy<IInventoryReservationRepository> _inventoryReservationRepository;
     private readonly Lazy<IOrdersRepository> _ordersRepository;
     private readonly Lazy<IPromoCodeRepository> _promoCodeRepository;
+    private readonly Lazy<IOrderStatusHistoryRepository> _orderStatusHistoryRepository;
 
     public RepositoryManager(MarketHubDbContext context)
     {
@@ -36,6 +36,7 @@ public class RepositoryManager : IRepositoryManager
         _ordersRepository = new Lazy<IOrdersRepository>(() => new OrdersRepository(context));
         _inventoryReservationRepository = new Lazy<IInventoryReservationRepository>(() => new InventoryReservationRepository(context));
         _promoCodeRepository = new Lazy<IPromoCodeRepository>(() => new PromoCodeRepository(context));
+        _orderStatusHistoryRepository = new Lazy<IOrderStatusHistoryRepository>(() => new OrderStatusHistoryRepository(context));
     }
     public IBrandRepository BrandRepository => _brandRepository.Value;
 
@@ -62,6 +63,8 @@ public class RepositoryManager : IRepositoryManager
     public IOrdersRepository OrdersRepository => _ordersRepository.Value;
 
     public IPromoCodeRepository PromoCodeRepository => _promoCodeRepository.Value;
+
+    public IOrderStatusHistoryRepository OrderStatusHistoryRepository => _orderStatusHistoryRepository.Value;
 
     public async Task<int> SaveAsync()
         => await _context.SaveChangesAsync();

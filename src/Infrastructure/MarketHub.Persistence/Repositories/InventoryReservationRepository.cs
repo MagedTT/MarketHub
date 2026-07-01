@@ -10,6 +10,9 @@ public class InventoryReservationRepository : IInventoryReservationRepository
     public InventoryReservationRepository(MarketHubDbContext context)
         => _context = context;
 
+    public async Task<IEnumerable<InventoryReservation>> GetReservationsByUserIdAndProductIdsAsync(Guid userId, HashSet<Guid> productIds)
+        => await _context.InventoryReservations.Where(x => x.UserId == userId && productIds.Contains(x.ProductId)).ToListAsync();
+
     public async Task<InventoryReservation?> GetActiveReservationAsync(Guid userId, Guid productId)
         => await _context.InventoryReservations
             .Include(x => x.Inventory)

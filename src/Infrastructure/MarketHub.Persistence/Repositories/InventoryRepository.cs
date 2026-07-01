@@ -52,7 +52,7 @@ public class InventoryRepository : IInventoryRepository
         }).FirstOrDefaultAsync(x => x.ProductId == productId);
     }
 
-    public async Task<IEnumerable<Inventory>> GetInventoriesByProductIdsAsync(IEnumerable<Guid> productsIds)
+    public async Task<IEnumerable<Inventory>> GetInventoriesByProductIdsAsync(HashSet<Guid> productsIds)
         => await _context.Inventories.Where(x => productsIds.Contains(x.ProductId)).ToListAsync();
 
     public async Task<bool> InvenotryExistsByProductIdAsync(Guid productId)

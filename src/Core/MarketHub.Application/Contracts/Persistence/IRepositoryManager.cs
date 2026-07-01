@@ -15,5 +15,6 @@ public interface IRepositoryManager
     IReviewRepository ReviewRepository { get; }
     IOrdersRepository OrdersRepository { get; }
     IPromoCodeRepository PromoCodeRepository { get; }
+    IOrderStatusHistoryRepository OrderStatusHistoryRepository { get; }
     Task<int> SaveAsync();
 }

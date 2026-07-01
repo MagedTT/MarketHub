@@ -8,6 +8,9 @@ public class InventoryConfiguration : IEntityTypeConfiguration<Inventory>
 {
     public void Configure(EntityTypeBuilder<Inventory> builder)
     {
+        builder.HasIndex(x => x.ProductId)
+            .IsUnique();
+
         builder.HasOne(x => x.Product)
             .WithOne(x => x.Inventory)
             .HasForeignKey<Inventory>(x => x.ProductId)

@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using MarketHub.Application.Contracts.Persistence;
 using MarketHub.Application.Shared;
 using MarketHub.Domain.Entities;

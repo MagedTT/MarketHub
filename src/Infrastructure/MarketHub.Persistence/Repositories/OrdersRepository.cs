@@ -24,6 +24,17 @@ public class OrdersRepository : IOrdersRepository
         return await orders.FirstOrDefaultAsync(x => x.Id == orderId);
     }
 
+    public async Task<Order?> GetOrderByIdWithOrderItemsAsync(Guid orderId, bool trackChanges)
+    {
+        IQueryable<Order> orders = _context.Orders;
+
+        if (!trackChanges)
+            orders = orders.AsNoTracking();
+
+        return await orders.Include(x => x.OrderItems).FirstOrDefaultAsync(x => x.Id == orderId);
+    }
+
+
     public async Task<PagedList<OrderDto>> GetOrdersAsync(OrderParameters orderParameters, bool trackChanges)
     {
         IQueryable<Order> orders = _context.Orders;
