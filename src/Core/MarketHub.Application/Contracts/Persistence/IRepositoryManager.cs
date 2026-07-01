@@ -7,11 +7,13 @@ public interface IRepositoryManager
     IProductRepository ProductRepository { get; }
     IProductImageRepository ProductImageRepository { get; }
     IInventoryRepository InventoryRepository { get; }
+    IInventoryReservationRepository InventoryReservationRepository { get; }
     ICartRepository CartRepository { get; }
     ICartItemRepository CartItemRepository { get; }
     IUserRepository UserRepository { get; }
     IWishlistReposiotry WishlistRepository { get; }
     IReviewRepository ReviewRepository { get; }
     IOrdersRepository OrdersRepository { get; }
+    IPromoCodeRepository PromoCodeRepository { get; }
     Task<int> SaveAsync();
 }

@@ -5,7 +5,7 @@ namespace MarketHub.Persistence.Repositories;
 
 public class RepositoryManager : IRepositoryManager
 {
-    private readonly MarketHubDbContext _context;
+    protected readonly MarketHubDbContext _context;
     private readonly Lazy<IBrandRepository> _brandRepository;
     private readonly Lazy<IStoreRepository> _storeRepository;
     private readonly Lazy<IProductRepository> _productRepository;
@@ -16,6 +16,10 @@ public class RepositoryManager : IRepositoryManager
     private readonly Lazy<IUserRepository> _userRepository;
     private readonly Lazy<IWishlistReposiotry> _wishlistRepository;
     private readonly Lazy<IReviewRepository> _reviewRepository;
+    private readonly Lazy<IInventoryReservationRepository> _inventoryReservationRepository;
+    private readonly Lazy<IOrdersRepository> _ordersRepository;
+    private readonly Lazy<IPromoCodeRepository> _promoCodeRepository;
+
     public RepositoryManager(MarketHubDbContext context)
     {
         _context = context;
@@ -29,6 +33,9 @@ public class RepositoryManager : IRepositoryManager
         _userRepository = new Lazy<IUserRepository>(() => new UserRepository(context));
         _wishlistRepository = new Lazy<IWishlistReposiotry>(() => new WishlistRepository(context));
         _reviewRepository = new Lazy<IReviewRepository>(() => new ReviewRepository(context));
+        _ordersRepository = new Lazy<IOrdersRepository>(() => new OrdersRepository(context));
+        _inventoryReservationRepository = new Lazy<IInventoryReservationRepository>(() => new InventoryReservationRepository(context));
+        _promoCodeRepository = new Lazy<IPromoCodeRepository>(() => new PromoCodeRepository(context));
     }
     public IBrandRepository BrandRepository => _brandRepository.Value;
 
@@ -49,6 +56,12 @@ public class RepositoryManager : IRepositoryManager
     public IWishlistReposiotry WishlistRepository => _wishlistRepository.Value;
 
     public IReviewRepository ReviewRepository => _reviewRepository.Value;
+
+    public IInventoryReservationRepository InventoryReservationRepository => _inventoryReservationRepository.Value;
+
+    public IOrdersRepository OrdersRepository => _ordersRepository.Value;
+
+    public IPromoCodeRepository PromoCodeRepository => _promoCodeRepository.Value;
 
     public async Task<int> SaveAsync()
         => await _context.SaveChangesAsync();

@@ -7,6 +7,7 @@ public interface IInventoryRepository
 {
     Task<Inventory?> GetByProductIdAsync(Guid productId, bool trackChanges);
     Task<InventoryDto?> GetInventoryDtoByProductIdAsync(Guid productId, bool trackChanges);
+    Task<IEnumerable<Inventory>> GetInventoriesByProductIdsAsync(IEnumerable<Guid> productsIds);
     Task<Inventory?> GetByIdAsync(Guid inventoryId, bool trackChanges);
     Task AddAmountToProductAsync(Inventory inventory);
     Task<bool> InvenotryExistsByProductIdAsync(Guid productId);
