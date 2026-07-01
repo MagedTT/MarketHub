@@ -52,6 +52,11 @@ public class InventoryRepository : IInventoryRepository
         }).FirstOrDefaultAsync(x => x.ProductId == productId);
     }
 
+    public Task<IEnumerable<Inventory>> GetInventoriesByProductIdsAsync(IEnumerable<Guid> productsIds)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task<bool> InvenotryExistsByProductIdAsync(Guid productId)
         => await _context.Inventories.AnyAsync(x => x.ProductId == productId);
 
