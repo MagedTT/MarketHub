@@ -1,7 +1,7 @@
 using System.Net;
 using FluentValidation.Results;
 using MarketHub.Application.Contracts.Persistence;
-using MarketHub.Domain.Entities;
+using MarketHub.Application.DTOs.Persistence.Orders;
 using MediatR;
 
 namespace MarketHub.Application.Features.Orders.Queries.GetOrder;
@@ -31,7 +31,7 @@ public class GetOrderQueryHandler : IRequestHandler<GetOrderQuery, GetOrderQuery
             return response;
         }
 
-        Order? order = await _repositoryManager.OrdersRepository.GetOrderByIdAsync(request.OrderId, request.TrackChanges);
+        OrderDto? order = await _repositoryManager.OrdersRepository.GetOrderDtoByUserIdAndOrderIdAsync(request.UserId, request.OrderId, request.TrackChanges);
 
         if (order is null)
         {

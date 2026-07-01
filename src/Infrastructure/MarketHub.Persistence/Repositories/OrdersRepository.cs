@@ -24,6 +24,40 @@ public class OrdersRepository : IOrdersRepository
         return await orders.FirstOrDefaultAsync(x => x.Id == orderId);
     }
 
+    public async Task<OrderDto?> GetOrderDtoByUserIdAndOrderIdAsync(Guid userId, Guid orderId, bool trackChanges)
+    {
+        IQueryable<Order> orders = _context.Orders;
+
+        if (!trackChanges)
+            orders = orders.AsNoTracking();
+
+        return await orders
+            .Where(x => x.Id == orderId && x.UserId == userId)
+            .Select(o => new OrderDto
+            {
+                Id = o.Id,
+                OrderedByUserName = o.User.UserName!,
+                NumberOfOrderedProducts = o.OrderItems.Count(),
+                Status = o.Status,
+                CreatedAt = o.CreatedAt,
+                DateOfDelivery = o.CreatedAt.AddDays(3),
+                ShippingAddress = o.ShippingAddress,
+                TotalAmount = o.TotalAmount,
+                PromoCode = o.PromoCode != null ? o.PromoCode.Code : null,
+                Items = o.OrderItems.Select(i => new OrderItemDto
+                {
+                    Id = i.Id,
+                    ProductId = i.ProductId,
+                    Quantity = i.Quantity,
+                    UnitPrice = i.UnitPrice,
+                    LineTotal = i.UnitPrice * i.Quantity,
+                    ProductName = i.Product.Name,
+                    ProductBaseImageUrl = i.Product.Images.Select(pi => pi.ImageUrl).FirstOrDefault() ?? string.Empty,
+                    ProductSpecifications = JsonSerializer.Deserialize<JsonElement>(i.Product.Specifications)
+                }).ToList()
+            }).FirstOrDefaultAsync();
+    }
+
     public async Task<Order?> GetOrderByIdWithOrderItemsAsync(Guid orderId, bool trackChanges)
     {
         IQueryable<Order> orders = _context.Orders;
