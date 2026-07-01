@@ -52,6 +52,7 @@ public class OrdersRepository : IOrdersRepository
                     UnitPrice = i.UnitPrice,
                     LineTotal = i.UnitPrice * i.Quantity,
                     ProductName = i.Product.Name,
+                    ProductType = i.Product.Type,
                     ProductBaseImageUrl = i.Product.Images.Select(pi => pi.ImageUrl).FirstOrDefault() ?? string.Empty,
                     ProductSpecifications = JsonSerializer.Deserialize<JsonElement>(i.Product.Specifications)
                 }).ToList()
@@ -104,6 +105,7 @@ public class OrdersRepository : IOrdersRepository
                     UnitPrice = i.UnitPrice,
                     LineTotal = i.UnitPrice * i.Quantity,
                     ProductName = i.Product.Name,
+                    ProductType = i.Product.Type,
                     ProductBaseImageUrl = i.Product.Images.Select(pi => pi.ImageUrl).FirstOrDefault() ?? string.Empty,
                     ProductSpecifications = JsonSerializer.Deserialize<JsonElement>(i.Product.Specifications)
                 }).ToList()

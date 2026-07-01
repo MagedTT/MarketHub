@@ -76,7 +76,8 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Bas
             {
                 response.Success = false;
                 response.StatusCode = (int)HttpStatusCode.BadRequest;
-                response.Message = $"Reservation for product with Id: {cartItem.Product.ProductId} is not found.";
+                response.ValidationErrors = new() { $"Reservation,Reservation for product with Id: {cartItem.Product.ProductId} is not found." };
+
                 return response;
             }
 
@@ -84,7 +85,8 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Bas
             {
                 response.Success = false;
                 response.StatusCode = (int)HttpStatusCode.BadRequest;
-                response.Message = $"Reservation for product with Id: {cartItem.Product.ProductId} has expired.";
+                response.ValidationErrors = new() { $"Reservation,Reservation for product with Id: {cartItem.Product.ProductId} has expired." };
+
                 return response;
             }
 
@@ -92,7 +94,8 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Bas
             {
                 response.Success = false;
                 response.StatusCode = (int)HttpStatusCode.BadRequest;
-                response.Message = $"Reserved quantity for product with Id: {cartItem.Product.ProductId} has chanced.";
+                response.ValidationErrors = new() { $"Reservation,Reserved quantity for product with Id: {cartItem.Product.ProductId} has chanced." };
+
                 return response;
             }
         }
@@ -107,7 +110,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Bas
                 {
                     response.Success = false;
                     response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    response.Message = $"Invalid discount value.";
+                    response.ValidationErrors = new() { $"DiscountValue,Invalid discount value." };
 
                     return response;
                 }
@@ -121,6 +124,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Bas
                 {
                     response.Success = false;
                     response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    response.ValidationErrors = new() { $"DiscountValue,Invalid discount value." };
 
                     return response;
                 }
@@ -182,6 +186,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Bas
         {
             response.Success = false;
             response.StatusCode = (int)HttpStatusCode.Conflict;
+            response.Message = "The order could not be created because one or more resources were modified by another operation. Please refresh the data and try again.";
 
             return response;
         }

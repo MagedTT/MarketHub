@@ -26,7 +26,7 @@ public class CheckoutCommandHandler : IRequestHandler<CheckoutCommand, BaseRespo
         if (!validationResult.IsValid)
         {
             response.Success = false;
-            response.StatusCode = (int)HttpStatusCode.NotFound;
+            response.StatusCode = (int)HttpStatusCode.BadRequest;
             response.ValidationErrors = new();
 
             foreach (ValidationFailure validationFailure in validationResult.Errors)
@@ -75,7 +75,7 @@ public class CheckoutCommandHandler : IRequestHandler<CheckoutCommand, BaseRespo
             if (!inventoryDictionary.TryGetValue(cartItem.Product.ProductId, out Inventory? inventory))
             {
                 response.Success = false;
-                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                response.StatusCode = (int)HttpStatusCode.NotFound;
                 response.Message =
                     $"Inventory for product with Id: {cartItem.Product.ProductId} was not found.";
 
@@ -114,7 +114,7 @@ public class CheckoutCommandHandler : IRequestHandler<CheckoutCommand, BaseRespo
             {
                 response.Success = false;
                 response.StatusCode = (int)HttpStatusCode.BadRequest;
-                response.Message = $"{cartItem.Product.ProductName}' does not have enough stock.";
+                response.ValidationErrors = new() { $"{cartItem.Product.ProductName},{cartItem.Product.ProductName} does not have enough stock." };
 
                 return response;
             }
@@ -140,56 +140,3 @@ public class CheckoutCommandHandler : IRequestHandler<CheckoutCommand, BaseRespo
         }
     }
 }
-
-
-// if (inventory is null)
-// {
-//     response.Success = false;
-//     response.StatusCode = (int)HttpStatusCode.BadRequest;
-//     response.Message = $"Invenotry for product with Id: {cartItem.Product.ProductId} is not found.";
-
-//     return response;
-// }
-
-// InventoryReservation? reservation = await _repositoryManager.InventoryReservationRepository.GetActiveReservationAsync(request.UserId, cartItem.Product.ProductId);
-// bool createNewReservation = true;
-
-// if (reservation is not null)
-// {
-//     inventory.AvailableQuantity += reservation.Quantity;
-//     inventory.ReservedQuantity -= reservation.Quantity;
-
-//     reservation.Quantity = cartItem.Quantity;
-//     reservation.ReservedAt = now;
-//     reservation.ExpiresAt = now.AddMinutes(5);
-
-//     createNewReservation = false;
-// }
-
-// if (inventory.AvailableQuantity < cartItem.Quantity)
-// {
-// response.Success = false;
-// response.StatusCode = (int)HttpStatusCode.BadRequest;
-// response.Message = $"{cartItem.Product.ProductName}' does not have enough stock.";
-
-// return response;
-// }
-
-// inventory.AvailableQuantity -= cartItem.Quantity;
-// inventory.ReservedQuantity += cartItem.Quantity;
-
-// if (createNewReservation)
-// {
-//     reservation = new()
-//     {
-//         UserId = request.UserId,
-//         ProductId = cartItem.Product.ProductId,
-//         InventoryId = inventory.Id,
-//         Quantity = cartItem.Quantity,
-//         Status = InventoryReservationStatus.Active,
-//         ReservedAt = now,
-//         ExpiresAt = now.AddMinutes(5)
-//     };
-
-//     _repositoryManager.InventoryReservationRepository.CreateInventoryReservation(reservation);
-// }

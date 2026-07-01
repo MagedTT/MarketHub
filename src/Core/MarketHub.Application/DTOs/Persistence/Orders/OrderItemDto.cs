@@ -11,5 +11,6 @@ public class OrderItemDto
     public decimal LineTotal { get; set; }
     public string ProductName { get; set; } = string.Empty;
     public string ProductBaseImageUrl { get; set; } = string.Empty;
+    public string ProductType { get; set; } = string.Empty;
     public JsonElement ProductSpecifications { get; set; }
 }
