@@ -36,9 +36,11 @@ public class OrdersRepository : IOrdersRepository
         if (orderParameters.UserId is not null)
             orders = orders.Where(x => x.UserId == orderParameters.UserId);
 
+        if (orderParameters.OrderStatus is not null)
+            orders = orders.Where(x => x.Status == orderParameters.OrderStatus);
+
         IQueryable<OrderDto> ordersDtos = orders
             .Where(x =>
-                x.Status == orderParameters.OrderStatus &&
                 orderParameters.OrderMinTotalPrice <= x.TotalAmount && x.TotalAmount <= orderParameters.OrderMaxTotalPrice)
             .Select(o => new OrderDto
             {

@@ -5,7 +5,7 @@ namespace MarketHub.Application.Shared;
 public class OrderParameters : RequestParameters
 {
     public Guid? UserId { get; set; }
-    public OrderStatus OrderStatus { get; set; } = OrderStatus.Pending;
+    public OrderStatus? OrderStatus { get; set; }
     public bool OrderByCreationTimeDescending { get; set; } = false;
     public decimal OrderMinTotalPrice { get; set; } = 0;
     public decimal OrderMaxTotalPrice { get; set; } = 100_000;
