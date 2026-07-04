@@ -7,5 +7,6 @@ public interface IInventoryReservationRepository
     Task<InventoryReservation?> GetActiveReservationAsync(Guid userId, Guid productId);
     Task<IEnumerable<InventoryReservation>> GetReservationsByUserIdAndProductIdsAsync(Guid userId, HashSet<Guid> productIds);
     Task<IEnumerable<InventoryReservation>> GetActiveReservationsAsync(Guid userId);
+    Task<IEnumerable<InventoryReservation>> GetReservationsAsync(Guid userId);
     void CreateInventoryReservation(InventoryReservation inventoryReservation);
 }

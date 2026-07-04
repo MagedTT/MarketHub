@@ -1,0 +1,62 @@
+<div class="product-card">
+
+    <!-- Wishlist Heart Overlay Trigger Button -->
+    <button class="wishlist-btn-overlay" aria-label="Add item to your saved wishlist"
+        (click)="addToWishList(product.id)">
+        <svg xmlns="http://w3.org" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"
+            viewBox="0 0 24 24">
+            <path
+                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        </svg>
+    </button>
+
+    <!-- Product Image Area Frame -->
+    <div class="product-image-wrapper">
+        <!-- FIX: Only displays layout placeholder text if real image path is missing -->
+        @if (!product.baseImageUrl) {
+        <div class="image-placeholder-text">Product Image</div>
+        } @else {
+        <img class="product-card-img" [src]="'https://localhost:5001' + product.baseImageUrl" [alt]="product.name">
+        }
+    </div>
+
+    <!-- Info Body Content Layer -->
+    <div class="product-card-body">
+        <div class="product-price-tag">{{ product.price | currency }}</div>
+
+        <a href="#" class="product-title-anchor">
+            <p class="m-0">{{ product.description }}</p>
+        </a>
+
+        <div class="rating-meta-row">
+            <span class="gold-star-indicator">★</span>
+            <span>{{ product.averageRating }}</span>
+            <span>({{ product.numberOfReviews }} reviews)</span>
+        </div>
+
+        @if (product.availableAmountInStock) {
+        <div class="stock-inventory-status-available">
+            In stock ({{product.availableAmountInStock}} available)
+        </div>
+        } @else {
+        <div class="stock-inventory-status-not-available">
+            Out of stock
+        </div>
+        }
+
+        <!-- Dynamic Volume Actions Module -->
+        <div class="d-flex gap-2 mt-auto">
+            <select class="quantity-select-dropdown" aria-label="Choose product volume quantity">
+                <option value="1" selected>1</option>
+                @for (cnt of quantities; track cnt) {
+                <option [value]="cnt">{{ cnt }}</option>
+                }
+            </select>
+            <button class="btn-submit-cart" type="button">
+                Add to cart
+            </button>
+        </div>
+
+    </div>
+
+</div>

@@ -9,7 +9,7 @@ public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
     public void Configure(EntityTypeBuilder<OrderItem> builder)
     {
         builder.Property(x => x.UnitPrice)
-            .HasPrecision(6, 2)
+            .HasPrecision(8, 2)
             .IsRequired();
 
         builder.HasOne(x => x.Order)

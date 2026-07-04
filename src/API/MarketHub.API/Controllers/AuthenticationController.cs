@@ -36,7 +36,7 @@ public class AuthenticationController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        return Ok("Confirm your email");
+        return Ok(new { Message = "Confirm your email" });
     }
 
     [HttpPost]

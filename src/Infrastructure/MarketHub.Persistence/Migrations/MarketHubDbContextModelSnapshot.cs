@@ -210,8 +210,8 @@ namespace MarketHub.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("TotalAmount")
-                        .HasPrecision(6, 2)
-                        .HasColumnType("decimal(6,2)");
+                        .HasPrecision(8, 2)
+                        .HasColumnType("decimal(8,2)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -241,8 +241,8 @@ namespace MarketHub.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("UnitPrice")
-                        .HasPrecision(6, 2)
-                        .HasColumnType("decimal(6,2)");
+                        .HasPrecision(8, 2)
+                        .HasColumnType("decimal(8,2)");
 
                     b.HasKey("Id");
 
@@ -389,8 +389,8 @@ namespace MarketHub.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("DiscountValue")
-                        .HasPrecision(6, 2)
-                        .HasColumnType("decimal(6,2)");
+                        .HasPrecision(8, 2)
+                        .HasColumnType("decimal(8,2)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");

@@ -1,0 +1,19 @@
+<!-- Main Header Viewport Container Area -->
+<!-- Commenting this out shifts the body all the way to the top of the screen instantly -->
+<app-navbar class="app-header-container"></app-navbar>
+
+<!-- Page Content Framework Layout Split -->
+<div class="app-body-container">
+
+    <!-- Full-Height Left Sidebar Area Panel -->
+    <!-- Commenting this out forces the router-outlet to stretch to 100% full screen width instantly -->
+    <app-sidebar class="fixed-vertical-sidebar"></app-sidebar>
+
+    <!-- Elastic Main Scrollable Workspace Window Area Container -->
+    <main class="main-scrolling-content">
+        <!-- <app-products></app-products> -->
+
+        <router-outlet></router-outlet>
+    </main>
+
+</div>

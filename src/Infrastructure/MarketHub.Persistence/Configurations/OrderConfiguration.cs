@@ -9,7 +9,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
     public void Configure(EntityTypeBuilder<Order> builder)
     {
         builder.Property(x => x.TotalAmount)
-            .HasPrecision(6, 2);
+            .HasPrecision(8, 2);
 
         builder.Property(x => x.ShippingAddress)
             .HasMaxLength(500)

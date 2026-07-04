@@ -32,7 +32,7 @@ public class FileUploadService : IFileUploadService
                 Console.WriteLine("Exception while uploading file in file UploadFileService: ", exception.Message);
             }
 
-            return await Task.FromResult((true, "", filePath));
+            return await Task.FromResult((true, "", $"/uploads/{fileName}"));
         }
     }
 }

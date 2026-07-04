@@ -18,6 +18,19 @@ public static class Extensions
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        builder.Services.AddCors(config =>
+        {
+            config.AddPolicy("CorsPolicy", options =>
+            {
+                options
+                    .WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .WithExposedHeaders("X-Pagination");
+            });
+        });
+
         builder.Host.UseSerilog((HostBuilderContext hostBuilderContext, IServiceProvider serviceProvider, LoggerConfiguration loggerConfiguration) =>
         {
             loggerConfiguration
@@ -81,6 +94,10 @@ public static class Extensions
         }
 
         app.UseHttpsRedirection();
+
+        app.UseStaticFiles();
+
+        app.UseCors("CorsPolicy");
 
         app.UseAuthentication();
 

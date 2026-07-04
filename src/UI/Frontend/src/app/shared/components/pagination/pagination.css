@@ -1,0 +1,65 @@
+body {
+    background-color: #f8f9fa;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+}
+
+/* Modified Full-Width Container Styling wrapper */
+.pagination-wrapper-card {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    /* Flattened slightly for better wide scaling alignment */
+    padding: 16px 24px;
+    width: 100%;
+    /* Forces component block to fill full horizontal space */
+}
+
+/* Deep overriding standard Bootstrap pagination anchors */
+/* .pagination-custom .page-item .page-link {
+    color: #4a5568;
+    border-color: #dee2e6;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    background-color: #ffffff;
+    box-shadow: none !important;
+    transition: all 0.15s ease-in-out;
+} */
+
+.pagination-custom .page-item button.page-link {
+    background: #ffffff;
+    border: 1px solid #dee2e6;
+    outline: none;
+    box-shadow: none !important;
+    cursor: pointer;
+}
+
+/* Hover Interaction State */
+.pagination-custom .page-item .page-link:hover {
+    color: #2563eb;
+    background-color: #f1f5f9;
+    border-color: #cbd5e1;
+    z-index: 2;
+}
+
+/* Active Page Selection State */
+.pagination-custom .page-item.active .page-link {
+    background-color: #1a2530;
+    border-color: #1a2530;
+    color: #ffffff;
+    z-index: 3;
+}
+
+/* Disabled State (Boundary logic blocks) */
+.pagination-custom .page-item.disabled .page-link {
+    color: #cbd5e1;
+    background-color: #f8fafc;
+    border-color: #e2e8f0;
+    cursor: not-allowed;
+}
+
+.pagination-meta-text {
+    color: #718096;
+    font-size: 13.5px;
+}

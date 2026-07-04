@@ -49,26 +49,25 @@ public class CheckoutCommandHandler : IRequestHandler<CheckoutCommand, BaseRespo
         HashSet<Guid> productsIds = cart.Items.Select(x => x.Product.ProductId).ToHashSet();
 
         IEnumerable<Inventory> inventories = await _repositoryManager.InventoryRepository.GetInventoriesByProductIdsAsync(productsIds);
-        IEnumerable<InventoryReservation> reservations = await _repositoryManager.InventoryReservationRepository.GetActiveReservationsAsync(request.UserId);
+        IEnumerable<InventoryReservation> reservations = await _repositoryManager.InventoryReservationRepository.GetReservationsAsync(request.UserId);
 
         Dictionary<Guid, Inventory> inventoryDictionary = inventories.ToDictionary(x => x.ProductId);
         Dictionary<Guid, InventoryReservation> reservationDictionary = reservations.ToDictionary(x => x.ProductId);
-
-
-        /////////////////////////// handle later ///////////////////////////
-        /// 
-        // foreach (InventoryReservation inventoryReservation in reservations)
-        // {
-        //     if (!productsIds.Contains(inventoryReservation.ProductId))
-        //     {
-        //         inventoryDictionary[inventoryReservation.ProductId].AvailableQuantity += inventoryReservation.Quantity;
-        //         inventoryDictionary[inventoryReservation.ProductId].ReservedQuantity -= inventoryReservation.Quantity;
-
-        //         inventoryReservation.Status = InventoryReservationStatus.Cancelled;
-        //     }
-        // }
-
         DateTime now = DateTime.Now;
+
+        foreach (InventoryReservation inventoryReservation in reservations)
+        {
+            if (!productsIds.Contains(inventoryReservation.ProductId))
+            {
+                if (inventoryReservation.Status == InventoryReservationStatus.Active && inventoryReservation.ExpiresAt > now)
+                {
+                    inventoryReservation.Inventory.AvailableQuantity += inventoryReservation.Quantity;
+                    inventoryReservation.Inventory.ReservedQuantity -= inventoryReservation.Quantity;
+                }
+
+                inventoryReservation.Status = InventoryReservationStatus.Cancelled;
+            }
+        }
 
         foreach (CartItemDto cartItem in cart.Items)
         {
@@ -86,9 +85,13 @@ public class CheckoutCommandHandler : IRequestHandler<CheckoutCommand, BaseRespo
 
             if (reservationExists && reservation is not null)
             {
-                inventory.AvailableQuantity += reservation.Quantity;
-                inventory.ReservedQuantity -= reservation.Quantity;
+                if (reservation.Status == InventoryReservationStatus.Active)
+                {
+                    inventory.AvailableQuantity += reservation.Quantity;
+                    inventory.ReservedQuantity -= reservation.Quantity;
+                }
 
+                reservation.Status = InventoryReservationStatus.Active;
                 reservation.Quantity = cartItem.Quantity;
                 reservation.ReservedAt = now;
                 reservation.ExpiresAt = now.AddMinutes(5);

@@ -1,0 +1,58 @@
+/* 1. Global Screen Layout Shell */
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* 2. Top Header Component Container */
+.app-header-container {
+  display: block;
+  width: 100%;
+  flex-shrink: 0;
+  background-color: #ffffff;
+  border-bottom: 1px solid #dee2e6;
+  /* Eliminates fixed ghosts. Height is calculated purely from your real inner navbar code content */
+}
+
+/* 3. Outer Structural Split Wrapper Box */
+.app-body-container {
+  display: flex;
+  flex: 1 1 auto; /* Automatically stretches downward to fill remaining vertical screen area */
+  width: 100%;
+  position: relative;
+}
+
+/* 4. Full-Height Left Sidebar Panel Container */
+.fixed-vertical-sidebar {
+  display: block;
+  width: 280px; /* Locked sidebar width constraint */
+  flex-shrink: 0;
+  background-color: #ffffff;
+  border-right: 1px solid #dee2e6;
+  /* Automatically reclaims 100% of horizontal space if commented out */
+}
+
+/* 5. Center Elastic Workspace content render box window */
+.main-scrolling-content {
+  flex-grow: 1; /* CRITICAL: Forces this panel to automatically stretch to 100% screen width if sidebar is disabled */
+  padding: 40px;
+  background-color: #f8f9fa;
+  min-height: 100%;
+}
+
+/* Responsive viewports fallback scaling down */
+@media (max-width: 768px) {
+  .app-body-container {
+    flex-direction: column;
+  }
+  .fixed-vertical-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #dee2e6;
+  }
+  .main-scrolling-content {
+    padding: 20px;
+  }
+}

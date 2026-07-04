@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MarketHub.API.Controllers;
 
 [ApiController]
-[Route("api/users/{userId:guid?}/orders")]
+[Route("api/users")]
 public class OrdersController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -20,7 +20,7 @@ public class OrdersController : ControllerBase
         => _mediator = mediator;
 
     [HttpGet]
-    [Route("{orderId:guid}")]
+    [Route("{userId:guid}/orders/{orderId:guid}")]
     public async Task<IActionResult> GetOrder(Guid userId, Guid orderId)
     {
         GetOrderQuery request = new()
@@ -50,6 +50,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpGet]
+    [Route("orders")]
     public async Task<IActionResult> GetOrders(Guid? userId, [FromBody] OrderParameters orderParameters)
     {
         orderParameters.UserId = userId;
@@ -79,7 +80,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPost]
-    [Route("checkout")]
+    [Route("{userId:guid}/orders/checkout")]
     public async Task<IActionResult> Checkout(Guid userId)
     {
         CheckoutCommand request = new() { UserId = userId };
@@ -110,6 +111,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPost]
+    [Route("{userId:guid}/orders/create")]
     public async Task<IActionResult> CreateOrder(Guid userId, [FromBody] CreateOrderCommand request)
     {
         request.UserId = userId;
@@ -140,6 +142,7 @@ public class OrdersController : ControllerBase
     }
 
     [HttpPost]
+    [Route("{userId:guid}/orders/cancel")]
     public async Task<IActionResult> CancelOrder(Guid userId, [FromBody] CancelOrderCommand request)
     {
         request.UserId = userId;

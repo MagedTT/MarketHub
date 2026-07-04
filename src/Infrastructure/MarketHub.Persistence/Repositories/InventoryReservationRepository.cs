@@ -31,6 +31,9 @@ public class InventoryReservationRepository : IInventoryReservationRepository
                 x.UserId == userId)
             .ToListAsync();
 
+    public async Task<IEnumerable<InventoryReservation>> GetReservationsAsync(Guid userId)
+        => await _context.InventoryReservations.Include(x => x.Inventory).Where(x => x.UserId == userId).ToListAsync();
+
     public void CreateInventoryReservation(InventoryReservation inventoryReservation)
         => _context.InventoryReservations.Add(inventoryReservation);
 }

@@ -1,0 +1,8 @@
+@for (product of productCards(); track product.id) {
+<app-product-card [product]="product"></app-product-card>
+}
+
+@if (metaData())
+{
+<app-pagination [paginationMetaData]="metaData()" (pageChanged)="onPageChanged($event)"></app-pagination>
+}

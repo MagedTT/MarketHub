@@ -1,0 +1,91 @@
+/* Custom host container layout configurations */
+:host {
+    display: block;
+    background-color: #ffffff;
+    border-right: 1px solid #dee2e6;
+    padding: 24px;
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.sidebar-profile-header {
+    border-bottom: 1px solid #f1f3f5;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+}
+
+.sidebar-user-heading {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.sidebar-meta-text {
+    font-size: 13px;
+    color: #858e96;
+    word-break: break-all;
+}
+
+/* Sidebar Nav Links */
+.sidebar-nav-custom .nav-link {
+    color: #4a5568;
+    padding: 11px 16px;
+    border-radius: 6px;
+    font-weight: 400;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.15s ease;
+    margin-bottom: 2px;
+    text-decoration: none;
+}
+
+/* Theme Vector Blue SVG Icons */
+.sidebar-nav-custom .nav-link svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: #2563eb;
+    stroke-width: 1.75;
+    transition: stroke 0.15s ease;
+}
+
+/* Active Link State styling */
+.sidebar-nav-custom .nav-link.active {
+    background-color: #e7f1ff;
+    color: #2563eb;
+    font-weight: 600;
+}
+
+.sidebar-nav-custom .nav-link.active svg {
+    stroke: #2563eb;
+    stroke-width: 2;
+}
+
+/* Hover Navigation Link state style */
+.sidebar-nav-custom .nav-link:not(.active):hover {
+    background-color: #f1f5f9;
+    color: #1e293b;
+}
+
+.sidebar-divider {
+    border-top: 1px solid #e2e8f0;
+    margin: 16px 0;
+    opacity: 1;
+}
+
+/* Soft red focus action element layout parameters for log out link */
+.btn-logout-link {
+    color: #dc2626 !important;
+    cursor: pointer;
+}
+
+.btn-logout-link svg {
+    stroke: #dc2626 !important;
+}
+
+.sidebar-nav-custom .nav-link.btn-logout-link:hover {
+    background-color: #fef2f2 !important;
+}

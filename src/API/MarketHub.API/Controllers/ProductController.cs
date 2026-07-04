@@ -87,7 +87,7 @@ public class ProductController : ControllerBase
         return Ok(response.ProductDetailsDto);
     }
 
-    [HttpGet]
+    [HttpPost]
     [Route("productCards")]
     public async Task<IActionResult> GetProductCards([FromBody] ProductParameters productParameters)
     {

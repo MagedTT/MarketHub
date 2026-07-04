@@ -273,7 +273,8 @@ public class AuthenticationService : IAuthenticationService
         List<Claim> claims = new()
         {
             new Claim(JwtRegisteredClaimNames.Name, _user?.UserName!),
-            new Claim(JwtRegisteredClaimNames.Sub, _user?.Id.ToString()!)
+            new Claim(JwtRegisteredClaimNames.Sub, _user?.Id.ToString()!),
+            new Claim(JwtRegisteredClaimNames.Email, _user?.Email!),
         };
 
         IList<string> roles = await _userManager.GetRolesAsync(_user ?? new());

@@ -15,7 +15,7 @@ public class PromoCodeConfiguration : IEntityTypeConfiguration<PromoCode>
             .IsRequired();
 
         builder.Property(x => x.DiscountValue)
-            .HasPrecision(6, 2);
+            .HasPrecision(8, 2);
 
         builder.HasMany(x => x.Orders)
             .WithOne(x => x.PromoCode)

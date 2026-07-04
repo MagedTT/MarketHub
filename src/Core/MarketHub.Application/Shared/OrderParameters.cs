@@ -8,5 +8,5 @@ public class OrderParameters : RequestParameters
     public OrderStatus? OrderStatus { get; set; }
     public bool OrderByCreationTimeDescending { get; set; } = false;
     public decimal OrderMinTotalPrice { get; set; } = 0;
-    public decimal OrderMaxTotalPrice { get; set; } = 100_000;
+    public decimal OrderMaxTotalPrice { get; set; } = 10_000;
 }
