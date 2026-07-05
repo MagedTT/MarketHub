@@ -2,6 +2,7 @@ using System.Security.Cryptography.X509Certificates;
 using MarketHub.Application.Contracts.Persistence;
 using MarketHub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 
 namespace MarketHub.Persistence.Repositories;
 
@@ -13,6 +14,9 @@ public class CartItemRepository : ICartItemRepository
 
     public async Task<CartItem?> GetCartItemByIdAsync(Guid cartItemId)
         => await _context.CartItems.FirstOrDefaultAsync(x => x.Id == cartItemId);
+
+    public async Task<CartItem?> GetCartItemByCartIdAndProductIdAsync(Guid cartId, Guid productId)
+        => await _context.CartItems.FirstOrDefaultAsync(x => x.CartId == cartId && x.ProductId == productId);
 
     public async Task<IEnumerable<CartItem>> GetCartItemsByCartIdAsync(Guid cartId)
         => await _context.CartItems.Where(cartItem => cartItem.CartId == cartId).ToListAsync();

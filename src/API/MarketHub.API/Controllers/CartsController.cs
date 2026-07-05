@@ -89,6 +89,11 @@ public class CartsController : ControllerBase
             return BadRequest(ModelState);
         }
 
+        if (!response.Success && response.StatusCode == StatusCodes.Status406NotAcceptable)
+        {
+            return BadRequest(response.Message);
+        }
+
         return NoContent();
     }
 

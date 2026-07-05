@@ -10,9 +10,20 @@
         </svg>
     </button>
 
+    <!-- INTEGRATION: Dynamic Self-Dismissing Floating Feedback Toast -->
+    @if (alertMessage()) {
+    <div class="alert-toast-layer alert alert-dismissible fade show border shadow" [class.alert-success]="isSuccess"
+        [class.border-success]="isSuccess" [class.alert-danger]="!isSuccess" [class.border-danger]="!isSuccess"
+        role="alert">
+        <div class="d-flex align-items-center small fw-medium">
+            {{ alertMessage() }}
+        </div>
+        <button type="button" class="btn-close" (click)="clearAlert()" aria-label="Close"></button>
+    </div>
+    }
+
     <!-- Product Image Area Frame -->
     <div class="product-image-wrapper">
-        <!-- FIX: Only displays layout placeholder text if real image path is missing -->
         @if (!product.baseImageUrl) {
         <div class="image-placeholder-text">Product Image</div>
         } @else {
@@ -46,13 +57,14 @@
 
         <!-- Dynamic Volume Actions Module -->
         <div class="d-flex gap-2 mt-auto">
-            <select class="quantity-select-dropdown" aria-label="Choose product volume quantity">
+            <select class="quantity-select-dropdown" [(ngModel)]="selectedQuantity"
+                aria-label="Choose product volume quantity">
                 <option value="1" selected>1</option>
                 @for (cnt of quantities; track cnt) {
                 <option [value]="cnt">{{ cnt }}</option>
                 }
             </select>
-            <button class="btn-submit-cart" type="button">
+            <button class="btn-submit-cart" (click)="addToCart(product.id)" type="button">
                 Add to cart
             </button>
         </div>
