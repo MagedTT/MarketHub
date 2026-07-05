@@ -31,6 +31,7 @@ public class CartRepository : ICartRepository
                     {
                         ProductId = item.ProductId,
                         ProductName = item.Product.Name,
+                        ProductDescription = item.Product.Description,
                         ProductPrice = item.Product.Price,
                         BaseImageUrl = item.Product.Images.Select(image => image.ImageUrl).FirstOrDefault() ?? string.Empty
                     }

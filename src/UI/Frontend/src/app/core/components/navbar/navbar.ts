@@ -24,4 +24,8 @@ export class Navbar {
   navigateToWishlist() {
     this.router.navigate(['wishlist', this.session.user()?.id]);
   }
+
+  navigateToCart() {
+    this.router.navigate(['cart']);
+  }
 }

@@ -4,5 +4,5 @@ export interface CartItemDto {
     cartItemId: string;
     quantity: number;
     subTotal: number;
-    cartProductDto: CartProductDto;
+    product: CartProductDto;
 }

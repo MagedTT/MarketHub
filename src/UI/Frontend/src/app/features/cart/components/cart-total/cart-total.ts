@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-cart-total',
-  imports: [],
+  imports: [CurrencyPipe],
   templateUrl: './cart-total.html',
   styleUrl: './cart-total.css',
 })
-export class CartTotal {}
+export class CartTotal {
+  @Input() total: number = 0;
+}

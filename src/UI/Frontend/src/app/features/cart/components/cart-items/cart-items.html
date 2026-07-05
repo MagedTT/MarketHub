@@ -1,27 +1,39 @@
-<!-- Item Block Entry Loop Placeholder -->
+@for (cartItem of cartItems; track cartItem.cartItemId) {
 <div class="cart-item-row row m-0 text-center text-md-start" data-price="1399.00">
     <div class="col-md-7 d-flex align-items-center gap-3 flex-column flex-md-row text-start mb-3 mb-md-0 ps-0">
-        <button class="btn-remove-item" aria-label="Remove item">x</button>
-        <div class="item-thumbnail-placeholder">Laptop Image</div>
+        <button class="btn-remove-item" (click)="removeCartItem(cartItem.cartItemId)"
+            aria-label="Remove item">x</button>
+
+        <!-- INTEGRATION: Dynamic Image Window Container with Fallback Check -->
+        <div class="item-thumbnail-placeholder">
+            @if (!cartItem.product.baseImageUrl) {
+            <span>No Image</span>
+            } @else {
+            <img class="cart-item-img" [src]="'https://localhost:5001' + cartItem.product.baseImageUrl"
+                [alt]="cartItem.product.productName">
+            }
+        </div>
+
         <a href="#" class="product-link-title">
-            13 Ultrabook Gaming Laptop: Intel Core i7-1165G7 4 Core, NVIDIA GeForce GTX 1650 Ti
-            Max-Q, 13.3" 1080p 120Hz, 16GB RAM, 512GB SSD, CNC Aluminum, Chroma RGB, Thunderbolt 4
+            {{ cartItem.product.productDescription }}
         </a>
     </div>
     <div class="col-6 col-md-2 text-md-center my-auto">
         <span class="d-md-none text-muted d-block small">Price</span>
-        <span class="item-price-display">$1,399.00</span>
+        <span class="item-price-display">{{ cartItem.product.productPrice | currency }}</span>
     </div>
     <div class="col-6 col-md-1 text-md-center my-auto">
         <span class="d-md-none text-muted d-block small mb-1">Quantity</span>
         <div class="quantity-stepper-box">
-            <button type="button" class="stepper-down">-</button>
-            <input type="text" class="quantity-input" value="1" readonly>
-            <button type="button" class="stepper-up">+</button>
+            <button type="button" (click)="decreaseCartItemQuantity(cartItem.cartItemId, cartItem.product.productId)"
+                class="stepper-down">-</button>
+            <input type="text" class="quantity-input" [value]="cartItem.quantity" readonly>
+            <button type="button" (click)="addItemToCart(cartItem.product.productId)" class="stepper-up">+</button>
         </div>
     </div>
     <div class="col-12 col-md-2 text-md-end my-auto pt-3 pt-md-0 pe-md-4 fw-medium">
         <span class="d-md-none text-muted d-block small">Subtotal</span>
-        <span class="item-subtotal-display ms-5">{{99.99 | currency}}</span>
+        <span class="item-subtotal-display ms-5">{{ cartItem.subTotal | currency }}</span>
     </div>
 </div>
+}

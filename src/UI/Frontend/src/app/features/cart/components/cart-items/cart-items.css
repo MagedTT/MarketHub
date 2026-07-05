@@ -101,3 +101,30 @@
 .quantity-stepper-box input:focus {
     outline: none;
 }
+
+
+/* FIX: Restricts image scale to fit the exact 72px thumbnail boundary boxes cleanly */
+.cart-item-img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* Spans to edges cleanly. Change to 'contain' if images look clipped */
+    border-radius: 2px;
+    display: block;
+}
+
+/* Ensure the wrapper container has layout overflow padding hidden to clip outer image corners */
+.item-thumbnail-placeholder {
+    width: 72px;
+    height: 72px;
+    background-color: #f8fafc;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Changed to 0 so the image sits flush to the box borders */
+    border: 1px solid #e2e8f0;
+    flex-shrink: 0;
+    overflow: hidden;
+}
