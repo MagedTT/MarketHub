@@ -7,6 +7,7 @@ public class WishlistItemDto
     public Guid ProductId { get; set; }
     public string ProductName { get; set; } = string.Empty;
     public string ProductBaseImageUrl { get; set; } = string.Empty;
+    public string ProductDescription { get; set; } = string.Empty;
     public decimal ProductUnitPrice { get; set; }
     public bool ProductInStock { get; set; }
 }

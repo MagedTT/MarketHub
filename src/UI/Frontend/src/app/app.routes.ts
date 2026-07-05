@@ -17,6 +17,12 @@ export const routes: Routes = [
                 loadChildren: () =>
                     import('./features/products/products.routes')
                         .then(c => c.PRODUCTS_ROUTES)
+            },
+            {
+                path: 'wishlist/:id',
+                loadComponent: () =>
+                    import('./features/wishlist/pages/wishlist/wishlist')
+                        .then(c => c.Wishlist)
             }
         ]
     },

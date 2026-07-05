@@ -32,7 +32,6 @@ export class AuthService {
             tap(result => {
                 this.tokenService.setTokens(result);
                 this.session.setUser();
-                console.log(this.session.user());
             })
         );
     }

@@ -41,6 +41,13 @@ export class Login {
     this.serverErrorMessage.set(null);
   }
 
+  setValues() {
+    this.loginForm.setValue({
+      email: 'maged922001@gmail.com',
+      password: 'Admin@123'
+    });
+  }
+
   onSubmit() {
     if (this.loginForm.invalid) return;
 
@@ -61,8 +68,8 @@ export class Login {
 
         return throwError(() => error);
       })).subscribe(result => {
-        console.log(`Access Token: ${result.accessToken}`);
-        console.log(`Refresh Token: ${result.refreshToken}`);
+        // console.log(`Access Token: ${result.accessToken}`);
+        // console.log(`Refresh Token: ${result.refreshToken}`);
         this.router.navigateByUrl('products');
       });
   }

@@ -1,0 +1,4 @@
+@if (wishlist() !== null)
+{
+<app-wishlist-card [wishlist]="wishlist()" (onWishlistItemRemoval)="removeWishlistItem($event)"></app-wishlist-card>
+}

@@ -6,6 +6,7 @@ import { provideAuthConfig } from './core/models/auth.config';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
 import { appInitializer } from './core/appInitializer';
+import { ProvideAppConfig } from './core/models/app.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,6 +25,6 @@ export const appConfig: ApplicationConfig = {
       registerPath: 'auth/register',
       forgetPasswordPath: 'auth/forget-password',
       home: 'home'
-    })
+    }),
   ]
 };

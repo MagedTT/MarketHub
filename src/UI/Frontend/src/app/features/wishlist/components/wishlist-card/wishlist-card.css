@@ -1,0 +1,173 @@
+body {
+    background-color: #f8f9fa;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    color: #333333;
+}
+
+/* Core Section Typography Header Metrics */
+.wishlist-page-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.wishlist-count-badge {
+    font-size: 13px;
+    color: #858e96;
+    font-weight: 400;
+}
+
+/* Premium Wishlist Card UI Structure */
+.wishlist-item-card {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.wishlist-item-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    border-color: #cbd5e1;
+}
+
+/* Media Frame Viewport Grid Component Container */
+.wishlist-image-wrapper {
+    background-color: #f1f5f9;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.wishlist-card-img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; 
+    display: block;
+    /* Spans across the entire background area natively */
+}
+
+.wishlist-placeholder-text {
+    font-size: 11px;
+    font-weight: 600;
+    color: #94a3b8;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* Floating Remove Cross Trigger Overlay button */
+.wishlist-remove-btn-overlay {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #718096;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s ease;
+    z-index: 10;
+    padding: 0;
+}
+
+.wishlist-remove-btn-overlay:hover {
+    color: #dc2626;
+    /* Warning red fallback color on deletion hover operations */
+    border-color: #fca5a5;
+    background-color: #fef2f2;
+}
+
+/* Descriptions & Metadata Text Layout Settings */
+.wishlist-card-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.wishlist-price-tag {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.wishlist-title-anchor {
+    font-size: 14px;
+    font-weight: 500;
+    color: #4a5568;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    text-decoration: none;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 38px;
+}
+
+.wishlist-title-anchor:hover {
+    color: #2563eb;
+    /* Theme brand blue lookup accent */
+}
+
+/* Status Metadata Parameters */
+.wishlist-stock-status {
+    font-size: 12px;
+    font-weight: 500;
+    color: #16a34a;
+    /* Safe dark green tone context */
+    margin-bottom: 16px;
+}
+
+.wishlist-stock-status.out-of-stock {
+    color: #dc2626;
+    /* Warning deep crimson context fallback */
+}
+
+/* Core Call To Action Button standard styling template matching navbar look */
+.btn-wishlist-cart {
+    background-color: #ffffff;
+    color: #2563eb;
+    border: 1px solid #2563eb;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    width: 100%;
+    height: 38px;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-wishlist-cart:hover {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+.btn-wishlist-cart svg {
+    width: 16px;
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+}

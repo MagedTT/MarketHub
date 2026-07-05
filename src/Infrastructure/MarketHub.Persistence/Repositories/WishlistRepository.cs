@@ -34,6 +34,7 @@ public class WishlistRepository : IWishlistReposiotry
                 Id = w.Id,
                 ProductId = w.ProductId,
                 ProductName = w.Product.Name,
+                ProductDescription = w.Product.Description,
                 ProductBaseImageUrl = w.Product.Images.Select(x => x.ImageUrl).FirstOrDefault() ?? string.Empty,
                 ProductUnitPrice = w.Product.Price,
                 ProductInStock = w.Product.Inventory.AvailableQuantity > 0
