@@ -1,0 +1,27 @@
+<main class="container my-5" style="max-width: 1200px;">
+    <h1 class="h3 fw-bold mb-4 text-dark ms-2">Cart</h1>
+
+    <!-- FIXED: This wrapper layout structure forces horizontal side-by-side alignment -->
+    <div class="cart-flex-layout-grid">
+
+        <!-- Left Side Panel (Spans 66.6% of horizontal area) -->
+        <div class="cart-left-panel">
+            <div class="cart-wrapper-card shadow-sm" id="cartItemsContainer">
+
+                <!-- Table Header Layout Grid (Hidden on Mobile viewports) -->
+                <div class="cart-header-row d-none d-md-flex row m-0 text-center">
+                    <div class="col-md-7 text-start ps-5">Product</div>
+                    <div class="col-md-2">Price</div>
+                    <div class="col-md-1">Quantity</div>
+                    <div class="col-md-2 text-end pe-4">Subtotal</div>
+                </div>
+
+                <app-cart-items></app-cart-items>
+            </div>
+        </div>
+
+        <!-- Right Side Panel (Spans 33.3% of horizontal area) -->
+        <app-cart-total class="cart-right-panel"></app-cart-total>
+
+    </div>
+</main>
