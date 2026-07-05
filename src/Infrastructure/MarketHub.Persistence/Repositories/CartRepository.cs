@@ -53,6 +53,16 @@ public class CartRepository : ICartRepository
     public async Task<bool> CartExistsAsync(Guid userId)
         => await _context.Carts.AnyAsync(x => x.UserId == userId);
 
+    public async Task<int> GetAmountInCartByUserIdAsync(Guid userId)
+    {
+        Guid? cartId = await _context.Carts.Where(x => x.UserId == userId).Select(x => x.Id).FirstOrDefaultAsync();
+
+        if (cartId is null)
+            return 0;
+
+        return _context.CartItems.Where(x => x.CartId == cartId.Value).Sum(x => x.Quantity);
+    }
+
     public Task<Guid> CreateCartAsync(Cart cart)
     {
         _context.Carts.Add(cart);

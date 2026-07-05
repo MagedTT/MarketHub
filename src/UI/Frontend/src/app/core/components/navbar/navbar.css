@@ -134,3 +134,23 @@
     width: 16px;
     height: 16px;
 }
+
+
+/* Isolated container wrapper targeting the SVG node layer */
+.icon-badge-wrapper {
+    position: relative;
+    display: inline-block;
+    line-height: 1;
+}
+
+/* Precise Floating badge constraints overlay */
+.cart-badge-floating {
+    position: absolute;
+    top: -6px;      /* Shifts badge slightly above the top icon arc */
+    right: -8px;    /* Offsets badge horizontally past the right wheel parameter */
+    font-size: 10px;
+    padding: 3px 6px;
+    font-weight: 700;
+    line-height: 1;
+    border: 2px solid #ffffff; /* Premium white knockout border prevents background bleeding */
+}

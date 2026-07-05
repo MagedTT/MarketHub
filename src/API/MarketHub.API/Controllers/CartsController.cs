@@ -3,6 +3,7 @@ using MarketHub.Application.Features.Carts.Commands.CreateCart;
 using MarketHub.Application.Features.Carts.Commands.DeleteCart;
 using MarketHub.Application.Features.Carts.Commands.RemoveCartItem;
 using MarketHub.Application.Features.Carts.Commands.UpdateCartItemQuantity;
+using MarketHub.Application.Features.Carts.Queries.GetAmountInCart;
 using MarketHub.Application.Features.Carts.Queries.GetCartByUserId;
 using MarketHub.Application.Responses;
 using MediatR;
@@ -17,6 +18,29 @@ public class CartsController : ControllerBase
     private readonly IMediator _mediator;
     public CartsController(IMediator mediator)
         => _mediator = mediator;
+
+    [HttpGet]
+    [Route("amount")]
+    public async Task<IActionResult> GetCartAmount(Guid userId)
+    {
+        GetAmountInCartQuery request = new() { UserId = userId };
+
+        GetAmountInCartQueryResponse response = await _mediator.Send(request);
+
+        if (!response.Success && response.StatusCode == StatusCodes.Status400BadRequest)
+        {
+            foreach (string error in response.ValidationErrors!)
+            {
+                string[] errorDetails = error.Split(',');
+                ModelState.TryAddModelError(errorDetails[0], errorDetails[1]);
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        // return Ok(new { Amount = response.Amount });
+        return Ok(response.Amount);
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetCart(Guid userId)

@@ -18,6 +18,10 @@ export class CartStore {
   }
 
   increaseCartAmount(amount: number): void {
-    this._cartAmount.update(value => value + amount);
+    this._cartAmount.update(value => value + Number(amount));
+  }
+
+  setCartAmount(amount: number): void {
+    this._cartAmount.set(amount);
   }
 }

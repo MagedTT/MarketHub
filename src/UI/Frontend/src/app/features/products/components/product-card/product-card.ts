@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { CartService } from '../../../../shared/services/cart-service';
 import { catchError, Subject, takeUntil, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CartStore } from '../../../../core/services/stores/cart-store';
 
 @Component({
   selector: 'app-product-card',
@@ -20,6 +21,7 @@ export class ProductCard implements OnDestroy {
 
   @Input({ required: true }) product!: ProductCardModel;
   private cartService = inject(CartService);
+  private cartStore = inject(CartStore);
   private session = inject(SessionStoreService);
   private productService = inject(ProductsService);
   private destory$ = new Subject<void>();
@@ -77,6 +79,7 @@ export class ProductCard implements OnDestroy {
       })
     ).subscribe({
       next: () => {
+        this.cartStore.increaseCartAmount(this.selectedQuantity);
         this.clearAlert();
         this.alertMessage.set('Added Successfully!');
         this.isSuccess = true;

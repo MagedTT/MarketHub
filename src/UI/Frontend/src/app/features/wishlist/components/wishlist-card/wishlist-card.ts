@@ -1,10 +1,11 @@
-import { Component, EventEmitter, inject, Input, OnDestroy, Output, signal, WritableSignal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, OnDestroy, Output, signal, SimpleChanges, WritableSignal } from '@angular/core';
 import { wishlistDto } from '../../models/wishlist-dto.interface';
 import { CurrencyPipe } from '@angular/common';
 import { CartService } from '../../../../shared/services/cart-service';
 import { SessionStoreService } from '../../../../core/services/session-store-service';
 import { catchError, Subject, takeUntil, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CartStore } from '../../../../core/services/stores/cart-store';
 
 @Component({
   selector: 'app-wishlist-card',
@@ -12,9 +13,10 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './wishlist-card.html',
   styleUrl: './wishlist-card.css',
 })
-export class WishlistCard implements OnDestroy {
+export class WishlistCard implements OnChanges, OnDestroy {
 
   private cartService = inject(CartService);
+  private cartStore = inject(CartStore);
   private destroy$ = new Subject<void>();
   private session = inject(SessionStoreService);
   @Input() wishlist: wishlistDto | null = null;
@@ -23,6 +25,10 @@ export class WishlistCard implements OnDestroy {
   activeItemId: WritableSignal<string | null> = signal(null);
   private timeoutId: any = null;
   isSuccess: boolean = true;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // console.log(changes);
+  }
 
   clearAlert(): void {
     if (this.timeoutId) {
@@ -59,6 +65,7 @@ export class WishlistCard implements OnDestroy {
       })
     ).subscribe({
       next: () => {
+        this.cartStore.increaseCartAmount(1);
         this.clearAlert();
         this.alertMessage.set('Added Successfully!');
         this.isSuccess = true;
