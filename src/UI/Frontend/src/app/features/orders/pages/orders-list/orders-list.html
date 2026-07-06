@@ -1,7 +1,7 @@
 <div class="container my-5" style="max-width: 950px;">
 
     <!-- Navigation Filter Controls -->
-    <app-orders-filteration-header></app-orders-filteration-header>
+    <app-orders-filteration-header (orderStatusChanged)="queryOrdersWithStatus($event)"></app-orders-filteration-header>
 
     <!-- Primary Module Container -->
     <app-order-details [orders]="orders()"></app-order-details>

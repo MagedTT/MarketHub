@@ -46,10 +46,15 @@ export class OrdersList implements OnInit, OnDestroy {
         return throwError(() => error);
       })
     ).subscribe(response => {
-      console.log("response.items: ", response.items);
+
       this.metaData.set(response.metadata);
       this.orders.set(response.items);
     });
+  }
+
+  queryOrdersWithStatus(status: number) {
+    this.orderParameters.orderStatus = status === 0 ? undefined : status;
+    this.getOrders(this.orderParameters);
   }
 
   onPageChanged(pageNumber: number) {

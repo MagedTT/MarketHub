@@ -44,6 +44,7 @@ body {
     border-radius: 8px;
     padding: 12px;
     height: 100%;
+    cursor: pointer;
 }
 
 .product-image-container {
@@ -103,4 +104,18 @@ body {
 /* Keeps container clean if images fail or try to overflow */
 .product-image-container {
     overflow: hidden; 
+}
+
+.product-item-wrapper h3.text-dark {
+    transition: color 0.2s ease-in-out;
+}
+
+.product-item-wrapper:hover h3.text-dark {
+    color: #0d6efd !important; /* Bootstrap primary blue, change this hex code to any color you prefer */
+}
+
+/* 2. Show the pointer hand cursor when hovering anywhere over the clickable item column */
+div[col-md-6][click], 
+.product-item-wrapper {
+    cursor: pointer;
 }

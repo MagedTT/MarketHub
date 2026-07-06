@@ -78,6 +78,10 @@ export class Sidebar implements OnDestroy {
     this.router.navigate(['orders']);
   }
 
+  navigateToWishlist() {
+    this.router.navigate(['wishlist', this.session.user()?.id]);
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

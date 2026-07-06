@@ -61,7 +61,7 @@
     <!-- Inner Shoppable Items Grid Component -->
     <div class="row g-3">
         @for (orderItem of order.items; track orderItem.id) {
-        <div class="col-md-6">
+        <div class="col-md-6" (click)="navigateToProductDetailsPage(orderItem.productId)">
             <div class="product-item-wrapper d-flex align-items-center gap-3">
                 <div class="product-image-container">
                     <!-- CHANGED: Replaced SVG with bound img tag. Added fallback alt text and safety check. -->
