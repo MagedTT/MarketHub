@@ -43,6 +43,7 @@
   position: relative;
   padding: 0; 
   overflow: hidden;
+  cursor: pointer;
 }
 
 .product-card-img {
@@ -113,6 +114,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   height: 38px;
+  cursor: pointer;
 }
 .product-title-anchor:hover {
   color: #2563eb;

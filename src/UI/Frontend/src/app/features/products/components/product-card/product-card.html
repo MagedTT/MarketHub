@@ -23,7 +23,7 @@
     }
 
     <!-- Product Image Area Frame -->
-    <div class="product-image-wrapper">
+    <div class="product-image-wrapper" (click)="navigateToProductDetails(product.id)">
         @if (!product.baseImageUrl) {
         <div class="image-placeholder-text">Product Image</div>
         } @else {
@@ -35,7 +35,7 @@
     <div class="product-card-body">
         <div class="product-price-tag">{{ product.price | currency }}</div>
 
-        <a href="#" class="product-title-anchor">
+        <a class="product-title-anchor" (click)="navigateToProductDetails(product.id)">
             <p class="m-0">{{ product.description }}</p>
         </a>
 

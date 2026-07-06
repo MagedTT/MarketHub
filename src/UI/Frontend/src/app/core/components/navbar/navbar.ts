@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AUTH_CONFIG } from '../../models/auth.config';
 import { SessionStoreService } from '../../services/session-store-service';
 import { CartStore } from '../../services/stores/cart-store';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,11 +15,16 @@ export class Navbar {
   // constructor(private router: Router, @Inject(AUTH_CONFIG) private config: AuthConfig) { }
   private router = inject(Router);
   private config = inject(AUTH_CONFIG);
+  private authService = inject(AuthService);
   cartStore = inject(CartStore);
-  private session = inject(SessionStoreService);
+  session = inject(SessionStoreService);
 
-  navigateToSignIn() {
+  navigateToLogin() {
     this.router.navigateByUrl(this.config.loginPath);
+  }
+
+  navigateToRegister() {
+    this.router.navigateByUrl(this.config.registerPath);
   }
 
   navigateToWishlist() {
@@ -27,5 +33,9 @@ export class Navbar {
 
   navigateToCart() {
     this.router.navigate(['cart']);
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

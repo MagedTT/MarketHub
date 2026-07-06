@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, computed, effect, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { ProductsService } from '../../services/products-service';
 import { ProductParameters } from '../../models/product-parameters.interface';
 import { Subject, takeUntil } from 'rxjs';
@@ -6,6 +6,8 @@ import { PaginationMetadata } from '../../../../shared/models/paginationMetadata
 import { ProductCardModel } from '../../models/product-card-model.interface';
 import { ProductCard } from '../../components/product-card/product-card';
 import { Pagination } from "../../../../shared/components/pagination/pagination";
+import { Router } from '@angular/router';
+import { ProductSearchStoreService } from '../../../../shared/services/product-search-store-service';
 
 @Component({
   selector: 'app-products',
@@ -15,6 +17,8 @@ import { Pagination } from "../../../../shared/components/pagination/pagination"
 })
 export class Products implements OnInit, OnDestroy {
   private destory$ = new Subject<void>();
+  private router = inject(Router);
+  private productSearchStoreService = inject(ProductSearchStoreService);
 
   productCards: WritableSignal<ProductCardModel[]> = signal([]);
   metaData: WritableSignal<PaginationMetadata | null> = signal(null);
@@ -29,12 +33,18 @@ export class Products implements OnInit, OnDestroy {
     category: 'phones'
   };
 
-  constructor(private productsService: ProductsService) { }
+  constructor(private productsService: ProductsService) {
+    effect(() => {
+      const globalParams = this.productSearchStoreService.productParameters();
+
+      this.productParameters = { ...globalParams };
+
+      this.getProductsCards(this.productParameters);
+    });
+  }
 
   ngOnInit(): void {
-
-
-    this.getProductsCards(this.productParameters);
+    // this.getProductsCards(this.productParameters);
   }
 
   getProductsCards(productParameters: ProductParameters) {
@@ -45,6 +55,10 @@ export class Products implements OnInit, OnDestroy {
         this.metaData.set(response.metadata);
         this.productCards.set(response.items);
       });
+  }
+
+  navigateToProductDetails(productId: string) {
+    this.router.navigate(['products', productId]);
   }
 
   onPageChanged(page: number) {

@@ -5,6 +5,7 @@ import { map, Observable } from 'rxjs';
 import { PagedResult } from '../../../shared/models/pagedResult.interface';
 import { ProductCardModel } from '../models/product-card-model.interface';
 import { AddToWishListRequest } from '../models/add-to-wish-list.interface';
+import { ProductDetailsDto } from '../models/product-details-dto.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +26,11 @@ export class ProductsService {
       )
   }
 
-  addProductToWishlist(request: AddToWishListRequest): Observable<any> {
+  getProductDetails(productId: string): Observable<ProductDetailsDto> {
+    return this.httpClient.get<ProductDetailsDto>(`https://localhost:5001/api/products/${productId}`);
+  }
 
+  addProductToWishlist(request: AddToWishListRequest): Observable<any> {
     return this.httpClient.post(`https://localhost:5001/api/users/${request.userId}/wishlists`, request);
   }
 }

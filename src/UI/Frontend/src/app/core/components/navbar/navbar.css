@@ -154,3 +154,34 @@
     line-height: 1;
     border: 2px solid #ffffff; /* Premium white knockout border prevents background bleeding */
 }
+
+/* Base Layout Fix for Dropdown Containers */
+.dropdown {
+    display: inline-block;
+}
+
+/* Normalizes structural button properties inside utility items */
+button.utility-item-link {
+    outline: none !important;
+    box-shadow: none !important;
+    color: #4a5568;
+    transition: color 0.15s ease;
+}
+button.utility-item-link:hover,
+.dropdown-toggle.show button.utility-item-link {
+    color: #2563eb;
+}
+
+/* Refined Dropdown Menu Items layout tweaks */
+.dropdown-menu {
+    border-radius: 8px !important;
+    padding: 6px 0;
+}
+.dropdown-item {
+    color: #4a5568;
+    transition: background-color 0.15s, color 0.15s;
+}
+.dropdown-item:hover {
+    background-color: #f1f5f9;
+    color: #1e293b;
+}

@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnDestroy, signal, WritableSignal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnDestroy, Output, signal, WritableSignal } from '@angular/core';
 import { ProductCardModel } from '../../models/product-card-model.interface';
 import { CurrencyPipe } from '@angular/common';
 import { AddToWishListRequest } from '../../models/add-to-wish-list.interface';
@@ -20,6 +20,7 @@ import { CartStore } from '../../../../core/services/stores/cart-store';
 export class ProductCard implements OnDestroy {
 
   @Input({ required: true }) product!: ProductCardModel;
+  @Output() productDetailsRequired = new EventEmitter<string>();
   private cartService = inject(CartService);
   private cartStore = inject(CartStore);
   private session = inject(SessionStoreService);
@@ -88,6 +89,10 @@ export class ProductCard implements OnDestroy {
         }, 2000);
       }
     });
+  }
+
+  navigateToProductDetails(productId: string): void {
+    this.productDetailsRequired.emit(productId);
   }
 
   ngOnDestroy(): void {

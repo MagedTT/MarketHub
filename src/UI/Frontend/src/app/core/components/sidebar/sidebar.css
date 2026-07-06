@@ -89,3 +89,40 @@
 .sidebar-nav-custom .nav-link.btn-logout-link:hover {
     background-color: #fef2f2 !important;
 }
+
+/* Product Filter Module Layout Configurations */
+.filter-section-wrapper {
+  background-color: #f8fafc;
+}
+
+.filter-section-wrapper .form-control-sm,
+.filter-section-wrapper .form-select-sm {
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #1e293b;
+  height: 34px;
+}
+
+.filter-section-wrapper .form-control-sm::placeholder {
+  color: #94a3b8;
+}
+
+.filter-section-wrapper .form-check-input {
+  border-color: #cbd5e1;
+  cursor: pointer;
+}
+
+.filter-section-wrapper .form-check-input:checked {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.filter-section-wrapper .form-check-label {
+  cursor: pointer;
+  user-select: none;
+}
+
+.tracking-wider {
+  letter-spacing: 0.05em;
+}
