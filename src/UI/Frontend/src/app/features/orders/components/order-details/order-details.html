@@ -1,0 +1,94 @@
+@for (order of orders; track order.id)
+{
+<div class="order-main-card mb-4">
+
+    <!-- Top Action Row -->
+    <div class="d-flex justify-content-between align-items-start border-bottom pb-3 mb-4 flex-wrap gap-2">
+        <div>
+            <h2 class="h5 fw-bold mb-1 text-dark">Order #: {{ order.orderNumber }}</h2>
+            <div class="order-meta-text">{{ order.items.length }} Products | By {{ order.orderedByUserName }} | {{
+                order.createdAt | date }}</div>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-light border text-secondary px-3 d-inline-flex align-items-center">
+                <!-- Download SVG Icon -->
+                <svg xmlns="http://w3.org" width="14" height="14" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                    <path
+                        d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                    <path
+                        d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+                </svg>
+                Download invoice
+            </button>
+            <button class="btn btn-sm btn-light border text-muted d-inline-flex align-items-center"
+                aria-label="Actions dropdown">
+                <!-- Three Dots Vertical SVG Icon -->
+                <svg xmlns="http://w3.org" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Metadata Details Matrix -->
+    <div class="mb-4">
+        <table class="details-grid">
+            <tbody>
+                <tr>
+                    <th>Status:</th>
+                    <td [class]="convertOrderStatusFromEnumToStrign(order.status)">
+                        {{convertOrderStatusFromEnumToStrign(order.status) }}</td>
+                </tr>
+                <tr>
+                    <th>Date of delivery:</th>
+                    <td>{{ order.dateOfDelivery | date }}</td>
+                </tr>
+                <tr>
+                    <th>Delivered to:</th>
+                    <td>{{ order.shippingAddress }}</td>
+                </tr>
+                <tr>
+                    <th>Total:</th>
+                    <td class="fw-bold fs-6">{{ order.totalAmount | currency }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <hr class="my-4 text-muted opacity-25">
+
+    <!-- Inner Shoppable Items Grid Component -->
+    <div class="row g-3">
+        @for (orderItem of order.items; track orderItem.id) {
+        <div class="col-md-6">
+            <div class="product-item-wrapper d-flex align-items-center gap-3">
+                <div class="product-image-container">
+                    <!-- CHANGED: Replaced SVG with bound img tag. Added fallback alt text and safety check. -->
+                    @if (orderItem.productBaseImageUrl) {
+                    <img [src]="'https://localhost:5001' + orderItem.productBaseImageUrl" [alt]="orderItem.productName"
+                        class="product-img">
+                    } @else {
+                    <!-- Fallback symbol if image missing -->
+                    <svg xmlns="http://w3.org" viewBox="0 0 16 16" width="32" height="32" fill="#a0aec0">
+                        <path d="M11.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                        <path
+                            d="M.002 3a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-12a2 2 0 0 1-2-2V3zm1 9 2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V3a1 1 0 0 0-1-1h-12a1 1 0 0 0-1 1v9z" />
+                    </svg>
+                    }
+                </div>
+                <div>
+                    <h3 class="h6 mb-1 fw-semibold text-dark">{{ orderItem.productName | trim}}</h3>
+                    <div class="product-meta-sub">Quantity: {{ orderItem.quantity }}x = {{ orderItem.unitPrice }}</div>
+                    @for (specification of orderItem.productSpecifications | keyvalue | slice:0:3; track
+                    specification.key) {
+                    <div class="product-meta-sub text-muted">{{specification.key}}: {{specification.value}}</div>
+                    }
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+
+</div>
+}

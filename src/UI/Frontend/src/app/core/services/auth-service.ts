@@ -32,6 +32,8 @@ export class AuthService {
             tap(result => {
                 this.tokenService.setTokens(result);
                 this.session.setUser();
+                console.log(result.accessToken);
+                console.log(result.refreshToken);
             })
         );
     }

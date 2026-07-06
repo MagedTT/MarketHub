@@ -49,7 +49,7 @@ public class OrdersController : ControllerBase
         return Ok(response.Order);
     }
 
-    [HttpGet]
+    [HttpPost]
     [Route("orders")]
     public async Task<IActionResult> GetOrders(Guid? userId, [FromBody] OrderParameters orderParameters)
     {

@@ -1,0 +1,12 @@
+<div class="container my-5" style="max-width: 950px;">
+
+    <!-- Navigation Filter Controls -->
+    <app-orders-filteration-header></app-orders-filteration-header>
+
+    <!-- Primary Module Container -->
+    <app-order-details [orders]="orders()"></app-order-details>
+</div>
+
+@if (metaData()) {
+<app-pagination [paginationMetaData]="metaData()" (pageChanged)="onPageChanged($event)"></app-pagination>
+}

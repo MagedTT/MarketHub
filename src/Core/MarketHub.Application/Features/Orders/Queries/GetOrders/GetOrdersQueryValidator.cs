@@ -12,7 +12,7 @@ public class GetOrdersQueryValidator : AbstractValidator<GetOrdersQuery>
             .WithMessage("Minimum Price should be greater than 0");
 
         RuleFor(x => x.OrderParameters.OrderMaxTotalPrice)
-            .LessThanOrEqualTo(10_000)
-            .WithMessage("Minimum Price should be less than 10,000$");
+            .LessThanOrEqualTo(100_000)
+            .WithMessage("Maximum Price should be less than 100,000$");
     }
 }

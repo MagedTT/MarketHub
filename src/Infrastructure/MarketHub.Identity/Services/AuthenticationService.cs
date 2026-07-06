@@ -237,7 +237,7 @@ public class AuthenticationService : IAuthenticationService
 
         ClaimsPrincipal claimsPrincipal = GetClaimsPrincipalFromExpiresAccessToken(tokenDto.AccessToken);
 
-        User? user = await _userManager.FindByIdAsync(claimsPrincipal.FindFirstValue("sub") ?? "");
+        User? user = await _userManager.FindByIdAsync(claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier) ?? "");
 
         if (user is null)
         {

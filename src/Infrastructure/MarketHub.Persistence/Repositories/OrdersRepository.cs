@@ -92,6 +92,7 @@ public class OrdersRepository : IOrdersRepository
                 OrderedByUserName = o.User.UserName!,
                 NumberOfOrderedProducts = o.OrderItems.Count(),
                 Status = o.Status,
+                OrderNumber = o.OrderNumber,
                 CreatedAt = o.CreatedAt,
                 DateOfDelivery = o.CreatedAt.AddDays(3),
                 ShippingAddress = o.ShippingAddress,

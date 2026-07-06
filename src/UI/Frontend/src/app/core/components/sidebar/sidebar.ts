@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { AuthService } from '../../services/auth-service';
 import { ProductSearchStoreService } from '../../../shared/services/product-search-store-service';
 import { ProductParameters } from '../../../features/products/models/product-parameters.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -16,6 +17,7 @@ import { ProductParameters } from '../../../features/products/models/product-par
 export class Sidebar implements OnDestroy {
   private destroy$ = new Subject<void>();
   private authService = inject(AuthService);
+  private router = inject(Router);
   private productSearchStoreService = inject(ProductSearchStoreService);
   session = inject(SessionStoreService);
 
@@ -70,6 +72,10 @@ export class Sidebar implements OnDestroy {
 
   logout() {
     this.authService.logout();
+  }
+
+  navigateToOrders() {
+    this.router.navigate(['orders']);
   }
 
   ngOnDestroy(): void {

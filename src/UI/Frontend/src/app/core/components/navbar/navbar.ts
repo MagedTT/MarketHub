@@ -35,6 +35,10 @@ export class Navbar {
     this.router.navigate(['cart']);
   }
 
+  navigateToProducts() {
+    this.router.navigate(['products']);
+  }
+
   logout() {
     this.authService.logout();
   }

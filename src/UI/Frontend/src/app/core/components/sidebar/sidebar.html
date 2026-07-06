@@ -79,7 +79,8 @@
     <!-- Main Navigation Link Options List -->
     <nav class="nav flex-column sidebar-nav-custom" role="navigation">
         <!-- My Orders (Active Route Example) -->
-        <a class="nav-link" style="cursor: pointer;" routerLink="/account/orders" routerLinkActive="active" role="tab">
+        <a class="nav-link" style="cursor: pointer;" (click)="navigateToOrders()" routerLink="/account/orders"
+            routerLinkActive="active" role="tab">
             <svg viewBox="0 0 24 24">
                 <path
                     d="M21 8H3V6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2zm0 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V10h18zm-7 3h-4v2h4v-2z" />

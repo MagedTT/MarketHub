@@ -6,6 +6,7 @@ namespace MarketHub.Application.DTOs.Persistence.Orders;
 public class OrderDto
 {
     public Guid Id { get; set; }
+    public string OrderNumber { get; set; } = string.Empty;
     public string OrderedByUserName { get; set; } = string.Empty;
     public int NumberOfOrderedProducts { get; set; }
     public OrderStatus Status { get; set; }

@@ -34,7 +34,7 @@ public class AddItemToCartCommandHandler : IRequestHandler<AddItemToCartCommand,
 
         Guid? cartId = await _repositoryManager.CartRepository.CartExistsByUserIdAsync(request.UserId);
 
-        if (cartId is null)
+        if (cartId is null || cartId == Guid.Empty)
         {
             Cart cart = new Cart
             {
@@ -44,37 +44,35 @@ public class AddItemToCartCommandHandler : IRequestHandler<AddItemToCartCommand,
             cartId = await _repositoryManager.CartRepository.CreateCartAsync(cart);
         }
 
+
+        CartItem? item = await _repositoryManager.CartItemRepository.GetCartItemByCartIdAndProductIdAsync(cartId.Value, request.ProductId);
+
+        if (item is not null)
+        {
+            bool enoughQuantity = await _repositoryManager.InventoryRepository.CheckEnoughQuantityInStockAsync(request.ProductId, item.Quantity + request.Quantity);
+
+            if (!enoughQuantity)
+            {
+                response.Success = false;
+                response.StatusCode = (int)HttpStatusCode.NotAcceptable;
+                response.Message = "Invalid Quantity";
+
+                return response;
+            }
+
+            item.Quantity += request.Quantity;
+        }
+
         else
         {
-            CartItem? item = await _repositoryManager.CartItemRepository.GetCartItemByCartIdAndProductIdAsync(cartId.Value, request.ProductId);
-
-            if (item is not null)
+            item = new CartItem
             {
-                bool enoughQuantity = await _repositoryManager.InventoryRepository.CheckEnoughQuantityInStockAsync(request.ProductId, item.Quantity + request.Quantity);
+                CartId = cartId.Value,
+                ProductId = request.ProductId,
+                Quantity = request.Quantity
+            };
 
-                if (!enoughQuantity)
-                {
-                    response.Success = false;
-                    response.StatusCode = (int)HttpStatusCode.NotAcceptable;
-                    response.Message = "Invalid Quantity";
-
-                    return response;
-                }
-
-                item.Quantity += request.Quantity;
-            }
-
-            else
-            {
-                item = new CartItem
-                {
-                    CartId = cartId.Value,
-                    ProductId = request.ProductId,
-                    Quantity = request.Quantity
-                };
-
-                _repositoryManager.CartItemRepository.AddCartItem(item);
-            }
+            _repositoryManager.CartItemRepository.AddCartItem(item);
         }
 
         await _repositoryManager.SaveAsync();

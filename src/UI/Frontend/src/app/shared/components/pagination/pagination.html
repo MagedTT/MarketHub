@@ -1,6 +1,5 @@
 <div
     class="pagination-wrapper-card d-flex flex-column flex-sm-row justify-content-between align-items-center gap-3 shadow-sm w-100">
-    <!-- Left Meta Description Data Footprint -->
     <div class="pagination-meta-text ps-sm-2">
         Showing
         <strong class="text-dark">
@@ -13,11 +12,9 @@
         <strong class="text-dark">{{ paginationMetaData!.TotalCount }}</strong> products
     </div>
 
-    <!-- Navigation Nodes Control Tree Container -->
     <nav aria-label="Catalog pages navigation index" class="pe-sm-2">
         <ul class="pagination pagination-custom m-0">
 
-            <!-- Previous Button Button Module -->
             <li class="page-item" [class.disabled]="!paginationMetaData!.HasPrevious">
                 <button class="page-link" (click)="onPageChange(paginationMetaData!.CurrentPage - 1)"
                     [disabled]="!paginationMetaData!.HasPrevious" aria-label="Previous">
@@ -25,15 +22,12 @@
                 </button>
             </li>
 
-            <!-- Dynamic Calculated Numerical Selection Nodes -->
             @for (page of getVisiblePages(); track page) {
             @if (page === -1) {
-            <!-- Render Separator Ellipsis Box Spacer if tracking matches flag -->
             <li class="page-item disabled d-none d-sm-inline-block">
                 <span class="page-link">...</span>
             </li>
             } @else {
-            <!-- Render Active or Standard Page Targets Elements -->
             <li class="page-item" [class.active]="page === paginationMetaData!.CurrentPage">
                 <button class="page-link" (click)="onPageChange(page)">
                     {{ page }}
@@ -42,7 +36,6 @@
             }
             }
 
-            <!-- Next Button Button Module -->
             <li class="page-item" [class.disabled]="!paginationMetaData!.HasNext">
                 <button class="page-link" (click)="onPageChange(paginationMetaData!.CurrentPage + 1)"
                     [disabled]="!paginationMetaData!.HasNext" aria-label="Next">
