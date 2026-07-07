@@ -8,6 +8,9 @@ public class PromoCode
 
     public string Code { get; set; } = string.Empty;
 
+    public Guid StoreId { get; set; }
+    public Store Store { get; set; } = default!;
+
     public DiscountType DiscountType { get; set; }
     public decimal DiscountValue { get; set; }
 
@@ -15,6 +18,7 @@ public class PromoCode
     public DateTime EndDate { get; set; }
 
     public int UsageLimit { get; set; }
+    public int NumberOfTimesUsed { get; set; }
     public bool IsActive { get; set; }
 
     public ICollection<Order> Orders { get; set; } = new List<Order>();

@@ -15,5 +15,6 @@ public class PromoCodeDto
     public DateTime EndDate { get; set; }
 
     public int UsageLimit { get; set; }
+    public int NumberOfTimesUsed { get; set; }
     public bool IsActive { get; set; }
 }

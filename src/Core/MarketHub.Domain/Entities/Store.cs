@@ -15,4 +15,5 @@ public class Store
 
     public ICollection<Product> Products { get; set; } = new List<Product>();
     public ICollection<Report> Reports { get; set; } = new List<Report>();
+    public ICollection<PromoCode> PromoCodes { get; set; } = new List<PromoCode>();
 }
