@@ -24,4 +24,5 @@ public class User : IdentityUser<Guid>
     public ICollection<Notification> Notifications { get; set; } = new List<Notification>();
     public ICollection<Report> Reports { get; set; } = new List<Report>();
     public ICollection<InventoryReservation> InventoryReservations { get; set; } = new List<InventoryReservation>();
+    public ICollection<ShippingAddress> ShippingAddresses { get; set; } = new List<ShippingAddress>();
 }

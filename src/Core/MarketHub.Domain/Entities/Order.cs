@@ -12,6 +12,9 @@ public class Order
     public Guid? PromoCodeId { get; set; }
     public PromoCode? PromoCode { get; set; } = default!;
 
+    public Guid ShippingAddressEntityId { get; set; }
+    public ShippingAddress ShippingAddressEntity { get; set; } = default!;
+
     public string OrderNumber { get; set; } = Guid.NewGuid().ToString()[..8];
     public OrderStatus Status { get; set; }
     public decimal TotalAmount { get; set; }
