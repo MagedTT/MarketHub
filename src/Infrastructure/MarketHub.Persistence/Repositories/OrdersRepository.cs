@@ -174,6 +174,64 @@ public class OrdersRepository : IOrdersRepository
             }).ToListAsync();
     }
 
+    public async Task<PagedList<StoreOrderDto>> GetRecentOrdersByStoreIdAsync(Guid storeId, StoreOrdersParameters storeOrdersParameters)
+    {
+        IQueryable<Order> orders = _context.Orders.Where(x => x.OrderItems.Any(oi => oi.Product.StoreId == storeId));
+
+        if (storeOrdersParameters.OrderStatus is not null)
+            orders = orders.Where(x => x.Status == storeOrdersParameters.OrderStatus);
+
+        int count = await orders.CountAsync();
+
+        orders = orders.OrderByDescending(o => o.CreatedAt);
+
+        List<StoreOrderDto> storeOrders = await orders
+            .Select(x => new StoreOrderDto
+            {
+                OrderId = x.Id,
+                StoreId = storeId,
+                UserId = x.UserId,
+                PromoCode = x.PromoCode != null ? x.PromoCode.Code : null,
+                OrderNumber = x.OrderNumber,
+                Status = x.Status,
+                TotalAmount = x.OrderItems.Where(x => x.Product.StoreId == storeId)
+                    .Sum(oi => oi.Quantity * oi.UnitPrice),
+                CreatedAt = x.CreatedAt,
+                ShippingAddress = new StoreOrderShippingAddressDto
+                {
+                    Id = x.ShippingAddressEntity.Id,
+                    UserId = x.UserId,
+                    FullName = x.User.UserName!,
+                    PhoneNumber = x.ShippingAddressEntity.PhoneNumber,
+                    Country = x.ShippingAddressEntity.Country,
+                    Governorate = x.ShippingAddressEntity.Governorate,
+                    City = x.ShippingAddressEntity.City,
+                    Street = x.ShippingAddressEntity.Street,
+                    BuildingNumber = x.ShippingAddressEntity.BuildingNumber,
+                    Floor = x.ShippingAddressEntity.Floor,
+                    Apartment = x.ShippingAddressEntity.Apartment,
+                    PostalCode = x.ShippingAddressEntity.PostalCode,
+                    IsDefault = x.ShippingAddressEntity.IsDefault
+                },
+                OrderItems = x.OrderItems
+                    .Where(oi => oi.Product.StoreId == storeId)
+                    .Select(oi => new StoreOrderItemDto
+                    {
+                        OrderItemId = oi.Id,
+                        ProductId = oi.ProductId,
+                        ProductName = oi.Product.Name,
+                        ProductBaseImageUrl = oi.Product.Images.Select(i => i.ImageUrl).FirstOrDefault() ?? string.Empty,
+                        ProductQuantity = oi.Quantity,
+                        ProductUnitPrice = oi.UnitPrice
+                    }).ToList()
+            })
+            .Skip((storeOrdersParameters.PageNumber - 1) * storeOrdersParameters.PageSize)
+            .Take(storeOrdersParameters.PageSize)
+            .ToListAsync();
+
+        return new PagedList<StoreOrderDto>(storeOrders, count, storeOrdersParameters.PageNumber, storeOrdersParameters.PageSize);
+    }
+
     // public Task<PagedList<OrderDto>> GetAllOrdersAsync(bool trackChanges)
     // {
     //     throw new NotImplementedException();

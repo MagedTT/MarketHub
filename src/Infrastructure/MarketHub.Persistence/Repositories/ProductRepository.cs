@@ -218,7 +218,10 @@ public class ProductRepository : IProductRepository
             AverageRating = x.AverageRating,
             NumberOfSoldPieces = x.NumberOfSoldPieces,
             AmountInStock = x.Inventory.AvailableQuantity
-        }).ToListAsync();
+        })
+        .Skip((storeProductsParameters.PageNumber - 1) * storeProductsParameters.PageSize)
+        .Take(storeProductsParameters.PageSize)
+        .ToListAsync();
 
         return new PagedList<ProductDto>(productDtos, count, storeProductsParameters.PageNumber, storeProductsParameters.PageSize);
     }

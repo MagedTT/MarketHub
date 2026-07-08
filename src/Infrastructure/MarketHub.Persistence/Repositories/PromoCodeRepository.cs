@@ -74,7 +74,10 @@ public class PromoCodeRepository : IPromoCodeRepository
             UsageLimit = x.UsageLimit,
             NumberOfTimesUsed = x.NumberOfTimesUsed,
             IsActive = x.IsActive
-        }).ToListAsync();
+        })
+        .Skip((promoCodeParameters.PageNumber - 1) * promoCodeParameters.PageSize)
+        .Take(promoCodeParameters.PageSize)
+        .ToListAsync();
 
         return new PagedList<PromoCodeDto>(promoCodeDtos, count, promoCodeParameters.PageNumber, promoCodeParameters.PageSize);
     }

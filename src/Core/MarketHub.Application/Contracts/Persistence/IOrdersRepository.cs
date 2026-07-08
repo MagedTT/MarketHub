@@ -23,4 +23,5 @@ public interface IOrdersRepository
     /////// Store Product Methods ///////
     Task<int> TotalOrdersByStoreIdAsync(Guid storeId);
     Task<IEnumerable<StoreOrderStatusCount>> OrderStatusCountByStoreIdAsync(Guid storeId);
+    Task<PagedList<StoreOrderDto>> GetRecentOrdersByStoreIdAsync(Guid storeId, StoreOrdersParameters storeOrdersParameters);
 }
