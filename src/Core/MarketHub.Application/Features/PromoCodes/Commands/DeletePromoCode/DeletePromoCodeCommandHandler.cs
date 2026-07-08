@@ -27,6 +27,15 @@ public class DeletePromoCodeCommandHandler : IRequestHandler<DeletePromoCodeComm
             return response;
         }
 
+        if (promoCode.NumberOfTimesUsed > 0)
+        {
+            response.Success = false;
+            response.StatusCode = (int)HttpStatusCode.BadRequest;
+            response.Message = $"PromoCode with Id: {request.PromoCodeId} has been used.";
+
+            return response;
+        }
+
         _repositoryManager.PromoCodeRepository.DeletePromoCode(promoCode);
         await _repositoryManager.SaveAsync();
 

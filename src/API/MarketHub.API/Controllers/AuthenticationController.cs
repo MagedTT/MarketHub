@@ -2,9 +2,7 @@ using MarketHub.Application.Contracts.Identity;
 using MarketHub.Application.Models.Authentication;
 using MarketHub.Application.Responses;
 using MarketHub.Application.Responses.AuthenticationResponses;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Update.Internal;
 
 namespace MarketHub.API.Controllers;
 

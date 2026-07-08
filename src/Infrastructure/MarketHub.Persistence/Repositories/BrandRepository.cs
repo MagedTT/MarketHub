@@ -111,6 +111,9 @@ public class BrandRepository : IBrandRepository
                 BrandId = x.Key!.BrandId!.Value,
                 Name = x.Key.Name,
                 TotalSoldPieces = x.Sum(p => p.NumberOfSoldPieces)
-            }).ToListAsync();
+            })
+            .OrderByDescending(x => x.TotalSoldPieces)
+            .Take(n)
+            .ToListAsync();
     }
 }
