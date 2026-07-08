@@ -102,4 +102,10 @@ public class PromoCodeRepository : IPromoCodeRepository
 
     public async Task<int> TotalPromoCodesByStoreIdAsync(Guid storeId)
         => await _context.PromoCodes.CountAsync(x => x.StoreId == storeId);
+
+    public async Task<bool> CheckPromoCodeExistsByIdAsync(Guid promoCodeId)
+        => await _context.PromoCodes.AnyAsync(x => x.Id == promoCodeId);
+
+    public async Task<bool> CheckPromoCodeExistsByCodeAsync(string code)
+        => await _context.PromoCodes.AnyAsync(x => x.Code == code);
 }

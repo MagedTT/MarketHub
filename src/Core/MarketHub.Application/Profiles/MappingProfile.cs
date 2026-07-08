@@ -6,6 +6,7 @@ using MarketHub.Application.Features.Carts.Commands.CreateCart;
 using MarketHub.Application.Features.Inventories.Commands.DeleteInventory;
 using MarketHub.Application.Features.Inventories.COmmands.CreateInventory;
 using MarketHub.Application.Features.Products.Commands.AddProductCommand;
+using MarketHub.Application.Features.PromoCodes.Commands.CreatePromoCode;
 using MarketHub.Application.Features.Reviews.Commands.CreateReview;
 using MarketHub.Application.Features.Reviews.Commands.UpdateReview;
 using MarketHub.Application.Models.Authentication;
@@ -39,5 +40,7 @@ public class MappingProfile : Profile
         CreateMap<UpdateInventoryCommand, Inventory>();
 
         CreateMap<CreateInventoryCommand, Inventory>();
+
+        CreateMap<CreatePromoCodeCommand, PromoCode>();
     }
 }

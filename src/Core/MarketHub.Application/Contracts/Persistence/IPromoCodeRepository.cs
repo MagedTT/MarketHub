@@ -13,6 +13,8 @@ public interface IPromoCodeRepository
     Task<PagedList<PromoCodeDto>> GetAllPromoCodesAsync(PromoCodeParameters promoCodeParameters, bool trackChanges);
     Task<int> GetUsageCountByIdAsync(Guid promoCodeId);
     Task<int> GetUsageCountByCodeAsync(string code);
+    Task<bool> CheckPromoCodeExistsByIdAsync(Guid promoCodeId);
+    Task<bool> CheckPromoCodeExistsByCodeAsync(string code);
     Task<int> TotalPromoCodesByStoreIdAsync(Guid storeId);
     Task<bool> CheckPromoCodeUniqueByCodeAsync(string code);
     void CreatePromoCode(PromoCode promoCode);

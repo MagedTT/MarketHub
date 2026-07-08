@@ -19,7 +19,7 @@ public class PromoCode
 
     public int UsageLimit { get; set; }
     public int NumberOfTimesUsed { get; set; }
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
 
     public ICollection<Order> Orders { get; set; } = new List<Order>();
 }
