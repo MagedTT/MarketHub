@@ -142,7 +142,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Bas
         {
             UserId = request.UserId,
             Status = OrderStatus.Pending,
-            ShippingAddress = request.ShippingAddress,
+            // ShippingAddress = request.ShippingAddress,
             PromoCodeId = promoCode?.Id,
             TotalAmount = totalAmount
         };

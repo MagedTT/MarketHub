@@ -11,9 +11,9 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(x => x.TotalAmount)
             .HasPrecision(8, 2);
 
-        builder.Property(x => x.ShippingAddress)
-            .HasMaxLength(500)
-            .IsRequired();
+        // builder.Property(x => x.ShippingAddress)
+        //     .HasMaxLength(500)
+        //     .IsRequired();
 
         builder.HasOne(x => x.User)
             .WithMany(x => x.Orders)

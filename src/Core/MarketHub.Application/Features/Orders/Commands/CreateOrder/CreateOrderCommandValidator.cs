@@ -16,11 +16,11 @@ public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
             .MustAsync(UserExists)
             .WithMessage("User not found");
 
-        RuleFor(x => x.ShippingAddress)
-            .NotEmpty()
-            .WithMessage("{PropertyName} is Required.")
-            .MaximumLength(500)
-            .WithMessage("{PropertyName} maximum number of characters is 500 character.");
+        // RuleFor(x => x.ShippingAddress)
+        //     .NotEmpty()
+        //     .WithMessage("{PropertyName} is Required.")
+        //     .MaximumLength(500)
+        //     .WithMessage("{PropertyName} maximum number of characters is 500 character.");
     }
 
     private async Task<bool> UserExists(Guid userId, CancellationToken cancellationToken)

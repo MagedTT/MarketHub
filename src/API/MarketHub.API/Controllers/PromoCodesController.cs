@@ -25,7 +25,7 @@ public class PromoCodesController : ControllerBase
     public PromoCodesController(IMediator mediator)
         => _mediator = mediator;
 
-    [HttpGet]
+    [HttpPost]
     [Route("all")]
     public async Task<IActionResult> GetAllPromoCodes([FromBody] PromoCodeParameters promoCodeParameters)
     {

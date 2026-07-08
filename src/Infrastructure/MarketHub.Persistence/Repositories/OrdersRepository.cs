@@ -43,7 +43,7 @@ public class OrdersRepository : IOrdersRepository
                 Status = o.Status,
                 CreatedAt = o.CreatedAt,
                 DateOfDelivery = o.CreatedAt.AddDays(3),
-                ShippingAddress = o.ShippingAddress,
+                // ShippingAddress = o.ShippingAddress,
                 TotalAmount = o.TotalAmount,
                 PromoCode = o.PromoCode != null ? o.PromoCode.Code : null,
                 Items = o.OrderItems.Select(i => new OrderItemDto
@@ -97,7 +97,7 @@ public class OrdersRepository : IOrdersRepository
                 OrderNumber = o.OrderNumber,
                 CreatedAt = o.CreatedAt,
                 DateOfDelivery = o.CreatedAt.AddDays(3),
-                ShippingAddress = o.ShippingAddress,
+                // ShippingAddress = o.ShippingAddress,
                 TotalAmount = o.TotalAmount,
                 PromoCode = o.PromoCode != null ? o.PromoCode.Code : null,
                 Items = o.OrderItems.Select(i => new OrderItemDto

@@ -1,6 +1,7 @@
 using System.Security.Cryptography.X509Certificates;
 using MarketHub.Application.Contracts.Persistence;
 using MarketHub.Domain.Entities;
+using MarketHub.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarketHub.Persistence.Repositories;
@@ -19,7 +20,9 @@ public class StoreRepository : IStoreRepository
         => await _context.Stores.AnyAsync(store => store.Id.Equals(id));
 
     public async Task<decimal> TotalSalesByStoreIdAsync(Guid storeId)
-    => await _context.OrderItems.Where(x => x.Product.StoreId == storeId).SumAsync(x => x.UnitPrice * x.Quantity);
+        => await _context.OrderItems
+            .Where(x => x.Product.StoreId == storeId && x.Order.Status != OrderStatus.Cancelled)
+            .SumAsync(x => x.Order.PromoCode != null && x.Order.PromoCode.DiscountType == DiscountType.Percentage ? x.UnitPrice * x.Quantity * (1 - x.Order.PromoCode.DiscountValue / 100m) : x.UnitPrice * x.Quantity);
 
     public async Task<bool> StoreExistsAsync(Guid storeId)
         => await _context.Stores.AnyAsync(x => x.Id == storeId);

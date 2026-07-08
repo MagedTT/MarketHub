@@ -7,5 +7,5 @@ public class CreateOrderCommand : IRequest<BaseResponse>
 {
     public Guid UserId { get; set; }
     public string? PromoCode { get; set; }
-    public string ShippingAddress { get; set; } = string.Empty;
+    // public string ShippingAddress { get; set; } = string.Empty;
 }

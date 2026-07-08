@@ -11,6 +11,7 @@ using MarketHub.Application.Features.Products.Queries.GetTotalProductsOutOfStock
 using MarketHub.Application.Features.PromoCodes.Queries.GetTotalPromoCodesForStore;
 using MarketHub.Application.Features.Reviews.Queries.GetRatingCountForStore;
 using MarketHub.Application.Features.Reviews.Queries.GetTotalReviewsForStore;
+using MarketHub.Application.Features.Stores.Queries.GetTotalSalesForStore;
 using MarketHub.Application.Shared;
 using MarketHub.Domain.Entities;
 using MediatR;
@@ -58,7 +59,7 @@ public class StoresController : ControllerBase
     }
 
     [HttpGet]
-    [Route("totalOrders/{storeId:giud}")]
+    [Route("totalOrders/{storeId:guid}")]
     public async Task<IActionResult> GetTotalOrders(Guid storeId)
     {
         GetTotalOrdersForStoreQuery request = new() { StoreId = storeId };
@@ -80,7 +81,7 @@ public class StoresController : ControllerBase
     }
 
     [HttpGet]
-    [Route("OrderStatusCountByStore/{storeId:giud}")]
+    [Route("OrderStatusCountByStore/{storeId:guid}")]
     public async Task<IActionResult> GetOrderStatusCount(Guid storeId)
     {
         GetOrderStatusCountForStoreQuery request = new() { StoreId = storeId };
@@ -101,7 +102,7 @@ public class StoresController : ControllerBase
         return Ok(response.StoreOrderStatusCounts);
     }
 
-    [HttpGet]
+    [HttpPost]
     [Route("RecentOrders/{storeId:guid}")]
     public async Task<IActionResult> GetRecentOrders(Guid storeId, [FromBody] StoreOrdersParameters storeOrdersParameters)
     {
@@ -191,7 +192,7 @@ public class StoresController : ControllerBase
         return Ok(response.TotalProductsOutOfStock);
     }
 
-    [HttpGet]
+    [HttpPost]
     [Route("AllProducts/{storeId:guid}")]
     public async Task<IActionResult> GetTotalProductsOutOfStock(Guid storeId, [FromBody] StoreProductsParameters storeProductsParameters)
     {
@@ -301,5 +302,27 @@ public class StoresController : ControllerBase
         }
 
         return Ok(response.TotalPromoCodes);
+    }
+
+    [HttpGet]
+    [Route("totalSales/{storeId:guid}")]
+    public async Task<IActionResult> GetTotalSales(Guid storeId)
+    {
+        GetTotalSalesForStoreQuery request = new() { StoreId = storeId };
+
+        GetTotalSalesForStoreQueryResponse response = await _mediator.Send(request);
+
+        if (!response.Success && response.StatusCode == StatusCodes.Status400BadRequest)
+        {
+            foreach (string error in response.ValidationErrors!)
+            {
+                string[] errorDetails = error.Split(',');
+                ModelState.TryAddModelError(errorDetails[0], errorDetails[1]);
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        return Ok(response.TotalSales);
     }
 }

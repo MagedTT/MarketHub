@@ -37,7 +37,7 @@ public class ExtendPromoCodeValidityCommandHandler : IRequestHandler<ExtendPromo
             return response;
         }
 
-        if (request.EndDate <= request.EndDate)
+        if (request.EndDate <= promoCode.EndDate)
         {
             response.Success = false;
             response.StatusCode = (int)HttpStatusCode.NotAcceptable;

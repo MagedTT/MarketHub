@@ -27,7 +27,7 @@ public class CheckValidPromoCodeCommandHandler : IRequestHandler<CheckValidPromo
             return response;
         }
 
-        if (DateTime.Now < promoCode.EndDate && promoCode.NumberOfTimesUsed < promoCode.UsageLimit)
+        if (DateTime.Now < promoCode.EndDate && promoCode.NumberOfTimesUsed < promoCode.UsageLimit && promoCode.IsActive)
         {
             response.Success = false;
             response.StatusCode = (int)HttpStatusCode.NotAcceptable;

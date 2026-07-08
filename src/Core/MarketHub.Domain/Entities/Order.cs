@@ -18,7 +18,7 @@ public class Order
     public string OrderNumber { get; set; } = Guid.NewGuid().ToString()[..8];
     public OrderStatus Status { get; set; }
     public decimal TotalAmount { get; set; }
-    public string ShippingAddress { get; set; } = string.Empty;
+    // public string ShippingAddress { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     public Shipment Shipment { get; set; } = default!;
