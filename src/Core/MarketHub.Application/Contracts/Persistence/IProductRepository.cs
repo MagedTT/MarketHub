@@ -1,4 +1,5 @@
 using MarketHub.Application.DTOs.Persistence.Product;
+using MarketHub.Application.DTOs.Persistence.Review;
 using MarketHub.Application.Shared;
 using MarketHub.Domain.Entities;
 
@@ -14,4 +15,13 @@ public interface IProductRepository
     Task<bool> CheckProductExistsByIsAsync(Guid productId);
     void UpdateProductAsync(Product product);
     Task MarkAsDeletedAsync(Guid id);
+
+
+    /////// Store Product Methods ///////
+    Task<int> TotalProductsByStoreIdAsync(Guid storeId);
+    Task<int> TotalProductsInStockByStoreIdAsync(Guid storeId);
+    Task<int> TotalProductsOutOfStockByStoreIdAsync(Guid storeId);
+    Task<PagedList<ProductDto>> GetAllProductsByStoreIdAsync(Guid storeId, StoreProductsParameters storeProductsParameters);
+    Task<IEnumerable<ProductDto>> TopNBestSellingProductsByStoreIdAsync(Guid storeId);
+    Task<IEnumerable<StoreRatingCount>> RatingCountByStoreIdAsync(Guid storeId);
 }

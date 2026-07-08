@@ -74,4 +74,7 @@ public class ReviewRepository : IReviewRepository
 
     public void DeleteReview(Review review)
         => _context.Reviews.Remove(review);
+
+    public async Task<int> TotalReviewsByStoreIdAsync(Guid storeId)
+        => await _context.Reviews.CountAsync(x => x.Product.StoreId == storeId);
 }

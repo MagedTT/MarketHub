@@ -19,4 +19,8 @@ public interface IOrdersRepository
     Task<bool> OrderExistsByUserIdAndOrderIdAsync(Guid userId, Guid orderId);
     void CreateOrder(Order order);
     void DeleteOrder(Order order);
+
+    /////// Store Product Methods ///////
+    Task<int> TotalOrdersByStoreIdAsync(Guid storeId);
+    Task<IEnumerable<StoreOrderStatusCount>> OrderStatusCountByStoreIdAsync(Guid storeId);
 }

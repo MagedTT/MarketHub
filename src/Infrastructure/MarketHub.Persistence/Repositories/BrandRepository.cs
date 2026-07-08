@@ -1,4 +1,6 @@
+using System.Security.Cryptography.X509Certificates;
 using MarketHub.Application.Contracts.Persistence;
+using MarketHub.Application.DTOs.Persistence.Product;
 using MarketHub.Application.Shared;
 using MarketHub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -83,5 +85,32 @@ public class BrandRepository : IBrandRepository
 
         if (brand is not null)
             _context.Brands.Remove(brand);
+    }
+
+    /////// Store Product Methods ///////
+    public async Task<int> TotalBrandsByStoreIdAsync(Guid storeId)
+    {
+        return await _context.Products
+            .Where(x => x.StoreId == storeId && x.BrandId != null)
+            .Select(x => x.BrandId)
+            .Distinct()
+            .CountAsync();
+    }
+
+    public async Task<IEnumerable<TopBrandDto>> TopNBestSellingBrandsByStoreIdAsync(Guid storeId, int n)
+    {
+        return await _context.Products
+            .Where(x => x.StoreId == storeId && x.BrandId != null)
+            .GroupBy(x => new
+            {
+                x.BrandId,
+                x.Brand!.Name
+            })
+            .Select(x => new TopBrandDto
+            {
+                BrandId = x.Key!.BrandId!.Value,
+                Name = x.Key.Name,
+                TotalSoldPieces = x.Sum(p => p.NumberOfSoldPieces)
+            }).ToListAsync();
     }
 }

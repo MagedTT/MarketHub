@@ -1,6 +1,8 @@
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using MarketHub.Application.Contracts.Persistence;
 using MarketHub.Application.DTOs.Persistence.Orders;
+using MarketHub.Application.Features.Carts.Queries.GetCartByUserId;
 using MarketHub.Application.Shared;
 using MarketHub.Domain.Entities;
 using MarketHub.Domain.Enums;
@@ -144,6 +146,33 @@ public class OrdersRepository : IOrdersRepository
 
     public void DeleteOrder(Order order)
         => _context.Orders.Remove(order);
+
+    /////// Store Product Methods ///////
+    public async Task<int> TotalOrdersByStoreIdAsync(Guid storeId)
+    {
+        return await _context.OrderItems.Where(x => x.Product.StoreId == storeId)
+            .Select(x => x.OrderId)
+            .Distinct()
+            .CountAsync();
+    }
+
+    public async Task<IEnumerable<StoreOrderStatusCount>> OrderStatusCountByStoreIdAsync(Guid storeId)
+    {
+        return await _context.OrderItems
+            .Where(x => x.Product.StoreId == storeId)
+            .Select(x => new
+            {
+                x.OrderId,
+                x.Order.Status
+            })
+            .Distinct()
+            .GroupBy(x => x.Status)
+            .Select(x => new StoreOrderStatusCount
+            {
+                OrderStatus = x.Key,
+                Count = x.Count()
+            }).ToListAsync();
+    }
 
     // public Task<PagedList<OrderDto>> GetAllOrdersAsync(bool trackChanges)
     // {

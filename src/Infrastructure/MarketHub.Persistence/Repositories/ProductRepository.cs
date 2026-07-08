@@ -1,4 +1,5 @@
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Cryptography.Xml;
 using System.Text.Json;
 using MarketHub.Application.Contracts.Persistence;
 using MarketHub.Application.DTOs.Persistence.Product;
@@ -159,5 +160,99 @@ public class ProductRepository : IProductRepository
 
         product.IsDeleted = true;
         product.IsActive = false;
+    }
+
+    public async Task<int> TotalProductsByStoreIdAsync(Guid storeId)
+        => await _context.Products.CountAsync(x => x.StoreId == storeId);
+
+    public async Task<int> TotalProductsInStockByStoreIdAsync(Guid storeId)
+        => await _context.Products.CountAsync(x => x.StoreId == storeId && x.Inventory.AvailableQuantity > 0);
+
+    public async Task<int> TotalProductsOutOfStockByStoreIdAsync(Guid storeId)
+        => await _context.Products.CountAsync(x => x.StoreId == storeId && x.Inventory.AvailableQuantity < 1);
+
+    public async Task<PagedList<ProductDto>> GetAllProductsByStoreIdAsync(Guid storeId, StoreProductsParameters storeProductsParameters)
+    {
+        IQueryable<Product> products = _context.Products.Where(x => x.StoreId == storeId);
+
+        if (storeProductsParameters.Descending)
+        {
+            if (storeProductsParameters.OrderByAmountInStock)
+                products = products.OrderByDescending(x => x.Inventory.AvailableQuantity);
+            else if (storeProductsParameters.OrderByAverageRating)
+                products = products.OrderByDescending(x => x.AverageRating);
+            else if (storeProductsParameters.OrderByNumberOfReviews)
+                products = products.OrderByDescending(x => x.NumberOfReviews);
+            else if (storeProductsParameters.OrderByNumberOfSoldPieces)
+                products = products.OrderByDescending(x => x.NumberOfSoldPieces);
+            else if (storeProductsParameters.OrderByProductPrice)
+                products = products.OrderByDescending(x => x.Price);
+        }
+        else
+        {
+            if (storeProductsParameters.OrderByAmountInStock)
+                products = products.OrderBy(x => x.Inventory.AvailableQuantity);
+            else if (storeProductsParameters.OrderByAverageRating)
+                products = products.OrderBy(x => x.AverageRating);
+            else if (storeProductsParameters.OrderByNumberOfReviews)
+                products = products.OrderBy(x => x.NumberOfReviews);
+            else if (storeProductsParameters.OrderByNumberOfSoldPieces)
+                products = products.OrderBy(x => x.NumberOfSoldPieces);
+            else if (storeProductsParameters.OrderByProductPrice)
+                products = products.OrderBy(x => x.Price);
+        }
+
+        int count = await products.CountAsync();
+
+        List<ProductDto> productDtos = await products.Select(x => new ProductDto
+        {
+            Id = x.Id,
+            StoreId = x.StoreId,
+            BrandName = x.Brand != null ? x.Brand.Name : string.Empty,
+            ProductName = x.Name,
+            ProductBaseImageUrl = x.Images.Select(x => x.ImageUrl).FirstOrDefault() ?? string.Empty,
+            ProductPrice = x.Price,
+            Type = x.Type,
+            IsActive = x.IsActive,
+            NumberOfReviews = x.NumberOfReviews,
+            AverageRating = x.AverageRating,
+            NumberOfSoldPieces = x.NumberOfSoldPieces,
+            AmountInStock = x.Inventory.AvailableQuantity
+        }).ToListAsync();
+
+        return new PagedList<ProductDto>(productDtos, count, storeProductsParameters.PageNumber, storeProductsParameters.PageSize);
+    }
+
+    public async Task<IEnumerable<ProductDto>> TopNBestSellingProductsByStoreIdAsync(Guid storeId)
+    {
+        return await _context.Products
+            .Where(x => x.StoreId == storeId)
+            .OrderByDescending(x => x.NumberOfSoldPieces)
+            .Select(x => new ProductDto
+            {
+                Id = x.Id,
+                StoreId = x.StoreId,
+                BrandName = x.Brand != null ? x.Brand.Name : string.Empty,
+                ProductName = x.Name,
+                ProductBaseImageUrl = x.Images.Select(x => x.ImageUrl).FirstOrDefault() ?? string.Empty,
+                ProductPrice = x.Price,
+                Type = x.Type,
+                IsActive = x.IsActive,
+                NumberOfReviews = x.NumberOfReviews,
+                AverageRating = x.AverageRating,
+                NumberOfSoldPieces = x.NumberOfSoldPieces,
+                AmountInStock = x.Inventory.AvailableQuantity
+            }).ToListAsync();
+    }
+
+    public async Task<IEnumerable<StoreRatingCount>> RatingCountByStoreIdAsync(Guid storeId)
+    {
+        return await _context.Reviews.Where(x => x.Product.StoreId == storeId)
+            .GroupBy(x => x.Rating)
+            .Select(x => new StoreRatingCount
+            {
+                Rating = x.Key,
+                Count = x.Count()
+            }).ToListAsync();
     }
 }

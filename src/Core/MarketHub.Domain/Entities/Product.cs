@@ -28,7 +28,8 @@ public class Product
     public bool IsActive { get; set; } = true;
 
     public int NumberOfReviews { get; set; }
-    public int AverageRating { get; set; }
+    public int NumberOfSoldPieces { get; set; }
+    public decimal AverageRating { get; set; }
 
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime UpdatedAt { get; set; }

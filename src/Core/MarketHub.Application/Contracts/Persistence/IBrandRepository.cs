@@ -1,3 +1,4 @@
+using MarketHub.Application.DTOs.Persistence.Product;
 using MarketHub.Application.Shared;
 using MarketHub.Domain.Entities;
 
@@ -15,4 +16,8 @@ public interface IBrandRepository
 
     void DeleteBrand(Brand brand);
     Task DeleteBrandAsync(Guid id);
+
+    /////// Store Product Methods ///////
+    Task<int> TotalBrandsByStoreIdAsync(Guid storeId);
+    Task<IEnumerable<TopBrandDto>> TopNBestSellingBrandsByStoreIdAsync(Guid storeId, int n);
 }

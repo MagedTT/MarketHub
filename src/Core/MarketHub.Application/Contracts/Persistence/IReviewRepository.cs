@@ -13,4 +13,7 @@ public interface IReviewRepository
     Task<bool> ReviewExists(Guid userId, Guid productId);
     void CreateReview(Review review);
     void DeleteReview(Review review);
+
+    /////// Store Product Methods ///////
+    Task<int> TotalReviewsByStoreIdAsync(Guid storeId);
 }

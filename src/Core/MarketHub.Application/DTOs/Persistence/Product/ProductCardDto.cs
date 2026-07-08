@@ -10,6 +10,6 @@ public class ProductCardDto
     public int AvailableAmountInStock { get; set; }
     public string Type { get; set; } = string.Empty;
     public int NumberOfReviews { get; set; }
-    public int AverageRating { get; set; }
+    public decimal AverageRating { get; set; }
     public string BaseImageUrl { get; set; } = string.Empty;
 }

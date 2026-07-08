@@ -99,4 +99,7 @@ public class PromoCodeRepository : IPromoCodeRepository
 
     public void DeletePromoCode(PromoCode promoCode)
         => _context.PromoCodes.Remove(promoCode);
+
+    public async Task<int> TotalPromoCodesByStoreIdAsync(Guid storeId)
+        => await _context.PromoCodes.CountAsync(x => x.StoreId == storeId);
 }
