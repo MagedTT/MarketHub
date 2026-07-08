@@ -16,4 +16,5 @@ public interface IReviewRepository
 
     /////// Store Product Methods ///////
     Task<int> TotalReviewsByStoreIdAsync(Guid storeId);
+    Task<IEnumerable<StoreRatingCount>> RatingCountByStoreIdAsync(Guid storeId);
 }

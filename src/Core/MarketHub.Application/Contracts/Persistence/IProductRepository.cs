@@ -22,6 +22,5 @@ public interface IProductRepository
     Task<int> TotalProductsInStockByStoreIdAsync(Guid storeId);
     Task<int> TotalProductsOutOfStockByStoreIdAsync(Guid storeId);
     Task<PagedList<ProductDto>> GetAllProductsByStoreIdAsync(Guid storeId, StoreProductsParameters storeProductsParameters);
-    Task<IEnumerable<ProductDto>> TopNBestSellingProductsByStoreIdAsync(Guid storeId);
-    Task<IEnumerable<StoreRatingCount>> RatingCountByStoreIdAsync(Guid storeId);
+    Task<IEnumerable<ProductDto>> TopNBestSellingProductsByStoreIdAsync(Guid storeId, int n);
 }

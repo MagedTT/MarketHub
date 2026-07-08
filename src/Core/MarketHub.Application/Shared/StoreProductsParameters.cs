@@ -7,5 +7,5 @@ public class StoreProductsParameters : RequestParameters
     public bool OrderByAverageRating { get; set; } = false;
     public bool OrderByNumberOfSoldPieces { get; set; } = false;
     public bool OrderByAmountInStock { get; set; } = false;
-    public bool Descending { get; set; }
+    public bool Descending { get; set; } = false;
 }

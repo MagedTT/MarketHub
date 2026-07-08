@@ -77,4 +77,16 @@ public class ReviewRepository : IReviewRepository
 
     public async Task<int> TotalReviewsByStoreIdAsync(Guid storeId)
         => await _context.Reviews.CountAsync(x => x.Product.StoreId == storeId);
+
+
+    public async Task<IEnumerable<StoreRatingCount>> RatingCountByStoreIdAsync(Guid storeId)
+    {
+        return await _context.Reviews.Where(x => x.Product.StoreId == storeId)
+            .GroupBy(x => x.Rating)
+            .Select(x => new StoreRatingCount
+            {
+                Rating = x.Key,
+                Count = x.Count()
+            }).ToListAsync();
+    }
 }

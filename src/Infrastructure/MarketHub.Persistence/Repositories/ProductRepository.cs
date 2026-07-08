@@ -223,11 +223,12 @@ public class ProductRepository : IProductRepository
         return new PagedList<ProductDto>(productDtos, count, storeProductsParameters.PageNumber, storeProductsParameters.PageSize);
     }
 
-    public async Task<IEnumerable<ProductDto>> TopNBestSellingProductsByStoreIdAsync(Guid storeId)
+    public async Task<IEnumerable<ProductDto>> TopNBestSellingProductsByStoreIdAsync(Guid storeId, int n)
     {
         return await _context.Products
             .Where(x => x.StoreId == storeId)
             .OrderByDescending(x => x.NumberOfSoldPieces)
+            .Take(n)
             .Select(x => new ProductDto
             {
                 Id = x.Id,
@@ -242,17 +243,6 @@ public class ProductRepository : IProductRepository
                 AverageRating = x.AverageRating,
                 NumberOfSoldPieces = x.NumberOfSoldPieces,
                 AmountInStock = x.Inventory.AvailableQuantity
-            }).ToListAsync();
-    }
-
-    public async Task<IEnumerable<StoreRatingCount>> RatingCountByStoreIdAsync(Guid storeId)
-    {
-        return await _context.Reviews.Where(x => x.Product.StoreId == storeId)
-            .GroupBy(x => x.Rating)
-            .Select(x => new StoreRatingCount
-            {
-                Rating = x.Key,
-                Count = x.Count()
             }).ToListAsync();
     }
 }
