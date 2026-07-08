@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using MarketHub.Application.Contracts.Persistence;
 using MarketHub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,9 @@ public class StoreRepository : IStoreRepository
 
     public async Task<decimal> TotalSalesByStoreIdAsync(Guid storeId)
     => await _context.OrderItems.Where(x => x.Product.StoreId == storeId).SumAsync(x => x.UnitPrice * x.Quantity);
+
+    public async Task<bool> StoreExistsAsync(Guid storeId)
+        => await _context.Stores.AnyAsync(x => x.Id == storeId);
 
     public void CreateStore(Store store)
         => _context.Stores.Add(store);

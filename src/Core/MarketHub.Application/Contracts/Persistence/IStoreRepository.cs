@@ -7,5 +7,6 @@ public interface IStoreRepository
     Task<Store?> GetByIdAsync(Guid storeId);
     Task<bool> CheckStoreExistsAsync(Guid id);
     Task<decimal> TotalSalesByStoreIdAsync(Guid storeId);
+    Task<bool> StoreExistsAsync(Guid storeId);
     void CreateStore(Store store);
 }
