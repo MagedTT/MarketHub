@@ -1,0 +1,6 @@
+<app-order-status-chart></app-order-status-chart>
+
+@if (metaData()) {
+<app-seller-orders-list [orders]="orders()" [peginatinoMetaData]="metaData()" (pageChanged)="onPageChanged($event)"
+    (orderStatusChanged)="onOrderStatusChanged($event)"></app-seller-orders-list>
+}

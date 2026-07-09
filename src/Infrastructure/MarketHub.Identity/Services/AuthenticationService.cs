@@ -7,6 +7,7 @@ using AutoMapper;
 using FluentValidation.Results;
 using MarketHub.Application.Contracts.Identity;
 using MarketHub.Application.Contracts.Infrastructure;
+using MarketHub.Application.Features.Stores.Queries.GetStoreId;
 using MarketHub.Application.FluentValidations.Identity;
 using MarketHub.Application.Models.Authentication;
 using MarketHub.Application.Models.Mail;
@@ -14,6 +15,7 @@ using MarketHub.Application.Responses;
 using MarketHub.Application.Responses.AuthenticationResponses;
 using MarketHub.Domain.Entities;
 using MarketHub.Identity.Models;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
@@ -24,6 +26,7 @@ namespace MarketHub.Identity.Services;
 
 public class AuthenticationService : IAuthenticationService
 {
+    private readonly IMediator _mediator;
     private readonly UserManager<User> _userManager;
     private readonly RoleManager<IdentityRole<Guid>> _roleManager;
     private readonly JwtSettings _jwtSettings;
@@ -32,6 +35,7 @@ public class AuthenticationService : IAuthenticationService
     private User? _user;
 
     public AuthenticationService(
+        IMediator mediator,
         UserManager<User> userManager,
         RoleManager<IdentityRole<Guid>> roleManager,
         IOptionsMonitor<JwtSettings> jwtSettingsOptionsMonitor,
@@ -39,6 +43,7 @@ public class AuthenticationService : IAuthenticationService
         IEmailService emailService
         )
     {
+        _mediator = mediator;
         _userManager = userManager;
         _roleManager = roleManager;
         _jwtSettings = jwtSettingsOptionsMonitor.CurrentValue;
@@ -275,6 +280,12 @@ public class AuthenticationService : IAuthenticationService
             new Claim(JwtRegisteredClaimNames.Sub, _user?.Id.ToString()!),
             new Claim(JwtRegisteredClaimNames.Email, _user?.Email!),
         };
+
+        GetStoreIdQuery request = new() { UserId = _user?.Id ?? Guid.Empty };
+
+        Guid? storeId = await _mediator.Send(request);
+
+        claims.Add(new Claim("storeId", storeId?.ToString() ?? string.Empty));
 
         IList<string> roles = await _userManager.GetRolesAsync(_user ?? new());
 

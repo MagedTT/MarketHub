@@ -191,6 +191,7 @@ public class OrdersRepository : IOrdersRepository
                 OrderId = x.Id,
                 StoreId = storeId,
                 UserId = x.UserId,
+                UserName = x.User.UserName!,
                 PromoCode = x.PromoCode != null ? x.PromoCode.Code : null,
                 OrderNumber = x.OrderNumber,
                 Status = x.Status,
@@ -199,19 +200,19 @@ public class OrdersRepository : IOrdersRepository
                 CreatedAt = x.CreatedAt,
                 ShippingAddress = new StoreOrderShippingAddressDto
                 {
-                    Id = x.ShippingAddressEntity.Id,
+                    Id = x.ShippingAddress.Id,
                     UserId = x.UserId,
                     FullName = x.User.UserName!,
-                    PhoneNumber = x.ShippingAddressEntity.PhoneNumber,
-                    Country = x.ShippingAddressEntity.Country,
-                    Governorate = x.ShippingAddressEntity.Governorate,
-                    City = x.ShippingAddressEntity.City,
-                    Street = x.ShippingAddressEntity.Street,
-                    BuildingNumber = x.ShippingAddressEntity.BuildingNumber,
-                    Floor = x.ShippingAddressEntity.Floor,
-                    Apartment = x.ShippingAddressEntity.Apartment,
-                    PostalCode = x.ShippingAddressEntity.PostalCode,
-                    IsDefault = x.ShippingAddressEntity.IsDefault
+                    PhoneNumber = x.ShippingAddress.PhoneNumber,
+                    Country = x.ShippingAddress.Country,
+                    Governorate = x.ShippingAddress.Governorate,
+                    City = x.ShippingAddress.City,
+                    Street = x.ShippingAddress.Street,
+                    BuildingNumber = x.ShippingAddress.BuildingNumber,
+                    Floor = x.ShippingAddress.Floor,
+                    Apartment = x.ShippingAddress.Apartment,
+                    PostalCode = x.ShippingAddress.PostalCode,
+                    IsDefault = x.ShippingAddress.IsDefault
                 },
                 OrderItems = x.OrderItems
                     .Where(oi => oi.Product.StoreId == storeId)
@@ -231,6 +232,53 @@ public class OrdersRepository : IOrdersRepository
 
         return new PagedList<StoreOrderDto>(storeOrders, count, storeOrdersParameters.PageNumber, storeOrdersParameters.PageSize);
     }
+
+    public async Task<StoreOrderDto?> GetOrderByOrderIdAndStoreIdAsync(Guid orderId, Guid storeId)
+    {
+        return await _context.Orders.Where(x => x.Id == orderId && x.OrderItems.Any(oi => oi.Product.StoreId == storeId)).Select(x => new StoreOrderDto
+        {
+            OrderId = x.Id,
+            StoreId = storeId,
+            UserId = x.UserId,
+            UserName = x.User.UserName!,
+            PromoCode = x.PromoCode != null ? x.PromoCode.Code : null,
+            OrderNumber = x.OrderNumber,
+            Status = x.Status,
+            TotalAmount = x.OrderItems.Where(x => x.Product.StoreId == storeId)
+                    .Sum(oi => oi.Quantity * oi.UnitPrice),
+            CreatedAt = x.CreatedAt,
+            ShippingAddress = new StoreOrderShippingAddressDto
+            {
+                Id = x.ShippingAddress.Id,
+                UserId = x.UserId,
+                FullName = x.User.UserName!,
+                PhoneNumber = x.ShippingAddress.PhoneNumber,
+                Country = x.ShippingAddress.Country,
+                Governorate = x.ShippingAddress.Governorate,
+                City = x.ShippingAddress.City,
+                Street = x.ShippingAddress.Street,
+                BuildingNumber = x.ShippingAddress.BuildingNumber,
+                Floor = x.ShippingAddress.Floor,
+                Apartment = x.ShippingAddress.Apartment,
+                PostalCode = x.ShippingAddress.PostalCode,
+                IsDefault = x.ShippingAddress.IsDefault
+            },
+            OrderItems = x.OrderItems
+                    .Where(oi => oi.Product.StoreId == storeId)
+                    .Select(oi => new StoreOrderItemDto
+                    {
+                        OrderItemId = oi.Id,
+                        ProductId = oi.ProductId,
+                        ProductName = oi.Product.Name,
+                        ProductBaseImageUrl = oi.Product.Images.Select(i => i.ImageUrl).FirstOrDefault() ?? string.Empty,
+                        ProductQuantity = oi.Quantity,
+                        ProductUnitPrice = oi.UnitPrice
+                    }).ToList()
+        }).FirstOrDefaultAsync();
+    }
+
+    public async Task<bool> OrderExistsByIdAsync(Guid orderId)
+        => await _context.Orders.AnyAsync(x => x.Id == orderId);
 
     // public Task<PagedList<OrderDto>> GetAllOrdersAsync(bool trackChanges)
     // {

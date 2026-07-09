@@ -54,8 +54,8 @@ public class ShippingAddressConfiguration : IEntityTypeConfiguration<ShippingAdd
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(x => x.Orders)
-            .WithOne(x => x.ShippingAddressEntity)
-            .HasForeignKey(x => x.ShippingAddressEntityId)
+            .WithOne(x => x.ShippingAddress)
+            .HasForeignKey(x => x.ShippingAddressId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
     }

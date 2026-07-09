@@ -1,16 +1,14 @@
-<div class="mb-4">
-    <div class="order-filter-group" role="tablist">
-        <button class="btn-filter" role="tab" [class.active]="selectedFilter === 'All'"
-            (click)="orderStatusToFetchChanged(0)">All orders</button>
-        <button class="btn-filter" role="tab" [class.active]="selectedFilter === 'Pending'"
-            (click)="orderStatusToFetchChanged(1)">Pending</button>
-        <button class="btn-filter" role="tab" [class.active]="selectedFilter === 'Confirmed'"
-            (click)="orderStatusToFetchChanged(2)">Confirmed</button>
-        <button class=" btn-filter" role="tab" [class.active]="selectedFilter === 'Shipped'"
-            (click)="orderStatusToFetchChanged(3 )">Shipped</button>
-        <button class=" btn-filter" role="tab" [class.active]="selectedFilter === 'Delivered'"
-            (click)="orderStatusToFetchChanged(4)">Delivered</button>
-        <button class=" btn-filter" role="tab" [class.active]="selectedFilter === 'Cancelled'"
-            (click)="orderStatusToFetchChanged(5)">Cancelled</button>
-    </div>
+<div class="order-filter-group" role="tablist">
+    <button class="btn-filter" role="tab" [class.active]="selectedFilter === 'All'"
+        (click)="orderStatusToFetchChanged(0)">All orders</button>
+    <button class="btn-filter" role="tab" [class.active]="selectedFilter === 'Pending'"
+        (click)="orderStatusToFetchChanged(1)">Pending</button>
+    <button class="btn-filter" role="tab" [class.active]="selectedFilter === 'Confirmed'"
+        (click)="orderStatusToFetchChanged(2)">Confirmed</button>
+    <button class=" btn-filter" role="tab" [class.active]="selectedFilter === 'Shipped'"
+        (click)="orderStatusToFetchChanged(3 )">Shipped</button>
+    <button class=" btn-filter" role="tab" [class.active]="selectedFilter === 'Delivered'"
+        (click)="orderStatusToFetchChanged(4)">Delivered</button>
+    <button class=" btn-filter" role="tab" [class.active]="selectedFilter === 'Cancelled'"
+        (click)="orderStatusToFetchChanged(5)">Cancelled</button>
 </div>

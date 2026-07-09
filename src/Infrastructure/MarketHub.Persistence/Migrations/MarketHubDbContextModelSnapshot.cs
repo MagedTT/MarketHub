@@ -205,7 +205,7 @@ namespace MarketHub.Persistence.Migrations
                     b.Property<Guid?>("PromoCodeId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ShippingAddressEntityId")
+                    b.Property<Guid>("ShippingAddressId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
@@ -222,7 +222,7 @@ namespace MarketHub.Persistence.Migrations
 
                     b.HasIndex("PromoCodeId");
 
-                    b.HasIndex("ShippingAddressEntityId");
+                    b.HasIndex("ShippingAddressId");
 
                     b.HasIndex("UserId");
 
@@ -1010,9 +1010,9 @@ namespace MarketHub.Persistence.Migrations
                         .HasForeignKey("PromoCodeId")
                         .OnDelete(DeleteBehavior.SetNull);
 
-                    b.HasOne("MarketHub.Domain.Entities.ShippingAddress", "ShippingAddressEntity")
+                    b.HasOne("MarketHub.Domain.Entities.ShippingAddress", "ShippingAddress")
                         .WithMany("Orders")
-                        .HasForeignKey("ShippingAddressEntityId")
+                        .HasForeignKey("ShippingAddressId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1024,7 +1024,7 @@ namespace MarketHub.Persistence.Migrations
 
                     b.Navigation("PromoCode");
 
-                    b.Navigation("ShippingAddressEntity");
+                    b.Navigation("ShippingAddress");
 
                     b.Navigation("User");
                 });

@@ -1,0 +1,11 @@
+.card {
+    background-color: #ffffff;
+}
+
+/* Now spans the full width of its parent layout container */
+.rating-chart-container {
+    position: relative;
+    width: 100%;
+    height: 280px; /* Keeps vertical columns cleanly proportioned */
+    margin: 0 auto;   
+}

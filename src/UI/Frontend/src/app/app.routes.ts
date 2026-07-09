@@ -35,6 +35,24 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./features/orders/pages/orders-list/orders-list')
                         .then(c => c.OrdersList)
+            },
+            {
+                path: 'seller-dashboard',
+                loadComponent: () =>
+                    import('./features/sellers/pages/dashboard/dashboard')
+                        .then(c => c.Dashboard)
+            },
+            {
+                path: 'seller-orders',
+                loadComponent: () =>
+                    import('./features/sellers/pages/seller-orders/seller-orders')
+                        .then(c => c.SellerOrders)
+            },
+            {
+                path: 'seller-order-details/:id',
+                loadComponent: () =>
+                    import('./features/sellers/pages/seller-order-details/seller-order-details')
+                        .then(c => c.SellerOrderDetails)
             }
         ]
     },

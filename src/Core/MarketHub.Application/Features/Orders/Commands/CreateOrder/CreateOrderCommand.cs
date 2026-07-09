@@ -1,3 +1,4 @@
+using MarketHub.Application.DTOs.Persistence.Orders;
 using MarketHub.Application.Responses;
 using MediatR;
 
@@ -7,5 +8,5 @@ public class CreateOrderCommand : IRequest<BaseResponse>
 {
     public Guid UserId { get; set; }
     public string? PromoCode { get; set; }
-    // public string ShippingAddress { get; set; } = string.Empty;
+    public OrderShippingAddressDto ShippingAddress { get; set; } = default!;
 }

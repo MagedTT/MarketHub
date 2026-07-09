@@ -17,6 +17,7 @@ public interface IOrdersRepository
     Task<int> OrdersCountByUserIdAsync(Guid userId);
     Task<decimal> TotalSpentsByUserIdAsync(Guid userId);
     Task<bool> OrderExistsByUserIdAndOrderIdAsync(Guid userId, Guid orderId);
+    Task<bool> OrderExistsByIdAsync(Guid orderId);
     void CreateOrder(Order order);
     void DeleteOrder(Order order);
 
@@ -24,4 +25,5 @@ public interface IOrdersRepository
     Task<int> TotalOrdersByStoreIdAsync(Guid storeId);
     Task<IEnumerable<StoreOrderStatusCount>> OrderStatusCountByStoreIdAsync(Guid storeId);
     Task<PagedList<StoreOrderDto>> GetRecentOrdersByStoreIdAsync(Guid storeId, StoreOrdersParameters storeOrdersParameters);
+    Task<StoreOrderDto?> GetOrderByOrderIdAndStoreIdAsync(Guid orderId, Guid storeId);
 }

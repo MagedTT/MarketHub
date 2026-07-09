@@ -1,0 +1,86 @@
+<div class="container-fluid dashboard-canvas min-vh-100 py-4 px-4 bg-light">
+
+    <!-- DASHBOARD HEADER TITLE & TIMEFRAME SELECTOR -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 fw-bold text-dark mb-0">Dashboard</h1>
+        <div class="dropdown">
+            <button
+                class="btn date-filter-dropdown d-flex align-items-center gap-2 border bg-white shadow-sm px-3 py-2 rounded-2"
+                type="button">
+                <span class="fs-14 fw-medium text-secondary">08/21/2018</span>
+                <i class="bi bi-chevron-down text-muted fs-12"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- UPPER SECTION MATRIX -->
+    <div class="row g-4 mb-4 align-items-stretch">
+
+        <!-- LEFT BANK: Restructured to force exactly 2 metric cards horizontally per row using col-6 -->
+        <div class="col-xl-5 col-lg-6">
+            <div class="row g-3">
+                <div class="col-6">
+                    <app-total-x [text]="'Total Brands'" [value]="100"></app-total-x>
+                </div>
+                <div class="col-6">
+                    <app-total-x></app-total-x>
+                </div>
+                <div class="col-6">
+                    <app-total-x></app-total-x>
+                </div>
+                <div class="col-6">
+                    <app-total-x></app-total-x>
+                </div>
+                <div class="col-6">
+                    <app-total-x></app-total-x>
+                </div>
+                <div class="col-6">
+                    <app-total-x></app-total-x>
+                </div>
+                <!-- If you add a 4th app-total-x card here, it will automatically wrap cleanly to fill the empty spot -->
+            </div>
+        </div>
+
+        <!-- RIGHT BANK: The dynamic Pie Chart Canvas -->
+        <div class="col-xl-7 col-lg-6">
+            <div class="card main-visual-card p-4 border-0 shadow-sm rounded-3 bg-white h-100">
+                <app-pie-chart></app-pie-chart>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- LOWER SECTION MATRIX -->
+    <div class="row g-4 mb-4">
+        <!-- Bottom Left: Rating Distribution Bar Chart -->
+        <div class="col-xl-4 col-lg-6">
+            <div class="card lower-visual-card p-3 border-0 shadow-sm rounded-3 bg-white h-100">
+                <app-rating-chart></app-rating-chart>
+            </div>
+        </div>
+
+        <!-- Bottom Center: Top 3 Brands Bar Chart -->
+        <div class="col-xl-4 col-lg-6">
+            <div class="card lower-visual-card p-3 border-0 shadow-sm rounded-3 bg-white h-100">
+                <app-top-n-selling-brands [topN]="3"></app-top-n-selling-brands>
+            </div>
+        </div>
+
+        <!-- Bottom Right: Top 5 Brands Bar Chart -->
+        <div class="col-xl-4 col-12">
+            <div class="card lower-visual-card p-3 border-0 shadow-sm rounded-3 bg-white h-100">
+                <app-top-n-selling-brands [topN]="5"></app-top-n-selling-brands>
+            </div>
+        </div>
+    </div>
+
+    <!-- EXTRA OPERATIONAL ROW: Order Status Pipelines Full Span -->
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="card lower-visual-card p-3 border-0 shadow-sm rounded-3 bg-white">
+                <app-order-status-chart></app-order-status-chart>
+            </div>
+        </div>
+    </div>
+
+</div>

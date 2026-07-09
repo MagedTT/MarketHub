@@ -1,0 +1,128 @@
+/* Core Top Layout Canvas Settings */
+.main-top-navbar {
+    height: 70px;
+    border-color: #eaecef !important;
+    font-family: system-ui, -apple-system, sans-serif;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+/* Burger Toggle Button Utility Overrides */
+.burger-toggle-btn {
+    color: #4a5568;
+    border: none !important;
+    background: none !important;
+    transition: color 0.15s ease-in-out;
+}
+.burger-toggle-btn:hover {
+    color: #1a202c;
+}
+
+/* Action Control Icons Customization tracks */
+.nav-action-icon {
+    border: none !important;
+    background: none !important;
+    color: #64748b !important;
+    transition: color 0.15s ease-in-out;
+}
+.nav-action-icon:hover {
+    color: #1e293b !important;
+}
+
+/* Absolute Positioning Alert Counter Bubble Settings */
+.alert-badge-pill {
+    top: 5px !important;
+    right: -5px !important;
+    width: 17px;
+    height: 17px;
+    font-size: 10px !important;
+    font-weight: 700;
+    padding: 0 !important;
+    border: 1.5px solid #ffffff;
+}
+
+/* User Branding Avatar Circle Structuring */
+.avatar-ring-container {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    padding: 2.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* User Profile Name Typography scales */
+.user-display-name {
+    font-size: 15px;
+    letter-spacing: -0.2px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Inherits color variables smoothly from Bootstrap text properties */
+.bell-icon-svg {
+    color: #64748b; 
+}
+
+/* Switches to a dark accent tint when hovering over the button card wrapper */
+.nav-action-icon:hover .bell-icon-svg {
+    color: #1e293b;
+}
+
+/* ==========================================================================
+   ADDED: DROPDOWN MENU PANEL CUSTOM STYLES
+   ========================================================================== */
+.notification-dropdown {
+    width: 320px;
+    border-color: #e2e8f0 !important;
+    border-radius: 12px !important;
+    overflow: hidden;
+}
+
+/* Limits panel stretching and provides smooth scrolling overflow */
+.notification-scroll-area {
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.notification-item {
+    white-space: normal !important; /* Forces longer tracking strings to wrap text instead of clipping */
+    transition: background-color 0.15s ease;
+}
+
+.notification-item:hover {
+    background-color: #f8fafc;
+}
+
+/* Circular backdrop wrappers behind list item icons */
+.notification-avatar-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* Color palettes matching alert statuses */
+.bg-primary-light { background-color: #e6f0ff; }
+.bg-success-light { background-color: #e6f7ed; }
+.bg-danger-light  { background-color: #fdf2f2; }
+
+/* Font Utilities scaling */
+.fs-14 { font-size: 14px; }
+.fs-13 { font-size: 13px; }
+.fs-12 { font-size: 12px; }
+.fs-11 { font-size: 11px; }

@@ -1,0 +1,76 @@
+/* Sidebar Parent Shell Panel Structure */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background-color: #202b44; /* Dark premium carbon navy shade matching your photo */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+    font-family: system-ui, -apple-system, sans-serif;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+/* Custom CSS Target Target Logo Layout */
+.sidebar-logo-container {
+    padding-top: 10px;
+    user-select: none;
+}
+.logo-icon-accent {
+    width: 22px;
+    height: 22px;
+    border: 3.5px solid #ef4444; /* Pinkish-Red Outer Target Circle Ring */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.inner-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #ef4444; /* Core solid point target circle */
+    border-radius: 50%;
+}
+.logo-text {
+    font-size: 21px;
+    letter-spacing: -0.3px;
+    color: #ef4444; /* Custom tracking logo word paint match */
+}
+
+/* Uppercase Section Labels Layout */
+.menu-section-header {
+    color: #5d6a88; /* Soft blueish gray muted category string tint */
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    padding-left: 14px;
+    margin-bottom: 10px;
+}
+
+/* Nav Item Link Tracks Customization */
+.sidebar .nav-link {
+    color: #909db7 !important; /* Neutral silver-blue navigation text shade */
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 14px;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Hover highlights tracks interaction feedback */
+.sidebar .nav-link:hover {
+    color: #ffffff !important;
+    background-color: #2a3754; /* Subtle lighter background overlay tint */
+}
+
+/* Active current route highlighting */
+.sidebar .nav-link.active {
+    color: #ffffff !important;
+    background-color: #1a2337; /* Clean highlighted active box background structure */
+    font-weight: 600;
+}
+
+/* Hide scrollbar tracks for internal menu lists */
+.sidebar-menu-wrapper::-webkit-scrollbar {
+    width: 0px;
+}

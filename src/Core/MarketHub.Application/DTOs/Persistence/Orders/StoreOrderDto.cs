@@ -7,6 +7,7 @@ public class StoreOrderDto
     public Guid OrderId { get; set; }
     public Guid StoreId { get; set; }
     public Guid UserId { get; set; }
+    public string UserName { get; set; } = string.Empty;
     public string? PromoCode { get; set; }
     public string OrderNumber { get; set; } = string.Empty;
     public OrderStatus Status { get; set; }

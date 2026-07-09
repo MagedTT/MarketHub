@@ -37,6 +37,7 @@ export class SessionStoreService {
     if (decodedToken !== null) {
       const user: User = {
         id: decodedToken?.sub,
+        storeId: decodedToken.storeId,
         userName: decodedToken.name,
         email: decodedToken.email,
         roles: decodedToken.roles
@@ -53,6 +54,7 @@ export class SessionStoreService {
     if (decodedToken !== null) {
       const user: User = {
         id: decodedToken?.sub,
+        storeId: decodedToken.storeId,
         userName: decodedToken.email,
         email: decodedToken.email,
         roles: decodedToken.roles

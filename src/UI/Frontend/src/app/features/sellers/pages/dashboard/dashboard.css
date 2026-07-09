@@ -1,0 +1,52 @@
+/* Dashboard Canvas Scopes */
+.dashboard-canvas {
+    background-color: #f4f5f8 !important;
+}
+
+/* Date Dropdown Styling */
+.date-filter-dropdown {
+    font-size: 14px;
+    color: #4a5568;
+    border-color: #e2e8f0 !important;
+}
+
+/* Metric Typography Scales */
+.metric-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #718096 !important;
+}
+
+.metric-number {
+    font-size: 28px;
+    color: #2d3748;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+}
+
+.metric-card-square {
+    transition: transform 0.2s ease-in-out;
+}
+
+.metric-card-square:hover {
+    transform: translateY(-2px);
+}
+
+.trend-context {
+    font-size: 11px;
+    color: #a0aec0 !important;
+}
+
+/* Proportional Heights Alignment Lock */
+.main-visual-card {
+    min-height: 310px;
+}
+
+.lower-visual-card {
+    min-height: 340px;
+}
+
+/* Global Font Utility Sizes */
+.fs-14 { font-size: 14px; }
+.fs-13 { font-size: 13px; }
+.fs-12 { font-size: 12px; }

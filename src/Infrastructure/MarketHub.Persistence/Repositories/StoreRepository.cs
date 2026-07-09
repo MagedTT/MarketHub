@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using MarketHub.Application.Contracts.Persistence;
 using MarketHub.Domain.Entities;
 using MarketHub.Domain.Enums;
@@ -29,4 +28,7 @@ public class StoreRepository : IStoreRepository
 
     public void CreateStore(Store store)
         => _context.Stores.Add(store);
+
+    public async Task<Guid> GetStoreIdAsync(Guid userId)
+        => await _context.Stores.Where(x => x.UserId == userId).Select(x => x.Id).FirstOrDefaultAsync();
 }

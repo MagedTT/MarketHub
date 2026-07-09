@@ -1,58 +1,57 @@
-/* 1. Global Screen Layout Shell */
-:host {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  width: 100%;
-}
-
-/* 2. Top Header Component Container */
+/* 1. Navbar Header positioning */
 .app-header-container {
-  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   width: 100%;
-  flex-shrink: 0;
-  background-color: #ffffff;
-  border-bottom: 1px solid #dee2e6;
-  /* Eliminates fixed ghosts. Height is calculated purely from your real inner navbar code content */
+  height: 74px;
+  z-index: 1030;
+  display: block;
 }
 
-/* 3. Outer Structural Split Wrapper Box */
+/* 2. Main Page Framework Split Grid */
 .app-body-container {
+  margin-top: 74px; /* Drops everything safely down past the navbar line */
   display: flex;
-  flex: 1 1 auto; /* Automatically stretches downward to fill remaining vertical screen area */
-  width: 100%;
   position: relative;
+  width: 100%;
 }
 
-/* 4. Full-Height Left Sidebar Panel Container */
+/* 3. Full-Height Fixed Left Sidebar Area Panel Container Wrapper */
 .fixed-vertical-sidebar {
+  position: fixed;
+  top: 74px; /* Sits perfectly tight below the navbar margin boundary */
+  left: 0;
+  bottom: 0;
+  width: 280px;
+  height: calc(100vh - 74px);
+  z-index: 1020;
   display: block;
-  width: 280px; /* Locked sidebar width constraint */
-  flex-shrink: 0;
-  background-color: #ffffff;
-  border-right: 1px solid #dee2e6;
-  /* Automatically reclaims 100% of horizontal space if commented out */
 }
 
-/* 5. Center Elastic Workspace content render box window */
+/* 4. Center Workspace content render box window */
 .main-scrolling-content {
-  flex-grow: 1; /* CRITICAL: Forces this panel to automatically stretch to 100% screen width if sidebar is disabled */
+  margin-left: 280px; /* Offsets space matching left column width boundary */
   padding: 40px;
+  width: calc(100% - 280px);
+  min-height: calc(100vh - 74px);
   background-color: #f8f9fa;
-  min-height: 100%;
 }
 
-/* Responsive viewports fallback scaling down */
+/* Responsive viewports tablet/mobile fallback scaling down */
 @media (max-width: 768px) {
   .app-body-container {
     flex-direction: column;
   }
   .fixed-vertical-sidebar {
+    position: static;
     width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #dee2e6;
+    height: auto;
   }
   .main-scrolling-content {
+    margin-left: 0;
+    width: 100%;
     padding: 20px;
   }
 }

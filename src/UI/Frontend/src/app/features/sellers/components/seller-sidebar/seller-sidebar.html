@@ -1,0 +1,74 @@
+<div class="sidebar d-flex flex-column p-3 text-white">
+
+    <!-- LOGO BRAND HEADER -->
+    <div class="sidebar-logo-container d-flex align-items-center mb-4 px-2">
+        <span class="logo-text fw-bold">Market<span class="text-white">Hub</span></span>
+    </div>
+
+    <!-- NAVIGATION LINKS SYSTEM -->
+    <div class="sidebar-menu-wrapper flex-grow-1 overflow-y-auto">
+
+        <!-- SECTION 1: MAIN NAVIGATION -->
+        <div class="menu-section mb-4">
+            <div class="menu-section-header text-uppercase">Main</div>
+            <ul class="nav flex-column gap-1">
+                <li class="nav-item">
+                    <!-- FIXED: Swapped click listener out for routerLink target tracking path string -->
+                    <a routerLink="/seller-dashboard" routerLinkActive="active"
+                        class="nav-link d-flex align-items-center">
+                        <i class="bi bi-speedometer2 me-3 fs-5"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <!-- FIXED: Swapped click listener out for routerLink target tracking path string -->
+                    <a routerLink="/seller-orders" routerLinkActive="active" class="nav-link d-flex align-items-center">
+                        <i class="bi bi-bag-check me-3 fs-5"></i>
+                        <span>Orders</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/seller/products" routerLinkActive="active"
+                        class="nav-link d-flex align-items-center">
+                        <i class="bi bi-tags me-3 fs-5"></i>
+                        <span>Products</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/seller/promo-codes" routerLinkActive="active"
+                        class="nav-link d-flex align-items-center">
+                        <i class="bi bi-scissors me-3 fs-5"></i>
+                        <span>Promo Codes</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/seller/reviews" routerLinkActive="active"
+                        class="nav-link d-flex align-items-center">
+                        <i class="bi bi-scissors me-3 fs-5"></i>
+                        <span>Reviews</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-section-header text-uppercase">Other</div>
+            <ul class="nav flex-column gap-1">
+                <li class="nav-item">
+                    <a routerLink="/seller/profile" routerLinkActive="active"
+                        class="nav-link d-flex align-items-center">
+                        <i class="bi bi-globe2 me-3 fs-5"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a routerLink="/auth/logout" routerLinkActive="active" class="nav-link d-flex align-items-center">
+                        <i class="bi bi-envelope me-3 fs-5"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>

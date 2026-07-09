@@ -1,0 +1,16 @@
+.metric-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #718096 !important;
+}
+.metric-number {
+    font-size: 28px;
+    color: #2d3748;
+    letter-spacing: -0.5px;
+}
+.metric-card-square {
+    transition: transform 0.2s ease-in-out;
+}
+.metric-card-square:hover {
+    transform: translateY(-2px);
+}

@@ -1,0 +1,304 @@
+/* CANVAS VARIABLES & CORE RESET */
+body {
+    background-color: #f8f9fa;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #333333;
+}
+
+/* CARD MANAGEMENT SHELL */
+.orders-table-card {
+    background-color: #ffffff;
+    border: 1px solid #eef0f3;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    overflow: hidden;
+}
+
+/* HEADER & FILTER SEGMENTS */
+.filter-header-bar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #f1f3f5;
+    padding: 20px 24px;
+}
+
+.order-filter-group {
+    background-color: #f1f3f5;
+    padding: 4px;
+    border-radius: 8px;
+    display: inline-flex;
+}
+
+.order-filter-group .btn-filter {
+    border: none;
+    background: transparent;
+    padding: 6px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #64748b;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.order-filter-group .btn-filter.active {
+    background-color: #ffffff;
+    color: #0f172a;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    font-weight: 600;
+}
+
+.search-input-wrapper {
+    position: relative;
+    max-width: 320px;
+    width: 100%;
+}
+
+.search-input-wrapper .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.search-input-wrapper .form-control {
+    padding-left: 40px;
+    border-color: #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.search-input-wrapper .form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: none;
+}
+
+/* DATA TABLE ARCHITECTURE */
+.table-responsive {
+    padding: 0;
+    margin: 0;
+}
+
+.custom-orders-table {
+    margin-bottom: 0;
+    font-size: 14px;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.custom-orders-table thead th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-weight: 600;
+    padding: 16px 24px;
+    border-bottom: 1px solid #e2e8f0;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: left;
+}
+
+.custom-orders-table tbody td {
+    padding: 18px 24px;
+    vertical-align: middle;
+    color: #334155;
+    border-bottom: 1px solid #f1f3f5;
+    text-align: left;
+}
+
+.custom-orders-table tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.custom-orders-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* STATUS BADGE MATRICES */
+.status-badge {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-pending {
+    background-color: #fff7ed;
+    color: #ea580c;
+}
+
+.status-confirmed {
+    background-color: #faf5ff;
+    color: #7e22ce;
+}
+
+.status-shipped {
+    background-color: #fef9c3;
+    color: #a16207;
+}
+
+.status-delivered {
+    background-color: #f0fdf4;
+    color: #16a34a;
+}
+
+.status-cancelled {
+    background-color: #fef2f2;
+    color: #dc2626;
+}
+
+/* ACTION CONTROLS TIER */
+.btn-table-action {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    background: transparent;
+    border: 1px solid #e2e8f0;
+    transition: all 0.15s ease;
+}
+
+.btn-table-action:hover {
+    background-color: #f1f3f5;
+    color: #0f172a;
+    border-color: #cbd5e1;
+}
+
+.btn-view-details {
+    color: #0d6efd;
+    background-color: #e6f0ff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.15s ease;
+}
+
+.btn-view-details:hover {
+    background-color: #0d6efd;
+    color: #ffffff;
+}
+
+/* FOOTER / PAGINATION BAR */
+.table-footer-bar {
+    background-color: #ffffff;
+    padding: 16px 24px;
+    border-top: 1px solid #f1f3f5;
+    font-size: 13px;
+    color: #64748b;
+}
+
+/* ==========================================================================
+TABLE FOOTER & MODERN PAGINATION STYLES
+========================================================================== */
+
+/* Main Footer Container */
+.table-footer-bar {
+    background-color: #ffffff;
+    padding: 16px 24px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 13px;
+    color: #64748b;
+    /* Slate gray text for info counters */
+}
+
+/* Pagination Base Reset */
+.table-footer-bar .pagination {
+    display: flex;
+    gap: 4px;
+    /* Creates clean spacing between button boxes */
+}
+
+/* Individual Page Item Links */
+.table-footer-bar .page-link {
+    color: #475569;
+    /* Dark slate text */
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 6px 12px;
+    min-width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px !important;
+    /* Smooth rounded block elements */
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.15s ease-in-out;
+}
+
+/* Item Hover Interaction State */
+.table-footer-bar .page-link:hover {
+    color: #0f172a;
+    /* Deep charcoal text */
+    background-color: #f1f5f9;
+    /* Soft light gray fill on hover */
+    border-color: #cbd5e1;
+}
+
+/* Active Highlighted Page Route State */
+.table-footer-bar .page-item.active .page-link {
+    color: #ffffff !important;
+    background-color: #0f172a !important;
+    /* Premium deep charcoal active background */
+    border-color: #0f172a !important;
+    font-weight: 600;
+}
+
+/* Disabled Prev/Next Navigation Controls */
+.table-footer-bar .page-item.disabled .page-link {
+    color: #cbd5e1 !important;
+    background-color: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+    pointer-events: none;
+    /* Disables click tracks completely */
+}
+
+/* Standardized Icon Vector Alignment */
+.table-footer-bar .page-link i {
+    font-size: 11px;
+    display: inline-block;
+    line-height: 1;
+}
+
+.Pending {
+    color: orange !important;
+}
+
+.Confirmed {
+    color: purple !important;
+}
+
+.Delivered {
+    color: green !important;
+}
+
+.Cancelled {
+    color: red !important;
+}
+
+.Shipped {
+    color: greenyellow !important;
+}
+
+.order-link-id {
+    color: #212529; /* Clean default dark text appearance matching your table */
+    cursor: pointer;
+    text-decoration: none;
+    
+    /* Adds a premium 0.15-second fluid crossfade animation on hover entries */
+    transition: color 0.15s ease-in-out;
+}
+
+.order-link-id:hover {
+    color: #0d6efd !important;      /* Snaps to vibrant brand primary blue on hover */
+    text-decoration: underline !important; /* Adds standard underline effect to indicate it's a link */
+}

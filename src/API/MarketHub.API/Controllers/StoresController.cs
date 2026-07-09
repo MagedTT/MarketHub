@@ -1,5 +1,6 @@
 using System.Text.Json;
 using MarketHub.Application.Features.Brands.Queries.GetTotalBrandsForStore;
+using MarketHub.Application.Features.Orders.Queries.GetOrderForStore;
 using MarketHub.Application.Features.Orders.Queries.GetOrderStatusCountForStore;
 using MarketHub.Application.Features.Orders.Queries.GetRecentOrdersForStore;
 using MarketHub.Application.Features.Orders.Queries.GetTotalOrdersForStore;
@@ -11,6 +12,7 @@ using MarketHub.Application.Features.Products.Queries.GetTotalProductsOutOfStock
 using MarketHub.Application.Features.PromoCodes.Queries.GetTotalPromoCodesForStore;
 using MarketHub.Application.Features.Reviews.Queries.GetRatingCountForStore;
 using MarketHub.Application.Features.Reviews.Queries.GetTotalReviewsForStore;
+using MarketHub.Application.Features.Stores.Queries.GetStoreId;
 using MarketHub.Application.Features.Stores.Queries.GetTotalSalesForStore;
 using MarketHub.Application.Shared;
 using MarketHub.Domain.Entities;
@@ -34,6 +36,16 @@ public class StoresController : ControllerBase
         GetTotalBrandsForStoreQuery request = new() { StoreId = storeId };
 
         return Ok(await _mediator.Send(request));
+    }
+
+    [HttpGet]
+    [Route("storeId/{userId:guid}")]
+    public async Task<IActionResult> GetStoreId(Guid userId)
+    {
+        GetStoreIdQuery request = new() { UserId = userId };
+        Guid? storeId = await _mediator.Send(request);
+
+        return Ok(storeId);
     }
 
     [HttpGet]
@@ -168,6 +180,28 @@ public class StoresController : ControllerBase
         }
 
         return Ok(response.TotalProductsInStock);
+    }
+
+    [HttpGet]
+    [Route("order/{storeId:guid}/{orderId:guid}")]
+    public async Task<IActionResult> GetTotalProductsInStock(Guid storeId, Guid orderId)
+    {
+        GetOrderForStoreQuery request = new() { OrderId = orderId, StoreId = storeId };
+
+        GetOrderForStoreQueryResponse response = await _mediator.Send(request);
+
+        if (!response.Success && response.StatusCode == StatusCodes.Status400BadRequest)
+        {
+            foreach (string error in response.ValidationErrors!)
+            {
+                string[] errorDetails = error.Split(',');
+                ModelState.TryAddModelError(errorDetails[0], errorDetails[1]);
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        return Ok(response.Order);
     }
 
     [HttpGet]

@@ -1,19 +1,33 @@
-<!-- Main Header Viewport Container Area -->
-<!-- Commenting this out shifts the body all the way to the top of the screen instantly -->
-<app-navbar class="app-header-container"></app-navbar>
+<!-- <app-navbar class="app-header-container"></app-navbar>
 
-<!-- Page Content Framework Layout Split -->
 <div class="app-body-container">
 
-    <!-- Full-Height Left Sidebar Area Panel -->
-    <!-- Commenting this out forces the router-outlet to stretch to 100% full screen width instantly -->
     <app-sidebar class="fixed-vertical-sidebar"></app-sidebar>
 
-    <!-- Elastic Main Scrollable Workspace Window Area Container -->
     <main class="main-scrolling-content">
-        <!-- <app-products></app-products> -->
 
         <router-outlet></router-outlet>
     </main>
 
+</div> -->
+
+<!-- Main Application Canvas View Row Split -->
+<div class="d-flex min-vh-100">
+
+    <!-- Left Side Fixed Dark Navigation Menu Panel -->
+    <app-seller-sidebar></app-seller-sidebar>
+
+    <!-- Right Side Main Content View Frame Block -->
+    <div class="flex-grow-1 d-flex flex-column" style="margin-left: 260px;">
+
+        <!-- Injected Top Fixed Action Bar Header Component -->
+        <app-seller-navbar></app-seller-navbar>
+
+        <!-- Core Scrollable Statistics Workspace Grid -->
+        <main class="flex-grow-1 overflow-y-auto">
+            <!-- <app-dashboard></app-dashboard> -->
+            <router-outlet></router-outlet>
+        </main>
+
+    </div>
 </div>

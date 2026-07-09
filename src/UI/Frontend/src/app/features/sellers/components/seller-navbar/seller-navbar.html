@@ -1,0 +1,120 @@
+<nav class="navbar main-top-navbar bg-white border-bottom px-4 py-2 d-flex align-items-center justify-content-between">
+
+    <!-- LEFT SIDE: Sidebar Toggle Burger Button -->
+    <div class="navbar-left-block">
+        <button class="btn burger-toggle-btn p-1 d-flex align-items-center justify-content-center"
+            aria-label="Toggle Navigation Sidebar">
+            <!-- Hamburger Menu SVG Icon -->
+            <svg xmlns="http://w3.org" width="24" height="24" fill="currentColor" class="bi bi-list"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H2.5a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H2.5a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H2.5a.5.5 0 0 1-.5-.5" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- RIGHT SIDE: Actions Matrix and User Profile Cluster -->
+    <div class="navbar-right-block d-flex align-items-center gap-4">
+
+        <!-- Action Icons Controls Row -->
+        <div class="d-flex align-items-center gap-3 text-muted">
+            <!-- Search Trigger Icon Button -->
+            <button class="btn nav-action-icon p-1 text-secondary" aria-label="Search Console">
+                <i class="bi bi-search fs-5"></i>
+            </button>
+
+            <!-- Help Documentation Circle Icon Button -->
+            <button class="btn nav-action-icon p-1 text-secondary" aria-label="Help Documentation">
+                <i class="bi bi-question-circle fs-5"></i>
+            </button>
+
+            <!-- CHANGED: Wrapped in a Bootstrap dropdown element -->
+            <div class="dropdown">
+                <button
+                    class="btn nav-action-icon p-1 text-secondary position-relative d-flex align-items-center justify-content-center"
+                    type="button" data-bs-toggle="dropdown" aria-expanded="false"
+                    aria-label="View Alerts Notifications">
+
+                    <!-- Optimized inline Notification Bell SVG -->
+                    <svg xmlns="http://w3.org" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="bell-icon-svg">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+
+                    <!-- Floating Red Counter Pill Bubble -->
+                    <span
+                        class="position-absolute alert-badge-pill translate-middle badge rounded-circle bg-danger d-flex align-items-center justify-content-center">
+                        3
+                    </span>
+                </button>
+
+                <!-- ADDED: Notifications Dropdown Box Structuring -->
+                <ul class="dropdown-menu dropdown-menu-end notification-dropdown shadow-sm border p-0 mt-2">
+                    <li
+                        class="dropdown-header-block d-flex justify-content-between align-items-center p-3 border-bottom">
+                        <span class="fw-bold text-dark fs-14">Notifications</span>
+                        <a href="#" class="text-primary text-decoration-none fs-12 fw-medium">Mark all as read</a>
+                    </li>
+                    <div class="notification-scroll-area">
+                        <!-- Notification Item 1 -->
+                        <li>
+                            <a class="dropdown-item notification-item p-3 d-flex align-items-start gap-3 border-bottom"
+                                href="#">
+                                <!-- <div class="notification-avatar-dot bg-primary-light text-primary">
+                                    <i class="bi bi-bag-check-fill fs-6"></i>
+                                </div> -->
+                                <div class="text-wrap flex-grow-1 text-start">
+                                    <p class="mb-1 text-dark fs-13">New order placed by <strong>John Doe</strong>
+                                        (#ORD-9021)</p>
+                                    <small class="text-muted fs-11">2 minutes ago</small>
+                                </div>
+                            </a>
+                        </li>
+                        <!-- Notification Item 2 -->
+                        <li>
+                            <a class="dropdown-item notification-item p-3 d-flex align-items-start gap-3 border-bottom"
+                                href="#">
+                                <!-- <div class="notification-avatar-dot bg-success-light text-success">
+                                    <i class="bi bi-star-fill fs-6"></i>
+                                </div> -->
+                                <div class="text-wrap flex-grow-1 text-start">
+                                    <p class="mb-1 text-dark fs-13">You received a new <strong>5-star review</strong>
+                                        from Nike product.</p>
+                                    <small class="text-muted fs-11">1 hour ago</small>
+                                </div>
+                            </a>
+                        </li>
+                        <!-- Notification Item 3 -->
+                        <li>
+                            <a class="dropdown-item notification-item p-3 d-flex align-items-start gap-3" href="#">
+                                <!-- <div class="notification-avatar-dot bg-danger-light text-danger">
+                                    <i class="bi bi-exclamation-circle-fill fs-6"></i>
+                                </div> -->
+                                <div class="text-wrap flex-grow-1 text-start">
+                                    <p class="mb-1 text-dark fs-13">System Alert: Product <strong>Adidas Shoes</strong>
+                                        went out of stock.</p>
+                                    <small class="text-muted fs-11">Yesterday</small>
+                                </div>
+                            </a>
+                        </li>
+                    </div>
+                    <li class="p-2 border-top text-center bg-light rounded-bottom">
+                        <a href="#" class="text-secondary text-decoration-none fs-12 fw-medium d-block py-1">View all
+                            notifications</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Interactive User Branding Block -->
+        <div class="user-profile-trigger d-flex align-items-center gap-2 cursor-pointer">
+            <div class="avatar-ring-container">
+                <img src="1.png" alt="User Profile" class="avatar-img">
+            </div>
+            <span class="user-display-name fw-semibold text-dark">Maged</span>
+        </div>
+
+    </div>
+</nav>

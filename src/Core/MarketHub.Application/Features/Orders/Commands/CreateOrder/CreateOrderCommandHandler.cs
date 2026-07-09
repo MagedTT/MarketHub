@@ -1,4 +1,5 @@
 using System.Net;
+using AutoMapper;
 using FluentValidation.Results;
 using MarketHub.Application.Contracts.Persistence;
 using MarketHub.Application.DTOs.Persistence.Carts;
@@ -13,9 +14,11 @@ namespace MarketHub.Application.Features.Orders.Commands.CreateOrder;
 
 public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, BaseResponse>
 {
+    private readonly IMapper _mapper;
     private readonly IRepositoryManager _repositoryManager;
-    public CreateOrderCommandHandler(IRepositoryManager repositoryManager)
+    public CreateOrderCommandHandler(IMapper mapper, IRepositoryManager repositoryManager)
     {
+        _mapper = mapper;
         _repositoryManager = repositoryManager;
     }
 
@@ -138,11 +141,13 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Bas
                 promoCode.IsActive = false;
         }
 
+        ShippingAddress shippingAddressToCreate = _mapper.Map<ShippingAddress>(request.ShippingAddress);
+
         Order order = new()
         {
             UserId = request.UserId,
             Status = OrderStatus.Pending,
-            // ShippingAddress = request.ShippingAddress,
+            ShippingAddress = shippingAddressToCreate,
             PromoCodeId = promoCode?.Id,
             TotalAmount = totalAmount
         };
