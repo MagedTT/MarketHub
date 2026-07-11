@@ -1,0 +1,84 @@
+.add-product-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.form-label-custom {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.form-control-custom, .form-select-custom {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 15px;
+    color: #0f172a;
+    background-color: #ffffff;
+}
+
+.form-control-custom:focus, .form-select-custom:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+    outline: none;
+}
+
+.media-upload-block {
+    border: 2px dashed #cbd5e1;
+    border-radius: 10px;
+    background-color: #f8fafc;
+    width: 100%;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+    color: #64748b;
+}
+
+.media-upload-block:hover {
+    border-color: #94a3b8;
+    background-color: #f1f5f9;
+}
+
+.photo-slot-number {
+    font-size: 11px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    margin-top: 4px;
+}
+
+.toggle-status-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px 18px;
+    background-color: #f8fafc;
+}
+
+.btn-action-base {
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.15s ease-in-out;
+    border: none;
+}
+
+.btn-save-green { background-color: #28c76f; color: #ffffff; }
+.btn-save-green:hover:not(:disabled) { background-color: #21a35c; }
+.btn-save-green:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btn-cancel-dark { background-color: #1e293b; color: #ffffff; }
+.btn-cancel-dark:hover { background-color: #0f172a; }
+
+.fs-14 { font-size: 14px; }

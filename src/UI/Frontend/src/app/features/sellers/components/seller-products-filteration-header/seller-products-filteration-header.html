@@ -1,0 +1,8 @@
+<div class="order-filter-group" role="tablist">
+    <button class="btn-filter" role="tab" [class.active]="selectedFilter === 'all'"
+        (click)="onProductsStatusChanged(0)">All</button>
+    <button class="btn-filter" role="tab" [class.active]="selectedFilter === 'active'"
+        (click)="onProductsStatusChanged(1)">Active</button>
+    <button class="btn-filter" role="tab" [class.active]="selectedFilter === 'inactive'"
+        (click)="onProductsStatusChanged(2)">InActive</button>
+</div>

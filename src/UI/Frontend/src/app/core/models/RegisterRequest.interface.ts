@@ -6,5 +6,6 @@ export interface RegisterRequest {
     email: string;
     password: string;
     confirmPassword: string;
+    permission: string;
     roles: string[];
 };

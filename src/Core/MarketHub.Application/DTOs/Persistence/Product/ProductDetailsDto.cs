@@ -11,6 +11,7 @@ public class ProductDetailsDto
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public decimal Price { get; set; }
+    public bool IsActive { get; set; }
     public int AvailableAmountInStock { get; set; }
     public string Type { get; set; } = string.Empty;
     public JsonElement Specifications { get; set; }

@@ -10,7 +10,7 @@ public class Store
     public string Name { get; set; } = string.Empty;
     public string? Description { get; set; }
     public string? LogoUrl { get; set; }
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = false;
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     public ICollection<Product> Products { get; set; } = new List<Product>();

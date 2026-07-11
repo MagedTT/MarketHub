@@ -12,7 +12,7 @@ import { SellerOrdersList } from "../../components/seller-orders-list/seller-ord
 
 @Component({
   selector: 'app-seller-orders',
-  imports: [OrderStatusChart, DatePipe, CurrencyPipe, SellerOrdersList],
+  imports: [OrderStatusChart, SellerOrdersList],
   templateUrl: './seller-orders.html',
   styleUrl: './seller-orders.css',
 })

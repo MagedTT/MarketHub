@@ -1,0 +1,159 @@
+<div class="container my-5" style="max-width: 1050px;">
+
+    <!-- COMPONENT WORKSPACE CANVAS SHELL CARD -->
+    <div class="add-product-card p-4 p-md-5">
+
+        <!-- MASTER CONSOLE SECTION ACTION HEADER -->
+        <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
+            <div class="text-start">
+                <h1 class="h4 fw-bold mb-1 text-dark">Add New Product</h1>
+                <p class="text-muted mb-0 fs-14">Publish a fresh item configuration to your digital store catalogs.</p>
+            </div>
+            <a routerLink="/seller-products"
+                class="btn btn-sm btn-light border px-3 py-2 text-secondary fw-medium rounded-2">
+                <i class="bi bi-arrow-left me-1"></i> Back to Products
+            </a>
+        </div>
+
+        <!-- CORE ENTITY DATA FIELD REGISTRATION FORM -->
+        <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+            <div class="row g-4">
+
+                <!-- TOP REGISTRATION SUB-SECTION LAYER: MULTI-IMAGE CARDS DECK LAYOUT -->
+                <div class="col-12 text-start">
+                    <label class="form-label-custom">Product Images Asset Deck (Max of 5 Photos)*</label>
+                    <div class="row g-2">
+                        @for (slot of photoSlots; track slot.index) {
+                        <div class="col">
+                            <!-- Trigger link opens native hidden device picker via loop tracking IDs -->
+                            <label [for]="'fileInput' + slot.index"
+                                class="media-upload-block shadow-sm position-relative">
+                                @if (imagePreviews()[slot.index]) {
+                                <img [src]="imagePreviews()[slot.index]" alt="Preview"
+                                    class="w-100 h-100 object-fit-cover rounded-3">
+                                } @else {
+                                <i class="bi" [class]="slot.index === 0 ? 'bi-image' : 'bi-plus-lg'"></i>
+                                <span class="photo-slot-number">{{ slot.label }}</span>
+                                }
+                                <input type="file" [id]="'fileInput' + slot.index" accept="image/*" class="d-none"
+                                    (change)="onImageSelected($event, slot.index)">
+                            </label>
+                        </div>
+                        }
+                    </div>
+                    <small class="text-muted d-block mt-2">Upload clean high-resolution square asset files to index your
+                        image slots cleanly.</small>
+                </div>
+
+                <hr class="my-4 text-muted opacity-25">
+
+                <!-- LOWER COMPARTMENT WORKSPACE: DATA INJECTION MATRIX FIELDS -->
+                <div class="col-md-7">
+                    <div class="row g-3">
+
+                        <!-- Name String Input Field -->
+                        <div class="col-12 text-start">
+                            <label for="productName" class="form-label-custom">Product Catalog Title*</label>
+                            <input type="text" formControlName="name" class="form-control form-control-custom w-100"
+                                id="productName" placeholder="e.g. iPhone 15 Pro Max...">
+                        </div>
+
+                        <!-- Narrative Description Textarea Field -->
+                        <div class="col-12 text-start">
+                            <label for="productDesc" class="form-label-custom">Product Narrative Description*</label>
+                            <textarea formControlName="description" class="form-control form-control-custom w-100"
+                                id="productDesc" rows="5" placeholder="Elaborate on details..."></textarea>
+                        </div>
+
+                        <!-- Specifications Metadata Custom String Box -->
+                        <div class="col-12 text-start">
+                            <label for="productSpecs" class="form-label-custom">Technical Specifications List*</label>
+                            <textarea formControlName="specifications" class="form-control form-control-custom w-100"
+                                id="productSpecs" rows="3" placeholder="e.g. RAM: 8GB | Storage: 256GB..."></textarea>
+                            <small class="text-muted d-block mt-1">Separate parameters clearly using vertical divider
+                                bars or text breaks.</small>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Right Hand Column Sizing Elements & Dropdowns -->
+                <div class="col-md-5">
+                    <div class="row g-3">
+
+                        <!-- Brand ID Selection Dropdown Field -->
+                        <div class="col-12 text-start">
+                            <label for="brandId" class="form-label-custom">Associated Brand ID*</label>
+                            <select formControlName="brandId" class="form-select form-select-custom w-100" id="brandId">
+                                <option value="" disabled selected>Select from listed brand records...</option>
+                                @for (brand of brands(); track brand.brandId) {
+                                <option [value]="brand.brandId">{{brand.name}}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Fulfillment Type Category Dropdown Field -->
+                        <div class="col-12 text-start">
+                            <label for="productType" class="form-label-custom">Fulfillment Type Category*</label>
+                            <select formControlName="type" class="form-select form-select-custom w-100"
+                                id="productType">
+                                <option value="" disabled selected>Choose categorical option...</option>
+                                @for (category of categories(); track category.id) {
+                                <option [value]="category.name">{{ category.name }}</option>
+                                }
+                            </select>
+                        </div>
+
+                        <!-- Product Sale Price Input Field -->
+                        <div class="col-12 text-start">
+                            <label for="productPrice" class="form-label-custom">Product Sale Price (USD)*</label>
+                            <div class="input-group">
+                                <span class="input-group-text border-end-0 bg-light text-secondary fw-semibold">$</span>
+                                <input type="number" step="0.01" min="0" formControlName="price"
+                                    class="form-control form-control-custom border-start-0 ps-0" id="price"
+                                    placeholder="0.00">
+                            </div>
+                        </div>
+
+                        <div class="col-12 text-start">
+                            <label for="availableQuantityInStock" class="form-label-custom">Quantity In Stock</label>
+                            <div class="input-group">
+                                <input type="number" step="0.01" min="0" formControlName="availableQuantityInStock"
+                                    class="form-control form-control-custom" id="availableQuantityInStock"
+                                    placeholder="0.00">
+                            </div>
+                        </div>
+
+                        <!-- Instant Activation Status Toggle Card -->
+                        <div class="col-12 text-start mt-4">
+                            <div class="toggle-status-card d-flex align-items-center justify-content-between">
+                                <div>
+                                    <span class="fw-bold d-block text-dark" style="font-size: 14px;">Instant
+                                        Activation</span>
+                                    <small class="text-muted" style="font-size: 12px;">Toggle whether this item
+                                        publishes live instantly upon save execution.</small>
+                                </div>
+                                <div class="form-check form-switch m-0 p-0 d-flex align-items-center">
+                                    <input formControlName="isActive" class="form-check-input m-0" type="checkbox"
+                                        role="switch" id="isActive" style="width: 44px; height: 22px; cursor: pointer;">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Action buttons footer -->
+                <div class="col-12 d-flex justify-content-end gap-2 flex-wrap border-top pt-4 mt-4">
+                    <button type="button" routerLink="/seller-products"
+                        class="btn btn-action-base btn-cancel-dark">Discard Draft</button>
+                    <button type="submit" [disabled]="productForm.invalid" class="btn btn-action-base btn-save-green">
+                        <i class="bi bi-cloud-arrow-up me-1"></i> Publish Product
+                    </button>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>

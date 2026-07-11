@@ -226,11 +226,34 @@ public class StoresController : ControllerBase
         return Ok(response.TotalProductsOutOfStock);
     }
 
+    [HttpGet]
+    [Route("productDetails/{storeId:guid}/{productId:guid}")]
+    public async Task<IActionResult> GetProductDetails(Guid storeId, Guid productId)
+    {
+        GetProductDetailsForStoreQuery request = new() { StoreId = storeId, ProductId = productId };
+
+        GetProductDetailsForStoreQueryResponse response = await _mediator.Send(request);
+
+        if (!response.Success && response.StatusCode == StatusCodes.Status400BadRequest)
+        {
+            foreach (string error in response.ValidationErrors!)
+            {
+                string[] errorDetails = error.Split(',');
+                ModelState.TryAddModelError(errorDetails[0], errorDetails[1]);
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        return Ok(response.ProductDetails);
+    }
+
     [HttpPost]
     [Route("AllProducts/{storeId:guid}")]
-    public async Task<IActionResult> GetTotalProductsOutOfStock(Guid storeId, [FromBody] StoreProductsParameters storeProductsParameters)
+    public async Task<IActionResult> GetTotalProductsOutOfStock(Guid storeId, [FromQuery] int productStatus, [FromBody]
+    StoreProductsParameters storeProductsParameters)
     {
-        GetAllProductsForStoreQuery request = new() { StoreId = storeId, StoreProductParameters = storeProductsParameters };
+        GetAllProductsForStoreQuery request = new() { StoreId = storeId, ProductStatus = productStatus, StoreProductParameters = storeProductsParameters };
 
         GetAllProductsForStoreQueryResponse response = await _mediator.Send(request);
 

@@ -165,7 +165,7 @@
                 <div class="d-flex gap-4">
                     <div class="form-check">
                         <input class="form-check-input shadow-none border-secondary border-opacity-50" type="radio"
-                            name="role" formControlName="role" id="typeBuyer" value="buyer" checked
+                            name="permission" formControlName="permission" id="typeBuyer" value="buyer" checked
                             style="cursor: pointer;">
                         <label class="form-check-label text-white small" for="typeBuyer" style="cursor: pointer;">
                             Buyer
@@ -173,7 +173,8 @@
                     </div>
                     <div class="form-check">
                         <input class="form-check-input shadow-none border-secondary border-opacity-50" type="radio"
-                            name="role" formControlName="role" id="typeSeller" value="seller" style="cursor: pointer;">
+                            name="permission" formControlName="permission" id="typeSeller" value="seller"
+                            style="cursor: pointer;">
                         <label class="form-check-label text-white small" for="typeSeller" style="cursor: pointer;">
                             Seller
                         </label>
@@ -228,6 +229,10 @@
 
             <button type="submit" class="btn btn-primary w-100 py-2 fw-bold mb-4 shadow" style="border-radius: 12px;">
                 Create account
+            </button>
+            <button type="submit" class="btn btn-primary w-100 py-2 fw-bold mb-4 shadow" (click)="setValues()"
+                style="border-radius: 12px;">
+                Set Values
             </button>
         </form>
 

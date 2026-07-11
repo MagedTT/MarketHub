@@ -1,6 +1,7 @@
 using System.Security.Cryptography.X509Certificates;
 using MarketHub.Application.Contracts.Persistence;
 using MarketHub.Application.DTOs.Persistence.Product;
+using MarketHub.Application.Features.Brands.Queries.GetBrandsWithIdAndName;
 using MarketHub.Application.Shared;
 using MarketHub.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -115,5 +116,19 @@ public class BrandRepository : IBrandRepository
             .OrderByDescending(x => x.TotalSoldPieces)
             .Take(n)
             .ToListAsync();
+    }
+
+    public async Task<IEnumerable<BrandDto>> GetBrandsWithIdAndName(bool trackChanges)
+    {
+        IQueryable<Brand> brands = _context.Brands;
+
+        if (!trackChanges)
+            brands = brands.AsNoTracking();
+
+        return await brands.Select(x => new BrandDto
+        {
+            BrandId = x.Id,
+            Name = x.Name
+        }).ToListAsync();
     }
 }

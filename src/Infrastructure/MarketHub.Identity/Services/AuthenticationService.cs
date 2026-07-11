@@ -7,6 +7,7 @@ using AutoMapper;
 using FluentValidation.Results;
 using MarketHub.Application.Contracts.Identity;
 using MarketHub.Application.Contracts.Infrastructure;
+using MarketHub.Application.Features.Stores.Commands.CreateStore;
 using MarketHub.Application.Features.Stores.Queries.GetStoreId;
 using MarketHub.Application.FluentValidations.Identity;
 using MarketHub.Application.Models.Authentication;
@@ -99,7 +100,7 @@ public class AuthenticationService : IAuthenticationService
 
         string encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
-        string confirmationEmail = $"https://localhost:5001/api/authentication/confirm-email?email={request.Email}&token={encodedToken}";
+        string confirmationEmail = $"https://localhost:5001/api/authentication/confirm-email?email={request.Email}&token={encodedToken}&permission={request.Permission}";
 
         Email email = new Email
         {
@@ -130,7 +131,7 @@ public class AuthenticationService : IAuthenticationService
         return response;
     }
 
-    public async Task<BaseResponse> ConfirmEmail(string email, string encodedToken)
+    public async Task<BaseResponse> ConfirmEmail(string email, string encodedToken, string permission)
     {
         BaseResponse response = new();
 
@@ -161,6 +162,13 @@ public class AuthenticationService : IAuthenticationService
                 response.ValidationErrors.Add(error.Description);
 
             return response;
+        }
+
+        if (permission == "seller")
+        {
+            CreateStoreCommand request = new() { UserId = user.Id };
+
+            await _mediator.Send(request);
         }
 
         response.StatusCode = (int)HttpStatusCode.NoContent;
@@ -285,7 +293,7 @@ public class AuthenticationService : IAuthenticationService
 
         Guid? storeId = await _mediator.Send(request);
 
-        claims.Add(new Claim("storeId", storeId?.ToString() ?? string.Empty));
+        claims.Add(new Claim("storeId", storeId.ToString() ?? string.Empty));
 
         IList<string> roles = await _userManager.GetRolesAsync(_user ?? new());
 

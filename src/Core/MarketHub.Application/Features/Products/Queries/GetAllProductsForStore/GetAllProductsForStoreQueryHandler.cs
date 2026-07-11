@@ -32,7 +32,7 @@ public class GetAllProductsForStoreQueryHandler : IRequestHandler<GetAllProducts
             return response;
         }
 
-        PagedList<ProductDto> productsWithMetaData = await _repositoryManager.ProductRepository.GetAllProductsByStoreIdAsync(request.StoreId, request.StoreProductParameters);
+        PagedList<ProductDto> productsWithMetaData = await _repositoryManager.ProductRepository.GetAllProductsByStoreIdAsync(request.StoreId, request.ProductStatus, request.StoreProductParameters);
 
         response.MetaData = productsWithMetaData.MetaData;
         response.Products = productsWithMetaData.AsEnumerable();

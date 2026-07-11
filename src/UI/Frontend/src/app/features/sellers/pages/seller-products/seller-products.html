@@ -1,0 +1,6 @@
+@if (metaData()) {
+<app-seller-products-list [metaData]="metaData()" [products]="products()"
+    (pageNumberChanged)="onPageNumberChanged($event)" (sortApplied)="onSortApplied($event)"
+    (toggleProductActivation)="toggleActivation($event)"
+    (productsStatusChanged)="onProductsStatusChanged($event)"></app-seller-products-list>
+}

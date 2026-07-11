@@ -11,5 +11,5 @@ public interface IAuthenticationService
     Task<BaseResponse> ValidateUserAsync(UserForAuthenticationDto request);
     Task<TokenResponse> CreateTokenAsync(bool populateExp);
     Task<TokenResponse> RefreshTokenAsync(TokenDto tokenDto);
-    Task<BaseResponse> ConfirmEmail(string email, string encodedToken);
+    Task<BaseResponse> ConfirmEmail(string email, string encodedToken, string permission);
 }

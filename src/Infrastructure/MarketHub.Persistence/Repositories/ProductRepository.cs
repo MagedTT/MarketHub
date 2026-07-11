@@ -16,6 +16,16 @@ public class ProductRepository : IProductRepository
     public ProductRepository(MarketHubDbContext context)
         => _context = context;
 
+    public async Task<Product?> GetByIdAsync(Guid id, bool trackChanges)
+    {
+        IQueryable<Product> products = _context.Products;
+
+        if (!trackChanges)
+            products = products.AsNoTracking();
+
+        return await products.FirstOrDefaultAsync(x => x.Id == id);
+    }
+
     public async Task<ProductCardDto?> GetProductCardByIdAsync(Guid id, bool trackChanges)
     {
         ProductCardDto? productCard = await _context.Products.Where(product => product.Id == id)
@@ -93,6 +103,7 @@ public class ProductRepository : IProductRepository
                 x.Name,
                 x.Description,
                 x.Price,
+                x.IsActive,
                 AvailableAmountInStock = x.Inventory.AvailableQuantity,
                 x.Type,
                 x.Specifications,
@@ -118,6 +129,7 @@ public class ProductRepository : IProductRepository
             StoreName = product.StoreName,
             BrandName = product.BrandName,
             Name = product.Name,
+            IsActive = product.IsActive,
             Description = product.Description,
             Price = product.Price,
             AvailableAmountInStock = product.AvailableAmountInStock,
@@ -171,9 +183,14 @@ public class ProductRepository : IProductRepository
     public async Task<int> TotalProductsOutOfStockByStoreIdAsync(Guid storeId)
         => await _context.Products.CountAsync(x => x.StoreId == storeId && x.Inventory.AvailableQuantity < 1);
 
-    public async Task<PagedList<ProductDto>> GetAllProductsByStoreIdAsync(Guid storeId, StoreProductsParameters storeProductsParameters)
+    public async Task<PagedList<ProductDto>> GetAllProductsByStoreIdAsync(Guid storeId, int? productStatus, StoreProductsParameters storeProductsParameters)
     {
         IQueryable<Product> products = _context.Products.Where(x => x.StoreId == storeId);
+
+        if (productStatus == 1)
+            products = products.Where(x => x.IsActive);
+        else if (productStatus == 2)
+            products = products.Where(x => !x.IsActive);
 
         if (storeProductsParameters.Descending)
         {
@@ -248,4 +265,32 @@ public class ProductRepository : IProductRepository
                 AmountInStock = x.Inventory.AvailableQuantity
             }).ToListAsync();
     }
+
+    public async Task<bool> StoreOwnsProductAsync(Guid storeId, Guid productId)
+        => await _context.Products.AnyAsync(x => x.Id == productId && x.StoreId == storeId);
+
+    public async Task<StoreProductDetailsDto?> GetProductDetailsByStoreIdAsync(Guid storeId, Guid productId)
+    {
+        return await _context.Products
+        .Where(x => x.Id == productId && x.StoreId == storeId)
+        .Select(x => new StoreProductDetailsDto
+        {
+            Id = x.Id,
+            StoreName = x.Store.Name,
+            BrandName = x.Brand != null ? x.Brand.Name : string.Empty,
+            Name = x.Name,
+            Description = x.Description,
+            Price = x.Price,
+            IsActive = x.IsActive,
+            AvailableAmountInStock = x.Inventory.AvailableQuantity,
+            Type = x.Type,
+            Specifications = JsonSerializer.Deserialize<JsonElement>(x.Specifications),
+            NumberOfReviews = x.NumberOfReviews,
+            AverageRating = x.AverageRating,
+            ImagesUrls = x.Images.Select(x => x.ImageUrl).ToList()
+        }).FirstOrDefaultAsync();
+    }
+
+    public async Task<bool> CheckProductExistsForStoreByIsAsync(Guid productId)
+        => await _context.Products.AnyAsync(x => x.Id == productId);
 }

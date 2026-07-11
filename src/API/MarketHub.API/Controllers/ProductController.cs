@@ -1,10 +1,13 @@
 using System.Text.Json;
 using AutoMapper;
 using MarketHub.Application.DTOs.Persistence.Product;
+using MarketHub.Application.Features.Categories.Queries.GetCategories;
 using MarketHub.Application.Features.Products.Commands.AddProductCommand;
+using MarketHub.Application.Features.Products.Commands.DeactivateProductCommand;
 using MarketHub.Application.Features.Products.Queries.GetProductCard;
 using MarketHub.Application.Features.Products.Queries.GetProductCards;
 using MarketHub.Application.Features.Products.Queries.GetProductDetails;
+using MarketHub.Application.Responses;
 using MarketHub.Application.Shared;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -87,6 +90,15 @@ public class ProductController : ControllerBase
         return Ok(response.ProductDetailsDto);
     }
 
+    [HttpGet]
+    [Route("allCategories")]
+    public async Task<IActionResult> GetAllCategories()
+    {
+        GetCategoriesQuery request = new() { TrackChanges = false };
+
+        return Ok(await _mediator.Send(request));
+    }
+
     [HttpPost]
     [Route("productCards")]
     public async Task<IActionResult> GetProductCards([FromBody] ProductParameters productParameters)
@@ -102,6 +114,58 @@ public class ProductController : ControllerBase
         Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(metaData));
 
         return Ok(productCards);
+    }
+
+    [HttpPost]
+    [Route("activate/{productId:guid}/{storeId:guid}")]
+    public async Task<IActionResult> ActivateProduct(Guid productId, Guid storeId)
+    {
+        ActivateProductCommand request = new()
+        {
+            ProductId = productId,
+            StoreId = storeId
+        };
+
+        BaseResponse response = await _mediator.Send(request);
+
+        if (!response.Success && response.StatusCode == StatusCodes.Status400BadRequest)
+        {
+            foreach (string error in response.ValidationErrors!)
+            {
+                string[] errorDetails = error.Split(",");
+                ModelState.TryAddModelError(errorDetails[0], errorDetails[1]);
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        return NoContent();
+    }
+
+    [HttpPost]
+    [Route("deactivate/{productId:guid}/{storeId:guid}")]
+    public async Task<IActionResult> DeactivateProduct(Guid productId, Guid storeId)
+    {
+        DeactivateProductCommand request = new()
+        {
+            ProductId = productId,
+            StoreId = storeId
+        };
+
+        BaseResponse response = await _mediator.Send(request);
+
+        if (!response.Success && response.StatusCode == StatusCodes.Status400BadRequest)
+        {
+            foreach (string error in response.ValidationErrors!)
+            {
+                string[] errorDetails = error.Split(",");
+                ModelState.TryAddModelError(errorDetails[0], errorDetails[1]);
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        return NoContent();
     }
 
     [HttpPost]

@@ -1,4 +1,20 @@
-<!-- <app-navbar class="app-header-container"></app-navbar>
+@if (session.user()?.storeId !== '00000000-0000-0000-0000-000000000000') {
+
+<div class="d-flex min-vh-100">
+    <app-seller-sidebar></app-seller-sidebar>
+
+    <div class="flex-grow-1 d-flex flex-column" style="margin-left: 260px;">
+
+        <app-seller-navbar></app-seller-navbar>
+
+        <main class="flex-grow-1 overflow-y-auto">
+            <router-outlet></router-outlet>
+        </main>
+
+    </div>
+</div>
+} @else {
+<app-navbar class="app-header-container"></app-navbar>
 
 <div class="app-body-container">
 
@@ -9,25 +25,5 @@
         <router-outlet></router-outlet>
     </main>
 
-</div> -->
-
-<!-- Main Application Canvas View Row Split -->
-<div class="d-flex min-vh-100">
-
-    <!-- Left Side Fixed Dark Navigation Menu Panel -->
-    <app-seller-sidebar></app-seller-sidebar>
-
-    <!-- Right Side Main Content View Frame Block -->
-    <div class="flex-grow-1 d-flex flex-column" style="margin-left: 260px;">
-
-        <!-- Injected Top Fixed Action Bar Header Component -->
-        <app-seller-navbar></app-seller-navbar>
-
-        <!-- Core Scrollable Statistics Workspace Grid -->
-        <main class="flex-grow-1 overflow-y-auto">
-            <!-- <app-dashboard></app-dashboard> -->
-            <router-outlet></router-outlet>
-        </main>
-
-    </div>
 </div>
+}

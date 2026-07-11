@@ -28,6 +28,7 @@ public class MarketHubDbContext : IdentityDbContext<User, IdentityRole<Guid>, Gu
     public DbSet<Wishlist> Wishlists { get; set; }
     public DbSet<WishlistItem> WishlistItems { get; set; }
     public DbSet<ShippingAddress> ShippingAddresses { get; set; }
+    public DbSet<Category> Categories { get; set; }
 
     public MarketHubDbContext(DbContextOptions<MarketHubDbContext> options)
         : base(options)

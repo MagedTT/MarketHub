@@ -1,0 +1,134 @@
+<main class="container my-5" style="max-width: 1200px;">
+    <div class="row g-5">
+
+        <!-- Left Layout Grid: Media Window Modules Block -->
+        <div class="col-lg-6">
+            <!-- Large Primary Frame Showcase -->
+            <div class="main-gallery-view border shadow-sm mb-3">
+                <span class="badge-sale">Sale!</span>
+                <button class="gallery-zoom-btn" aria-label="Zoom image panel">⌕</button>
+
+                <!-- FIX: Renders the dynamically active primary preview image -->
+                @if (!selectedImageUrl()) {
+                <div class="image-showcase-fallback">
+                    No Image Available
+                </div>
+                } @else {
+                <img class="main-gallery-img" [src]="'https://localhost:5001' + selectedImageUrl()"
+                    [alt]="productDetails()?.name">
+                }
+            </div>
+
+            <!-- Secondary Media Thumbnail Row Array -->
+            <div class="row g-2">
+                <!-- FIX: Loops through the product images array dynamically -->
+                @for (imgUrl of productDetails()?.imagesUrls; track imgUrl; let idx = $index) {
+                <div class="col-3">
+                    <div class="thumb-preview-box" [class.active]="selectedImageUrl() === imgUrl"
+                        (click)="setActiveImage(imgUrl)">
+                        <img class="thumb-gallery-img" [src]="'https://localhost:5001' + imgUrl"
+                            [alt]="productDetails()?.name + ' thumb ' + idx">
+                    </div>
+                </div>
+                } @empty {
+                <!-- Fallback if no gallery thumbnails are provided from the server API -->
+                <div class="col-3">
+                    <div class="thumb-preview-box active">Img 1</div>
+                </div>
+                <div class="col-3">
+                    <div class="thumb-preview-box">Img 2</div>
+                </div>
+                <div class="col-3">
+                    <div class="thumb-preview-box">Img 3</div>
+                </div>
+                <div class="col-3">
+                    <div class="thumb-preview-box">Img 4</div>
+                </div>
+                }
+            </div>
+        </div>
+
+
+        <!-- Right Layout Grid: Text Data Architecture Panel -->
+        <div class="col-lg-6">
+
+            <div class="mb-2 text-secondary" style="font-size: 13px;">
+                Brand: <a class="text-decoration-none text-primary fw-medium" style="cursor: pointer;">{{
+                    productDetails()?.brandName
+                    }}</a>
+            </div>
+
+            <!-- Category Trace Mapping Hierarchy -->
+            <div class="breadcrumb-text mb-3">
+                Product Details below here
+            </div>
+
+            <!-- INTEGRATION: Full-Width Horizontal Bootstrap Alert Notification -->
+            @if (alertMessage()) {
+            <div class="alert alert-dismissible fade show border shadow-sm mb-4 w-100"
+                [class.alert-success]="isSuccess()" [class.border-success]="isSuccess()"
+                [class.alert-danger]="!isSuccess()" [class.border-danger]="!isSuccess()" role="alert"
+                style="border-radius: 12px; font-size: 14px; padding: 12px 20px;">
+                <div class="d-flex align-items-center fw-medium">
+                    @if (isSuccess()) {
+                    <strong class="me-2">Success!</strong>
+                    } @else {
+                    <strong class="me-2">Error:</strong>
+                    }
+                    {{ alertMessage() }}
+                </div>
+                <button type="button" class="btn-close" (click)="clearAlert()" aria-label="Close"
+                    style="box-shadow: none;"></button>
+            </div>
+            }
+
+            <!-- Main Identification Header -->
+            <h1 class="product-main-title mb-3">{{productDetails()?.name}}</h1>
+
+            <!-- Commercial Pricing Scale -->
+            <div class="d-flex align-items-center gap-3 mb-4">
+                @if (onSale()) {
+                <span class="price-strike-old">{{ productDetails()?.price | currency }}</span>
+                }
+                <span class="price-current-active">{{ productDetails()?.price | currency }}</span>
+            </div>
+
+            <!-- Description Paragraph Info -->
+            <p class="description-paragraph mb-4">
+                {{ productDetails()?.description }}
+            </p>
+
+            <!-- Key Features Segment -->
+            <div class="mb-4">
+                <h2 class="h6 fw-bold text-dark mb-3">Key features</h2>
+                <ul class="features-bullets-list">
+                    @for (specification of productDetails()?.specifications | keyvalue; track specification.key) {
+                    <li>
+                        <strong>{{ specification.key }}:</strong> {{ specification.value }}
+                    </li>
+                    }
+                </ul>
+            </div>
+
+            <!-- Add to Cart System Action Layout -->
+            <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+                <!-- Automatically swaps .btn-activate-green and .btn-deactivate-red based on the boolean property state -->
+                <button (click)="toggleActivation()" class="btn-add-cart-dark"
+                    [class.btn-activate-green]="!productDetails()?.isActive"
+                    [class.btn-deactivate-red]="productDetails()?.isActive" type=" button">
+                    {{ productDetails()?.isActive ? 'Deactivate' : 'Activate' }}
+                </button>
+
+                <button class="btn-add-cart-dark" type="button">Edit</button>
+            </div>
+
+            <!-- Taxonomy Metadata Tag Area -->
+            <div class="mb-5 text-secondary" style="font-size: 13px;">
+                Category: <a class="text-decoration-none text-primary fw-medium" style="cursor: pointer;">{{
+                    productDetails()?.type
+                    }}</a>
+            </div>
+
+        </div>
+    </div>
+</main>

@@ -5,6 +5,7 @@ using MarketHub.Application.Features.Brands.Commands.UpdateBrand;
 using MarketHub.Application.Features.Brands.Queries.GetBrandById;
 using MarketHub.Application.Features.Brands.Queries.GetBrandsList;
 using MarketHub.Application.Features.Brands.Queries.GetBrandsNames;
+using MarketHub.Application.Features.Brands.Queries.GetBrandsWithIdAndName;
 using MarketHub.Application.Responses;
 using MarketHub.Application.Shared;
 using MarketHub.Domain.Entities;
@@ -58,6 +59,15 @@ public class BrandsController : ControllerBase
         Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(metaData));
 
         return Ok(brandsNames);
+    }
+
+    [HttpGet]
+    [Route("brandsWithIdsAndNames")]
+    public async Task<IActionResult> GetBrandsWithIdsAndNames()
+    {
+        GetBrandsWithIdAndNameQuery request = new() { TrackChanges = false };
+
+        return Ok(await _mediator.Send(request));
     }
 
     [HttpPost]

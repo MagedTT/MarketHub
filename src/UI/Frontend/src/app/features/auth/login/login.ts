@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AUTH_CONFIG, AuthConfig } from '../../../core/models/auth.config';
 import { catchError, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TokenService } from '../../../core/services/token-service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class Login {
 
   constructor(
     private authService: AuthService,
+    private tokenService: TokenService,
     private router: Router,
     private fb: FormBuilder,
     @Inject(AUTH_CONFIG) private config: AuthConfig
@@ -70,7 +72,16 @@ export class Login {
       })).subscribe(result => {
         // console.log(`Access Token: ${result.accessToken}`);
         // console.log(`Refresh Token: ${result.refreshToken}`);
-        this.router.navigateByUrl('products');
+
+        const decodedToken = this.tokenService.decodeAccessToken(result.accessToken);
+
+        if (decodedToken?.storeId !== '00000000-0000-0000-0000-000000000000') {
+          console.log(`decodedToken?.storeId !== null: ${decodedToken?.storeId}`);
+          this.router.navigateByUrl('seller-dashboard');
+        } else {
+          console.log(`decodedToken?.storeId === null`);
+          this.router.navigateByUrl('products');
+        }
       });
   }
 }

@@ -7,6 +7,7 @@ export interface ProductDetailsDto {
     name: string;
     description: string;
     price: number;
+    isActive: boolean;
     availableAmountInStock: number;
     type: string;
     specifications: Record<string, any>;

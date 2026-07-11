@@ -10,6 +10,7 @@ using MarketHub.Application.Features.Products.Commands.AddProductCommand;
 using MarketHub.Application.Features.PromoCodes.Commands.CreatePromoCode;
 using MarketHub.Application.Features.Reviews.Commands.CreateReview;
 using MarketHub.Application.Features.Reviews.Commands.UpdateReview;
+using MarketHub.Application.Features.Stores.Commands.CreateStore;
 using MarketHub.Application.Models.Authentication;
 using MarketHub.Domain.Entities;
 
@@ -44,5 +45,6 @@ public class MappingProfile : Profile
 
         CreateMap<CreatePromoCodeCommand, PromoCode>();
         CreateMap<OrderShippingAddressDto, ShippingAddress>();
+        CreateMap<CreateStoreCommand, Store>();
     }
 }

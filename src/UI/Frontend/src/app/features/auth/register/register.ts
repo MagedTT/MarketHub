@@ -29,7 +29,8 @@ export class Register {
       lastName: ['', [Validators.required]],
       userName: ['', [Validators.required]],
       email: ['', [Validators.required]],
-      role: ['buyer', [Validators.required]],
+      permission: ['buyer', [Validators.required]],
+      role: ['', [Validators.required]],
       password: ['', [Validators.required]],
       phoneNumber: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]]
@@ -64,19 +65,12 @@ export class Register {
     this.clearErrorMessage();
 
     const formValue = this.registerForm.getRawValue();
-    const dto = {
-      ...formValue,
-      roles: [formValue.role]
-    };
 
     this.authService.register(this.registerForm.value).pipe(
       catchError((error: HttpErrorResponse) => {
         const userMessage = error.error?.message || error.error || 'An unexpected error occurred. Please try again.';
 
         this.serverErrorMessage.set(userMessage);
-
-        console.log(`this.serverErrorMessage(): ${this.serverErrorMessage()}`);
-        console.log(this.serverErrorMessage());
 
         this.timeoutId = setTimeout(() => {
           this.clearErrorMessage();
@@ -85,7 +79,6 @@ export class Register {
         return throwError(() => error);
       })
     ).subscribe(result => {
-      console.log(result.message);
       this.success.set(result.message);
     });
   }
@@ -99,6 +92,7 @@ export class Register {
       role: 'buyer',
       password: 'Admin@123',
       phoneNumber: '0155000002',
+      permission: 'seller',
       confirmPassword: 'Admin@123'
     });
   }

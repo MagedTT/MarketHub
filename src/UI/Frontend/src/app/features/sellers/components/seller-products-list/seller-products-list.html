@@ -1,0 +1,255 @@
+<div id="app" class="container-fluid py-5 px-md-5" style="max-width: 1400px;">
+    <!-- MAIN SECTION COMPONENT PANEL -->
+    <div class="orders-table-card shadow-sm">
+        <!-- TOP FILTRATION & ACTIONS HEADER BAR -->
+        <div
+            class="filter-header-bar d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <!-- Left: Custom Products Filtration Header Component Trigger -->
+            <div class="text-start">
+                <div class="order-filter-group" role="tablist">
+                    <!-- CHANGED: Reconfigured input/output hooks to listen for Product Availability changes -->
+                    <app-seller-products-filteration-header
+                        (productsStatusChanged)="onProductsStatusChanged($event)"></app-seller-products-filteration-header>
+                </div>
+
+                <button class="ms-5 btn btn-add-product d-inline-flex align-items-center gap-2 shadow-sm" type="button"
+                    (click)="navigateToAddProductPage()">
+                    <i class="bi bi-plus-circle-fill fs-5"></i>
+                    <span>Add Product</span>
+                </button>
+            </div>
+
+            <!-- Right: Content Searching Box Controls -->
+            <!-- Right Side Control Matrix: Replaced Search & Export with a Premium Filtration Dropdown -->
+            <div class="d-flex align-items-center justify-content-md-end gap-2 flex-wrap">
+
+                <div class="dropdown">
+                    <button
+                        class="btn btn-outline-secondary d-inline-flex align-items-center gap-2 px-3 py-2 fs-14 fw-medium bg-white border shadow-sm dropdown-toggle"
+                        style="border-radius: 8px; color: #475569;" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="bi bi-filter-right fs-5"></i>
+                        <span>Sort By</span>
+                    </button>
+
+                    <!-- Interactive Dropdown List Items Matrix -->
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border p-2 mt-2"
+                        style="min-width: 210px; border-radius: 10px;">
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                (click)="sortBy('price', false)">
+                                <span class="fs-13 fw-medium"><strong>Price</strong>: Low to High</span>
+                                <i class="bi bi-sort-up fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                (click)="sortBy('price', true)">
+                                <span class="fs-13 fw-medium"><strong>Price</strong>: High to Low</span>
+                                <i class="bi bi-sort-down fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                (click)="sortBy('reviews', false)">
+                                <span class="fs-13 fw-medium"><strong>Reviews</strong>: Low to High</span>
+                                <i class="bi bi-sort-up fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                (click)="sortBy('reviews', true)">
+                                <span class="fs-13 fw-medium"><strong>Reviews</strong>: High to Low</span>
+                                <i class="bi bi-sort-down fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                (click)="sortBy('rating', false)">
+                                <span class="fs-13 fw-medium"><strong>Avg Rating</strong>: Low to High</span>
+                                <i class="bi bi-sort-up fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                (click)="sortBy('rating', true)">
+                                <span class="fs-13 fw-medium"><strong>Avg Rating</strong>: High to Low</span>
+                                <i class="bi bi-sort-down fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                (click)="sortBy('soldPieces', false)">
+                                <span class="fs-13 fw-medium"><strong># Sold Pieces</strong>: Low to High</span>
+                                <i class="bi bi-sort-up fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                (click)="sortBy('soldPieces', true)">
+                                <span class="fs-13 fw-medium"><strong># Sold Pieces</strong>: High to Low</span>
+                                <i class="bi bi-sort-down fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                (click)="sortBy('AmountInStock', false)">
+                                <span class="fs-13 fw-medium"><strong>Amount In Stock</strong>: Low to High</span>
+                                <i class="bi bi-sort-up fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                (click)="sortBy('AmountInStock', true)">
+                                <span class="fs-13 fw-medium"><strong>Amount In Stock</strong>: High to Low</span>
+                                <i class="bi bi-sort-down fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- CORE RESPONSIVE ARCHITECTURE DATA GRID -->
+        <div class="table-responsive">
+            <table class="table custom-orders-table align-middle">
+                <thead>
+                    <tr>
+                        <!-- CHANGED: Table Headers reflect inventory & sales tracking metrics -->
+                        <th>Product Info</th>
+                        <th>Type / Category</th>
+                        <th>Price</th>
+                        <th>Stock Level</th>
+                        <th>Total Sold</th>
+                        <th>Ratings</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop Engine Cell Row Render mapping your StoreProductDto collection -->
+                    @for (product of products; track product.id) {
+                    <tr>
+                        <!-- Product Image & Name Cluster -->
+                        <td>
+                            <div class="d-flex align-items-center gap-3 text-start">
+                                <div class="product-thumbnail-frame flex-shrink-0"
+                                    style="width: 50px; height: 50px; background-color: #f1f5f9; border-radius: 6px; overflow: hidden;">
+                                    @if (product.productBaseImageUrl) {
+                                    <img [src]="'https://localhost:5001' + product.productBaseImageUrl"
+                                        [alt]="product.productName"
+                                        style="width: 100%; height: 100%; object-fit: cover;">
+                                    } @else {
+                                    <div
+                                        class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
+                                        <i class="bi bi-image fs-5"></i>
+                                    </div>
+                                    }
+                                </div>
+                                <div>
+                                    <!-- Interactive title click routing to product parameters detailed sheet -->
+                                    <span (click)="navigateToProductDetails(product.id)"
+                                        class="fw-bold text-dark order-link-id d-block" style="cursor: pointer;">
+                                        {{ product.productName | trim:20:'...' }}
+                                    </span>
+                                    <small class="text-muted text-uppercase fw-semibold"
+                                        style="font-size: 11px; letter-spacing: 0.3px;">{{ product.brandName }}</small>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- Product Category Column -->
+                        <td>
+                            <span class="d-block text-secondary fw-medium">{{ product.type }}</span>
+                        </td>
+
+                        <!-- Product Pricing Column -->
+                        <td class="fw-bold text-dark">
+                            {{ product.productPrice | currency }}
+                        </td>
+
+                        <!-- Warehousing Stock Management Indicators -->
+                        <td>
+                            <!-- Automatically flags warning styles if stock count levels drop low -->
+                            <span [class.text-danger]="product.amountInStock <= 5"
+                                [class.fw-bold]="product.amountInStock <= 5">
+                                {{ product.amountInStock }} pieces
+                            </span>
+                        </td>
+
+                        <!-- Volume Performance Statistics Metrics Column -->
+                        <td class="fw-medium text-dark">
+                            {{ product.numberOfSoldPieces | number }} pieces
+                        </td>
+
+                        <!-- Star Rating Calculations Summary Block -->
+                        <td>
+                            <div class="d-flex align-items-center gap-1">
+                                <span class="fw-bold text-dark fs-13">{{ product.averageRating | number:'1.1-1'
+                                    }}</span>
+                                <i class="bi bi-star-fill text-warning fs-12"></i>
+                                <span class="text-muted fs-11 ms-1">({{ product.numberOfReviews }})</span>
+                            </div>
+                        </td>
+
+                        <!-- Active Visibility Status Badges -->
+                        <td>
+                            @if (product.isActive) {
+                            <span class="status-badge status-delivered py-1 px-2">
+                                <span class="bi bi-circle-fill" style="font-size: 6px; vertical-align: middle;"></span>
+                                Active
+                            </span>
+                            } @else {
+                            <span class="status-badge status-cancelled py-1 px-2">
+                                <span class="bi bi-circle-fill" style="font-size: 6px; vertical-align: middle;"></span>
+                                Suspended
+                            </span>
+                            }
+                        </td>
+
+                        <!-- Row Management Dropdown Actions Deck -->
+                        <td>
+                            <div class="d-flex justify-content-center align-items-center gap-2">
+                                <div class="dropdown d-inline-block">
+                                    <button
+                                        class="btn btn-sm btn-light border text-muted d-inline-flex align-items-center"
+                                        type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                        @if (product.isActive) {
+                                        <li><a (click)="deactivate(product.id)"
+                                                class="dropdown-item py-2 text-danger"><i class="bi bi-pencil me-2"></i>
+                                                Deactivate</a></li>
+                                        } @else {
+                                        <li><a (click)="activate(product.id)" class="dropdown-item py-2 text-success"><i
+                                                    class="bi bi-pencil me-2"></i>
+                                                Activate</a></li>
+                                        }
+                                        <li><a class="dropdown-item py-2" href="#"><i class="bi bi-pencil me-2"></i>
+                                                Edit Data</a></li>
+                                        <!-- <li><a class="dropdown-item py-2 text-danger" href="#"><i
+                                                    class="bi bi-trash me-2"></i> Delete Item</a></li> -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="8" class="text-center text-muted py-5 fs-5">
+                            <i class="bi bi-box-seam d-block fs-1 text-secondary mb-2"></i> No inventory listings match
+                            your filter parameters.
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TABLE FOOTER / PAGINATION NAVIGATION BAR -->
+        <app-pagination [paginationMetaData]="metaData" (pageChanged)="onPageChanged($event)"></app-pagination>
+    </div>
+
+</div>

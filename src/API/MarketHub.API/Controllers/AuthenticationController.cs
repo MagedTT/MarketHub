@@ -65,9 +65,9 @@ public class AuthenticationController : ControllerBase
 
     [HttpGet]
     [Route("confirm-email")]
-    public async Task<IActionResult> ConfirmEmail(string email, string token)
+    public async Task<IActionResult> ConfirmEmail(string email, string token, string permission)
     {
-        BaseResponse response = await _authenticationService.ConfirmEmail(email, token);
+        BaseResponse response = await _authenticationService.ConfirmEmail(email, token, permission);
 
         if (!response.Success)
         {
