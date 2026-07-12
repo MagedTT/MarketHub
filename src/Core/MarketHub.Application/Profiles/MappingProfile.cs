@@ -8,6 +8,7 @@ using MarketHub.Application.Features.Inventories.COmmands.CreateInventory;
 using MarketHub.Application.Features.Orders.Commands.CreateOrder;
 using MarketHub.Application.Features.Products.Commands.AddProductCommand;
 using MarketHub.Application.Features.PromoCodes.Commands.CreatePromoCode;
+using MarketHub.Application.Features.PromoCodes.Commands.UpdatePromoCode;
 using MarketHub.Application.Features.Reviews.Commands.CreateReview;
 using MarketHub.Application.Features.Reviews.Commands.UpdateReview;
 using MarketHub.Application.Features.Stores.Commands.CreateStore;
@@ -46,5 +47,7 @@ public class MappingProfile : Profile
         CreateMap<CreatePromoCodeCommand, PromoCode>();
         CreateMap<OrderShippingAddressDto, ShippingAddress>();
         CreateMap<CreateStoreCommand, Store>();
+
+        CreateMap<UpdatePromoCodeCommand, PromoCode>();
     }
 }

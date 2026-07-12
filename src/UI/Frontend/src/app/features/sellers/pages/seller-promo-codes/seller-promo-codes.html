@@ -1,4 +1,13 @@
 @if (metaData()) {
 <app-seller-promo-codes-list [metaData]="metaData()" [promoCodes]="promoCodes()" (pageChanged)="onPageChanged($event)"
-    (sortApplied)="onSortApplied($event)"></app-seller-promo-codes-list>
+    (sortApplied)="onSortApplied($event)" (promoCodeActiveStatusChanged)="onPromoCodeActiveStatusChaged($event)"
+    (promoCodeEdited)="onPromoCodeEdit($event)" (promoCodeCreated)="openCreateModal()"></app-seller-promo-codes-list>
 }
+
+<app-confirmation-modal #confirmationModal (confirmed)="onConfirmed()"
+    (cancelled)="onCancelled()"></app-confirmation-modal>
+
+<app-edit-promo-code-modal #editPromoModal (saved)="onPromoCodeUpdated($event)"></app-edit-promo-code-modal>
+
+<app-create-promo-code-modal #createPromoModal (created)="onPromoCodeCreated()">
+</app-create-promo-code-modal>

@@ -127,4 +127,7 @@ public class PromoCodeRepository : IPromoCodeRepository
 
     public async Task<bool> CheckPromoCodeExistsByCodeAsync(string code)
         => await _context.PromoCodes.AnyAsync(x => x.Code == code);
+
+    public async Task<bool> CheckPromoCodeExistsByIdAndOwnedByStoreAsync(Guid promoCodeId, Guid storeId)
+        => await _context.PromoCodes.AnyAsync(x => x.Id == promoCodeId && x.StoreId == storeId);
 }

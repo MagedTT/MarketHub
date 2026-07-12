@@ -14,6 +14,7 @@ public interface IPromoCodeRepository
     Task<int> GetUsageCountByIdAsync(Guid promoCodeId);
     Task<int> GetUsageCountByCodeAsync(string code);
     Task<bool> CheckPromoCodeExistsByIdAsync(Guid promoCodeId);
+    Task<bool> CheckPromoCodeExistsByIdAndOwnedByStoreAsync(Guid promoCodeId, Guid storeId);
     Task<bool> CheckPromoCodeExistsByCodeAsync(string code);
     Task<int> TotalPromoCodesByStoreIdAsync(Guid storeId);
     Task<bool> CheckPromoCodeUniqueByCodeAsync(string code);

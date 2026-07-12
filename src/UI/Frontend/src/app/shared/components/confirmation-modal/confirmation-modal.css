@@ -1,0 +1,16 @@
+.modal {
+  background: rgba(15, 23, 42, 0.3); /* Smooth dark background blur filter tint */
+  backdrop-filter: blur(4px);
+}
+
+.fs-14 { font-size: 14px; }
+.fs-16 { font-size: 16px; }
+
+.px-3\.5 {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+}
+
+.modal-content {
+  background-color: #ffffff;
+}

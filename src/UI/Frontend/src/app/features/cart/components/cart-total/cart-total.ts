@@ -1,6 +1,6 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, inject, Input, OnDestroy, signal, WritableSignal } from '@angular/core';
-import { Router, RouterLink } from "@angular/router";
+import { Component, inject, Input, OnDestroy, signal } from '@angular/core';
+import { Router } from "@angular/router";
 import { SessionStoreService } from '../../../../core/services/session-store-service';
 import { CartService } from '../../services/cart-service';
 import { catchError, Subject, takeUntil, throwError } from 'rxjs';
@@ -8,7 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-cart-total',
-  imports: [CurrencyPipe, RouterLink],
+  imports: [CurrencyPipe],
   templateUrl: './cart-total.html',
   styleUrl: './cart-total.css',
 })

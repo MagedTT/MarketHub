@@ -1,0 +1,36 @@
+@if (isOpen()) {
+<!-- Modal Background Overlay -->
+<div class="modal-backdrop fade show"></div>
+
+<!-- Modal Structural Container -->
+<div class="modal d-block fade show" tabindex="-1" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 450px;">
+        <div class="modal-content shadow border-0 px-2 py-1" style="border-radius: 14px;">
+
+            <!-- Header -->
+            <div class="modal-header border-0 pb-1">
+                <h5 class="modal-title fw-bold text-dark fs-16">{{ title() }}</h5>
+                <button type="button" class="btn-close shadow-none" aria-label="Close" (click)="onCancel()"></button>
+            </div>
+
+            <!-- Body Message Content -->
+            <div class="modal-body pt-1 pb-3 text-start">
+                <p class="text-secondary mb-0 fs-14" style="line-height: 1.5;">{{ message() }}</p>
+            </div>
+
+            <!-- Action Trigger Footer Bar -->
+            <div class="modal-footer border-0 pt-0 pb-3 d-flex justify-content-end gap-2">
+                <button type="button" class="btn btn-light border px-4 py-2 fw-semibold fs-14 rounded-2 text-secondary"
+                    (click)="onCancel()">
+                    {{ cancelButtonText() }}
+                </button>
+                <button type="button" class="btn px-4 py-2 fw-semibold fs-14 rounded-2"
+                    [ngClass]="isDangerAction() ? 'btn-danger' : 'btn-primary'" (click)="onConfirm()">
+                    {{ confirmButtonText() }}
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+}

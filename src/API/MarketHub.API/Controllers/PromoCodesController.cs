@@ -8,6 +8,7 @@ using MarketHub.Application.Features.PromoCodes.Commands.CreatePromoCode;
 using MarketHub.Application.Features.PromoCodes.Commands.DeactivatePromoCode;
 using MarketHub.Application.Features.PromoCodes.Commands.DeletePromoCode;
 using MarketHub.Application.Features.PromoCodes.Commands.ExtendPromoCodeValidity;
+using MarketHub.Application.Features.PromoCodes.Commands.UpdatePromoCode;
 using MarketHub.Application.Features.PromoCodes.GetUsageCountForPromoCode;
 using MarketHub.Application.Features.PromoCodes.GetUsageCountForPromoCodeByCode;
 using MarketHub.Application.Features.PromoCodes.Queries.GetAllPromoCodes;
@@ -164,9 +165,9 @@ public class PromoCodesController : ControllerBase
             return NotFound(response.Message);
 
         if (!response.Success && response.StatusCode == StatusCodes.Status406NotAcceptable)
-            return BadRequest(response.Message);
+            return Ok(false); // return BadRequest(response.Message);
 
-        return Ok();
+        return Ok(true);
     }
 
     [HttpPost]
@@ -202,7 +203,7 @@ public class PromoCodesController : ControllerBase
 
     [HttpPost]
     [Route("extend")]
-    public async Task<IActionResult> DeactivatePromoCode([FromBody] ExtendPromoCodeValidityCommand request)
+    public async Task<IActionResult> ExtendPromoCode([FromBody] ExtendPromoCodeValidityCommand request)
     {
         BaseResponse response = await _mediator.Send(request);
 
@@ -212,6 +213,24 @@ public class PromoCodesController : ControllerBase
                 return NotFound(response.Message);
 
             else if (response.StatusCode == StatusCodes.Status406NotAcceptable)
+                return BadRequest(response.Message);
+        }
+
+        return NoContent();
+    }
+
+    [HttpPost]
+    [Route("update")]
+    public async Task<IActionResult> updatePromoCode([FromBody] UpdatePromoCodeCommand request)
+    {
+        BaseResponse response = await _mediator.Send(request);
+
+        if (!response.Success)
+        {
+            if (response.StatusCode == StatusCodes.Status404NotFound)
+                return NotFound(response.Message);
+
+            else if (response.StatusCode == StatusCodes.Status400BadRequest)
                 return BadRequest(response.Message);
         }
 

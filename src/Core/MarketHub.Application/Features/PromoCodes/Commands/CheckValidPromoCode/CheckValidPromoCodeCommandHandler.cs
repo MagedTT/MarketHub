@@ -28,13 +28,6 @@ public class CheckValidPromoCodeCommandHandler : IRequestHandler<CheckValidPromo
             return response;
         }
 
-        // if (DateTime.Now < promoCode.EndDate && promoCode.NumberOfTimesUsed < promoCode.UsageLimit && promoCode.IsActive)
-        // {
-        //     response.Success = false;
-        //     response.StatusCode = (int)HttpStatusCode.NotAcceptable;
-        //     response.Message = "The PromoCode is not expired yet are you sure you want to deactivate?";
-        // }
-
         if (
             promoCode.EndDate <= DateTime.Now ||
             promoCode.UsageLimit <= promoCode.NumberOfTimesUsed ||

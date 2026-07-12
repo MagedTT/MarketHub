@@ -3,13 +3,13 @@ import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@a
 import { ActivatedRoute } from '@angular/router';
 import { catchError, Subject, take, takeUntil, throwError } from 'rxjs';
 import { SessionStoreService } from '../../../../core/services/session-store-service';
-import { CurrencyPipe, JsonPipe, KeyValuePipe } from '@angular/common';
+import { CurrencyPipe, KeyValuePipe } from '@angular/common';
 import { SellerOrdersService } from '../../services/seller-orders-service';
 import { StoreProductDetailsDto } from '../../models/store-product-details-dto.interface';
 
 @Component({
   selector: 'app-seller-product-details',
-  imports: [CurrencyPipe, KeyValuePipe, JsonPipe],
+  imports: [CurrencyPipe, KeyValuePipe],
   templateUrl: './seller-product-details.html',
   styleUrl: './seller-product-details.css',
 })

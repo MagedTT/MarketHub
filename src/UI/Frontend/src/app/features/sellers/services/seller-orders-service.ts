@@ -11,6 +11,9 @@ import { BrandDto } from '../models/brand-dto.interface';
 import { CategoryDto } from '../models/category-dto.interface';
 import { PromoCodeParameters } from '../models/promocode-parameters.interface';
 import { PromoCodeDto } from '../models/promocode-dto.interface';
+import { PromoCodeEditModel } from '../../../shared/models/promo-code-edit.interface';
+import { PromoCodeUpate } from '../models/promo-code-update.interface';
+import { CreatePromoCode } from '../../../shared/models/promo-code-create.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -51,6 +54,14 @@ export class SellerOrdersService {
     )
   }
 
+  createPromoCode(request: CreatePromoCode): Observable<any> {
+    return this.httpClient.post<any>(`https://localhost:5001/api/promoCodes`, request);
+  }
+
+  updatePromoCode(request: PromoCodeUpate): Observable<any> {
+    return this.httpClient.post<any>(`https://localhost:5001/api/promoCodes/update`, request);
+  }
+
   getProductDetails(storeId: string, productId: string): Observable<StoreProductDetailsDto> {
     return this.httpClient.get<StoreProductDetailsDto>(`https://localhost:5001/api/stores/productDetails/${storeId}/${productId}`);
   }
@@ -61,6 +72,18 @@ export class SellerOrdersService {
 
   deactivateProduct(productId: string, storeId: string): Observable<any> {
     return this.httpClient.post<any>(`https://localhost:5001/api/products/deactivate/${productId}/${storeId}`, {});
+  }
+
+  activatePromoCode(promoCodeId: string): Observable<any> {
+    return this.httpClient.post<any>(`https://localhost:5001/api/promoCodes/activate/${promoCodeId}`, {});
+  }
+
+  deactivatePromoCode(promoCodeId: string): Observable<any> {
+    return this.httpClient.post<any>(`https://localhost:5001/api/promoCodes/deactivate/${promoCodeId}`, {});
+  }
+
+  checkPromoCodeValidity(promoCodeId: string): Observable<any> {
+    return this.httpClient.post<any>(`https://localhost:5001/api/promocodes/checkValidity/${promoCodeId}`, {});
   }
 
   getBrandsWithIdsAndNames(): Observable<BrandDto[]> {

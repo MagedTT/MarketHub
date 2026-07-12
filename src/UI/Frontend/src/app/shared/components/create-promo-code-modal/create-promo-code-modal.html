@@ -1,0 +1,119 @@
+@if (isOpen()) {
+<!-- Backdrop Background Shadow Overlay -->
+<div class="modal-backdrop fade show"></div>
+
+<div class="modal d-block fade show" tabindex="-1" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 520px;">
+        <div class="modal-content shadow border-0 px-3 py-2" style="border-radius: 14px;">
+
+            <!-- Header Matrix -->
+            <div class="modal-header border-0 pb-2 text-start">
+                <div>
+                    <h5 class="modal-title fw-bold text-dark fs-16 mb-0">Create New Promo Code</h5>
+                </div>
+                <button type="button" class="btn-close shadow-none align-self-start" aria-label="Close"
+                    (click)="onCancel()"></button>
+            </div>
+
+            <!-- Form Layout Body -->
+            <form [formGroup]="createForm" (ngSubmit)="onSave()" class="modal-body py-2 row g-3 text-start">
+
+                <!-- Code Field with Custom Generation Engine Anchor Button -->
+                <div class="col-12">
+                    <label for="code" class="form-label form-label-custom mb-1">Code</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control font-monospace text-uppercase" id="code"
+                            formControlName="code" placeholder="SUMMER12" style="letter-spacing: 0.5px;">
+                        <button class="btn btn-dark fw-semibold fs-13 d-flex align-items-center gap-1" type="button"
+                            (click)="generateRandomCode()">
+                            <i class="bi bi-magic"></i> Generate
+                        </button>
+                    </div>
+                    @if (codeError()) {
+                    <div class="text-danger fs-12 mt-1">
+                        <i class="bi bi-exclamation-circle-fill me-1"></i> {{ codeError() }}
+                    </div>
+                    }
+                </div>
+
+                <!-- Discount Type Selector System -->
+                <div class="col-sm-6">
+                    <label for="discountType" class="form-label form-label-custom mb-1">Type</label>
+                    <select class="form-select" id="discountType" formControlName="discountType">
+                        <option [value]="1">Percentage (%)</option>
+                        <!-- <option [value]="2">Fixed Amount ($)</option> -->
+                    </select>
+                </div>
+
+                <!-- Discount Value Input Field -->
+                <div class="col-sm-6">
+                    <label for="usageLimit" class="form-label form-label-custom mb-1">Usage Limit</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="usageLimit" formControlName="usageLimit" min="1">
+                        <span class="input-group-text bg-light text-secondary fw-semibold">
+                        </span>
+                    </div>
+                    @if (usageLimitError()) {
+                    <div class="text-danger fs-12 mt-1">
+                        <i class="bi bi-exclamation-circle-fill me-1"></i> {{usageLimitError()}}
+                    </div>
+                    }
+                </div>
+
+                <!-- Total Allocation Usage Count Constraint Limit -->
+                <div class="col-sm-6">
+                    <label for="discountValue" class="form-label form-label-custom mb-1">Discount Percentage</label>
+                    <input type="number" class="form-control" id="discountValue" formControlName="discountValue"
+                        placeholder="e.g. 250">
+                    @if (discountValueError()) {
+                    <div class="text-danger fs-12 mt-1">
+                        <i class="bi bi-exclamation-circle-fill me-1"></i> {{ discountValueError() }}
+                    </div>
+                    }
+                </div>
+
+                <!-- Expiration Date Picker -->
+                <div class="col-sm-6">
+                    <label for="endDate" class="form-label form-label-custom mb-1">Expiration Date</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light text-secondary"><i
+                                class="bi bi-calendar-event"></i></span>
+                        <input type="date" class="form-control" id="endDate" formControlName="endDate">
+                        @if (endDateError()) {
+                        <div class="text-danger fs-12 mt-1">
+                            <i class="bi bi-exclamation-circle-fill me-1"></i> {{ endDateError() }}
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- IsActive Lifecycle Toggle State Switch -->
+                <div class="col-12 mt-3 mb-1">
+                    <div class="form-check form-switch p-0 ps-5 d-flex align-items-center gap-3">
+                        <input class="form-check-input ms-n5 cursor-pointer" type="checkbox" id="isActiveToggle"
+                            formControlName="isActive">
+                        <label class="form-check-label text-dark fw-medium fs-14 cursor-pointer" for="isActiveToggle">
+                            Make Active
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Actions Triggers Bottom Dock -->
+                <div class="col-12 modal-footer border-0 pt-3 pb-1 px-0 d-flex justify-content-end gap-2">
+                    <button type="button"
+                        class="btn btn-light border px-4 py-2 fw-semibold fs-14 rounded-2 text-secondary"
+                        (click)="onCancel()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold fs-14 rounded-2"
+                        [disabled]="createForm.invalid">
+                        <i class="bi bi-plus-circle-fill me-1"></i>Register Code
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+}
