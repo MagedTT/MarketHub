@@ -8,5 +8,6 @@ public class CreateOrderCommand : IRequest<BaseResponse>
 {
     public Guid UserId { get; set; }
     public string? PromoCode { get; set; }
+    public decimal Total { get; set; }
     public OrderShippingAddressDto ShippingAddress { get; set; } = default!;
 }

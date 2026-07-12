@@ -1,0 +1,43 @@
+<div class="card info-detail-card p-4">
+    <!-- Component Header -->
+    <h5 class="fw-bold mb-4 text-dark d-flex align-items-center gap-2">
+        <i class="bi bi-shop text-primary"></i> Store Configuration Details
+    </h5>
+
+    <div class="row g-3">
+        <!-- Store Name Input Track -->
+        <div class="col-12 text-start">
+            <span class="form-label-custom">Official Store Title</span>
+            @if (!isEditing) {
+            <div class="detail-value-text">{{ currentStoreName() }}</div>
+            } @else {
+            <input type="text" class="form-control form-control-custom w-100" [(ngModel)]="editableStoreName">
+            }
+        </div>
+
+        <!-- Static Store Description -->
+        <div class="col-12 text-start">
+            <span class="form-label-custom">Store Description Narrative</span>
+            <div class="detail-value-text text-secondary" style="line-height: 1.5;">
+                Premium technology hubs rendering custom smartphones, electronic components, and digital accessories
+                live to consumers globally. Established configuration serving regional marketplace networks natively.
+            </div>
+        </div>
+
+        <div class="col-12">
+            <hr class="info-divider my-2">
+        </div>
+
+        <!-- Dynamic Timeline Triggers -->
+        <div class="col-sm-6 text-start">
+            <span class="form-label-custom">Registration Timestamp</span>
+            <div class="detail-value-text"><i class="bi bi-calendar3 me-2 text-muted"></i>July 11, 2026</div>
+        </div>
+
+        <div class="col-sm-6 text-start">
+            <span class="form-label-custom">Fulfillment Channel State</span>
+            <div class="detail-value-text text-success fw-semibold"><i
+                    class="bi bi-check-circle-fill me-2"></i>Operational Open</div>
+        </div>
+    </div>
+</div>

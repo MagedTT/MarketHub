@@ -37,29 +37,45 @@ public class PromoCodeRepository : IPromoCodeRepository
         if (promoCodeParameters.NumberOfTimesUsed is not null)
             promoCodes = promoCodes.Where(x => x.NumberOfTimesUsed == promoCodeParameters.NumberOfTimesUsed);
 
-        promoCodes = promoCodes.Where(x =>
-            promoCodeParameters.StartDate <= x.StartDate && x.StartDate <= promoCodeParameters.EndDate &&
-            promoCodeParameters.StartDate <= x.EndDate && x.EndDate <= promoCodeParameters.EndDate);
+        if (promoCodeParameters.StartDate is not null)
+            promoCodes = promoCodes.Where(x => promoCodeParameters.StartDate <= x.StartDate);
 
-        if (promoCodeParameters.OrderByDiscountValueDescending)
-            promoCodes = promoCodes.OrderByDescending(x => x.DiscountValue);
-        else
-            promoCodes = promoCodes.OrderBy(x => x.DiscountValue);
+        if (promoCodeParameters.EndDate is not null)
+            promoCodes = promoCodes.Where(x => x.EndDate <= promoCodeParameters.EndDate);
 
-        if (promoCodeParameters.OrderByStartDateDescending)
-            promoCodes = promoCodes.OrderByDescending(x => x.StartDate);
-        else
-            promoCodes = promoCodes.OrderBy(x => x.StartDate);
+        if (promoCodeParameters.Descending)
+        {
+            if (promoCodeParameters.OrderByDiscountValue)
+                promoCodes = promoCodes.OrderByDescending(x => x.DiscountValue);
+            else if (promoCodeParameters.OrderByStartDate)
+                promoCodes = promoCodes.OrderByDescending(x => x.StartDate);
 
-        if (promoCodeParameters.OrderByEndDateDescending)
-            promoCodes = promoCodes.OrderByDescending(x => x.EndDate);
-        else
-            promoCodes = promoCodes.OrderBy(x => x.EndDate);
+            else if (promoCodeParameters.OrderByEndDate)
+                promoCodes = promoCodes.OrderByDescending(x => x.EndDate);
 
-        if (promoCodeParameters.OrderByNumberOfTimesUsedDescending)
-            promoCodes = promoCodes.OrderByDescending(x => x.NumberOfTimesUsed);
+            else if (promoCodeParameters.OrderByUsageLimit)
+                promoCodes = promoCodes.OrderByDescending(x => x.UsageLimit);
+
+            else if (promoCodeParameters.OrderByNumberOfTimesUsed)
+                promoCodes = promoCodes.OrderByDescending(x => x.NumberOfTimesUsed);
+        }
         else
-            promoCodes = promoCodes.OrderBy(x => x.NumberOfTimesUsed);
+        {
+            if (promoCodeParameters.OrderByDiscountValue)
+                promoCodes = promoCodes.OrderBy(x => x.DiscountValue);
+
+            else if (promoCodeParameters.OrderByStartDate)
+                promoCodes = promoCodes.OrderBy(x => x.StartDate);
+
+            else if (promoCodeParameters.OrderByEndDate)
+                promoCodes = promoCodes.OrderBy(x => x.EndDate);
+
+            else if (promoCodeParameters.OrderByUsageLimit)
+                promoCodes = promoCodes.OrderBy(x => x.UsageLimit);
+
+            else if (promoCodeParameters.OrderByNumberOfTimesUsed)
+                promoCodes = promoCodes.OrderBy(x => x.NumberOfTimesUsed);
+        }
 
         int count = await promoCodes.CountAsync();
 

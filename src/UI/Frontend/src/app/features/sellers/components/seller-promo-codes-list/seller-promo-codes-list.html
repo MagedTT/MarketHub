@@ -1,0 +1,229 @@
+<div id="app" class="container-fluid py-5 px-md-5" style="max-width: 1400px;">
+    <!-- MAIN SECTION COMPONENT PANEL -->
+    <div class="orders-table-card shadow-sm">
+        <!-- TOP FILTRATION & ACTIONS HEADER BAR -->
+        <div
+            class="filter-header-bar d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <!-- Left: Custom Promo Codes Filtration Component Trigger & Add Button -->
+            <div class="text-start d-flex align-items-center gap-3 flex-wrap">
+                <div class="order-filter-group" role="tablist">
+                    <!-- <app-seller-promocodes-filtration-header
+                        (promoCodeStatusChanged)="onPromoCodeStatusChanged($event)"></app-seller-promocodes-filtration-header> -->
+                </div>
+
+                <button class="btn btn-add-product d-inline-flex align-items-center gap-2 shadow-sm" type="button"
+                    (click)="navigateToAddPromoCodePage()">
+                    <i class="bi bi-plus-circle-fill fs-5"></i>
+                    <span>Create Promo Code</span>
+                </button>
+            </div>
+
+            <!-- Right: Sorting Metrics Engine Dropdown Deck -->
+            <div class="d-flex align-items-center justify-content-md-end gap-2 flex-wrap">
+                <div class="dropdown">
+                    <button
+                        class="btn btn-outline-secondary d-inline-flex align-items-center gap-2 px-3 py-2 fs-14 fw-medium bg-white border shadow-sm dropdown-toggle"
+                        style="border-radius: 8px; color: #475569;" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="bi bi-filter-right fs-5"></i>
+                        <span>Sort By</span>
+                    </button>
+
+                    <!-- Interactive Dropdown List Items Matrix mapping relevant backend sorting hooks -->
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border p-2 mt-2"
+                        style="min-width: 230px; border-radius: 10px;">
+                        <li>
+                            <a (click)="onSortApplied('value', true)"
+                                class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                style="cursor: pointer;">
+                                <span class="fs-13 fw-medium"><strong>Value</strong>: High to Low</span>
+                                <i class="bi bi-sort-numeric-up fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a (click)="onSortApplied('value', false)"
+                                class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                style="cursor: pointer;">
+                                <span class="fs-13 fw-medium"><strong>Value</strong>: Low to High</span>
+                                <i class="bi bi-sort-numeric-down fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a (click)="onSortApplied('enddate', true)"
+                                class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                style="cursor: pointer;">
+                                <span class="fs-13 fw-medium"><strong>Expiration</strong>: Soon First</span>
+                                <i class="bi bi-calendar-event fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a (click)="onSortApplied('enddate', false)"
+                                class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                style="cursor: pointer;">
+                                <span class="fs-13 fw-medium"><strong>Expiration</strong>: Later First</span>
+                                <i class="bi bi-calendar-event fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a (click)="onSortApplied('timesUsed', true)"
+                                class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                style="cursor: pointer;">
+                                <span class="fs-13 fw-medium"><strong>Times Usaged</strong>: High to Low</span>
+                                <i class="bi bi-graph-up fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a (click)="onSortApplied('timesUsed', false)"
+                                class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                style="cursor: pointer;">
+                                <span class="fs-13 fw-medium"><strong>Times Usaged</strong>: Low to High</span>
+                                <i class="bi bi-graph-up fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a (click)="onSortApplied('usageLimit', true)"
+                                class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                style="cursor: pointer;">
+                                <span class="fs-13 fw-medium"><strong>Usage Limit</strong>: High to Low</span>
+                                <i class="bi bi-graph-up fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a (click)="onSortApplied('usageLimit', false)"
+                                class="dropdown-item d-flex align-items-center justify-content-between py-2 rounded-2"
+                                style="cursor: pointer;">
+                                <span class="fs-13 fw-medium"><strong>Usage Limit</strong>: Low to High</span>
+                                <i class="bi bi-graph-up fs-12 text-secondary"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- CORE RESPONSIVE ARCHITECTURE DATA GRID -->
+        <div class="table-responsive">
+            <table class="table custom-orders-table align-middle">
+                <thead>
+                    <tr>
+                        <!-- CHANGED: Split Usage Performance into two distinct column fields -->
+                        <th>Code Details</th>
+                        <th>Type</th>
+                        <th>Reduction Value</th>
+                        <th>Duration Window</th>
+                        <th>Times Used</th>
+                        <th>Usage Limit</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop Engine Cell Row Render mapping your PromoCodeDto collection -->
+                    @for (promo of promoCodes; track promo.id) {
+                    <tr>
+                        <!-- Code Details Layout Cell -->
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <span
+                                    class="badge bg-light text-dark border border-secondary-subtle px-3 py-2 font-monospace fs-14 fw-bold shadow-sm"
+                                    style="letter-spacing: 0.5px;">
+                                    {{ promo.code }}
+                                </span>
+                            </div>
+                        </td>
+
+                        <!-- Discount Classification Cell -->
+                        <td>
+                            <span class="fs-14 fw-medium text-secondary">
+                                {{ promo.discountType === 1 ? 'Percentage' : 'Fixed Amount' }}
+                            </span>
+                        </td>
+
+                        <!-- Discount Mathematical Value Cell -->
+                        <td>
+                            <span class="fs-15 fw-bold text-dark">
+                                @if (promo.discountType === 1 || promo.discountType === 0) {
+                                {{ promo.discountValue }}%
+                                } @else {
+                                ${{ promo.discountValue }}
+                                }
+                            </span>
+                        </td>
+
+                        <!-- Lifecycle Activation Window Cell -->
+                        <td>
+                            <div class="fs-13 text-secondary">
+                                <div class="d-flex align-items-center gap-1 mb-1">
+                                    <i class="bi bi-calendar-check text-success fs-12"></i>
+                                    <span>Start: {{ promo.startDate | date:'shortDate' }}</span>
+                                </div>
+                                <div class="d-flex align-items-center gap-1">
+                                    <i class="bi bi-calendar-x text-danger fs-12"></i>
+                                    <span>End: {{ promo.endDate | date:'shortDate' }}</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- Times Used Column Cell -->
+                        <td>
+                            <span class="fs-14 fw-semibold text-dark">
+                                {{ promo.numberOfTimesUsed }}
+                            </span>
+                        </td>
+
+                        <!-- Usage Limit Column Cell -->
+                        <td>
+                            <span class="fs-14 text-secondary">
+                                {{ promo.usageLimit }}
+                            </span>
+                        </td>
+
+                        <!-- State Management Badge Cell -->
+                        <!-- State Management Badge Cell -->
+                        <td>
+                            @if (promo.isActive) {
+                            <span
+                                class="badge bg-success-subtle text-success px-2.5 py-1.5 fw-semibold rounded-pill fs-12">
+                                <i class="bi bi-circle-fill me-1" style="font-size: 5px; vertical-align: middle;"></i>
+                                Active
+                            </span>
+                            } @else {
+                            <span
+                                class="badge bg-secondary-subtle text-secondary px-2.5 py-1.5 fw-semibold rounded-pill fs-12">
+                                <i class="bi bi-circle-fill me-1" style="font-size: 5px; vertical-align: middle;"></i>
+                                Disabled
+                            </span>
+                            }
+                        </td>
+
+                        <!-- Actions Strategy Dropdown Menu Node Trigger -->
+                        <td class="text-end">
+                            <div class="d-flex justify-content-end gap-1">
+                                <button class="btn btn-sm btn-light border"
+                                    title="Edit Promo Code"><!--(click)="onEditPromoCode(promo)"-->
+                                    <i class="bi bi-pencil text-secondary"></i>
+                                </button>
+                                <button (click)="onToggleStatus(promo.isActive)" class="btn btn-sm btn-light border"
+                                    [title]="promo.isActive ? 'Deactivate' : 'Activate'">
+                                    <i class="bi"
+                                        [class]="promo.isActive ? 'bi-eye-slash-fill text-warning' : 'bi-eye-fill text-success'"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    } @empty {
+                    <tr>
+                        <td colspan="8" class="text-center text-muted py-5 fs-5">
+                            <i class="bi bi-ticket-perforated d-block fs-1 text-secondary mb-2"></i> No active promo
+                            code rules match your filter parameters.
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- TABLE FOOTER / PAGINATION NAVIGATION BAR -->
+        <app-pagination [paginationMetaData]="metaData" (pageChanged)="onPageChanged($event)"></app-pagination>
+    </div>
+</div>

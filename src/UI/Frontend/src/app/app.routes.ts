@@ -42,6 +42,13 @@ export const routes: Routes = [
                     import('./features/orders/pages/orders-list/orders-list')
                         .then(c => c.OrdersList)
             },
+            {
+                path: 'checkout/:id',
+                // canActivate: [buyerGuard],
+                loadComponent: () =>
+                    import('./features/checkouts/pages/checkout/checkout')
+                        .then(c => c.Checkout)
+            },
             // {
             //     path: '',
             //     redirectTo: 'seller-dashboard',
@@ -88,6 +95,20 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./features/sellers/pages/add-product/add-product')
                         .then(c => c.AddProduct)
+            },
+            {
+                path: 'seller-profile/:id',
+                canActivate: [sellerGuard],
+                loadComponent: () =>
+                    import('./features/sellers/pages/seller-profile/seller-profile')
+                        .then(c => c.SellerProfile)
+            },
+            {
+                path: 'seller-promocodes',
+                canActivate: [sellerGuard],
+                loadComponent: () =>
+                    import('./features/sellers/pages/seller-promo-codes/seller-promo-codes')
+                        .then(c => c.SellerPromoCodes)
             }
         ]
     },

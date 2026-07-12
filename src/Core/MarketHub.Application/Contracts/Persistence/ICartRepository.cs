@@ -9,6 +9,7 @@ public interface ICartRepository
     Task<CartDto?> GetCartByUserIdAsync(Guid userId);
     Task<Cart?> GetCartByIdAsync(Guid cartId);
     Task<int> GetAmountInCartByUserIdAsync(Guid userId);
+    Task<decimal> GetTotalPriceInCartByUserIdAsync(Guid cartId);
     Task<Guid?> CartExistsByUserIdAsync(Guid userId);
     Task<bool> CartExistsByIdAsync(Guid cartId);
     Task<bool> CartExistsAsync(Guid userId);

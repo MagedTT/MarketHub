@@ -41,7 +41,7 @@
         </div>
 
         <!-- Right Side Panel (Spans 33.3% of horizontal area) -->
-        <app-cart-total class="cart-right-panel" [total]="total()"></app-cart-total>
+        <app-cart-total [cartId]="cart()?.cartId ?? ''" class="cart-right-panel" [total]="total()"></app-cart-total>
 
     </div>
 </main>

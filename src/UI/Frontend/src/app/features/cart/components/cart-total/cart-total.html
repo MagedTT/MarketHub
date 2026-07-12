@@ -1,6 +1,33 @@
 <div class="totals-summary-card shadow-sm">
     <div class="totals-heading-title">Cart totals</div>
 
+    @if (errorMessage()) {
+    <div class="alert alert-danger alert-dismissible fade show p-3 mb-3 border-0 text-start" role="alert"
+        style="border-radius: 8px; font-size: 14px;">
+        <div class="d-flex align-items-start gap-2">
+            <i class="bi bi-exclamation-triangle-fill fs-5 mt-0.5 flex-shrink-0"></i>
+            <div class="w-100">
+                <strong class="d-block mb-1">Validation Failure</strong>
+
+                @if (isValidationErrorArray(errorMessage())) {
+                <ul class="mb-0 ps-3 mt-1">
+                    @for (err of getValidationErrorArray(errorMessage()); track err.key) {
+                    <li>
+                        <span class="fw-semibold text-capitalize">{{ err.key }}</span>: {{ err.value }}
+                    </li>
+                    }
+                </ul>
+                }
+                @else {
+                <p class="mb-0">{{ errorMessage() }}</p>
+                }
+            </div>
+        </div>
+        <button type="button" class="btn-close shadow-none" (click)="clearError()" aria-label="Close"
+            style="font-size: 11px; padding: 1.25rem;"></button>
+    </div>
+    }
+
     <div class="totals-data-row border-row">
         <span>Subtotal</span>
         <span class="text-secondary" id="cartSubtotal">{{ total | currency }}</span>
@@ -11,7 +38,5 @@
         <span id="cartTotal">{{ total | currency }}</span>
     </div>
 
-    <a href="#" class="coupon-trigger-text small">Have a coupon?</a>
-
-    <button class="btn-checkout-primary" type="button">Proceed to checkout</button>
+    <button (click)="navigateToCheckout()" class="btn-checkout-primary" type="button">Proceed to checkout</button>
 </div>

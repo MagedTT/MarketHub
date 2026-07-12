@@ -26,4 +26,8 @@ export class CartService {
   updateCartItemQuantity(request: UpdateCartItemQuantityRequest): Observable<any> {
     return this.httpClient.put<any>(`https://localhost:5001/api/users/${request.userId}/carts/updateCartItemQuantity`, request);
   }
+
+  checkout(userId: string): Observable<any> {
+    return this.httpClient.post<any>(`https://localhost:5001/api/users/${userId}/orders/checkout`, {});
+  }
 }

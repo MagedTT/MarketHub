@@ -1,0 +1,46 @@
+<div class="card info-detail-card p-4">
+    <!-- Component Header -->
+    <h5 class="fw-bold mb-4 text-dark d-flex align-items-center gap-2">
+        <i class="bi bi-person-badge text-primary"></i> Linked Merchant Account
+    </h5>
+
+    <!-- Merchant User Frame Information Column -->
+    <div class="d-flex align-items-center gap-3 mb-4 text-start">
+        <div
+            class="owner-avatar bg-primary text-white d-flex align-items-center justify-content-center fw-bold fs-4 shadow-sm circle-avatar">
+            MT
+        </div>
+        <div class="flex-grow-1">
+            @if (!isEditing) {
+            <div class="fw-bold text-dark fs-16">{{ currentOwnerName() }}</div>
+            } @else {
+            <input type="text" class="form-control form-control-custom w-100" [(ngModel)]="editableOwnerName"
+                placeholder="Admin Full Name">
+            }
+            <small class="text-muted">Primary Store Administrator</small>
+        </div>
+    </div>
+
+    <!-- Data Details Properties Rows Table Grid -->
+    <div class="row g-3">
+        <div class="col-12 text-start">
+            <span class="form-label-custom">Linked Merchant User ID</span>
+            <div class="detail-value-text font-monospace text-muted fs-13">usr_90210_88x743_maged</div>
+        </div>
+        <div class="col-12 text-start">
+            <span class="form-label-custom">Contact Email Address</span>
+            @if (!isEditing) {
+            <div class="detail-value-text">{{ currentOwnerEmail() }}</div>
+            } @else {
+            <input type="email" class="form-control form-control-custom w-100" [(ngModel)]="editableOwnerEmail">
+            }
+        </div>
+    </div>
+
+    <!-- Actions Footer Ribbon -->
+    <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+        <button class="btn btn-sm btn-outline-primary px-3 py-2 fw-semibold rounded-2" type="button">
+            <i class="bi bi-envelope me-1"></i> Contact Merchant
+        </button>
+    </div>
+</div>

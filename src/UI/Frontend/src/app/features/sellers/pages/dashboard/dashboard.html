@@ -20,19 +20,19 @@
         <div class="col-xl-5 col-lg-6">
             <div class="row g-3">
                 <div class="col-6">
-                    <app-total-x [text]="'Total Brands'" [value]="100"></app-total-x>
+                    <app-total-x [text]="'Total Brands'" [value]="totalBrands()"></app-total-x>
                 </div>
                 <div class="col-6">
-                    <app-total-x></app-total-x>
+                    <app-total-x [text]="'Total Products'" [value]="totalProducts()"></app-total-x>
                 </div>
                 <div class="col-6">
-                    <app-total-x></app-total-x>
+                    <app-total-x [text]="'Total Reviews'" [value]="totalReviews()"></app-total-x>
                 </div>
                 <div class="col-6">
-                    <app-total-x></app-total-x>
+                    <app-total-x [text]="'Total Promo Codes'" [value]="totalPromoCodes()"></app-total-x>
                 </div>
                 <div class="col-6">
-                    <app-total-x></app-total-x>
+                    <app-total-x [text]="'Total Sales'" [value]="totalSales()"></app-total-x>
                 </div>
                 <div class="col-6">
                     <app-total-x></app-total-x>

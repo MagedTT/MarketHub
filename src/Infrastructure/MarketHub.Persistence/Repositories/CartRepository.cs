@@ -64,6 +64,9 @@ public class CartRepository : ICartRepository
         return _context.CartItems.Where(x => x.CartId == cartId.Value).Sum(x => x.Quantity);
     }
 
+    public async Task<decimal> GetTotalPriceInCartByUserIdAsync(Guid cartId)
+        => await _context.CartItems.Where(x => x.CartId == cartId).SumAsync(x => x.Quantity * x.Product.Price);
+
     public Task<Guid> CreateCartAsync(Cart cart)
     {
         _context.Carts.Add(cart);

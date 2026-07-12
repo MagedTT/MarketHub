@@ -1,0 +1,4 @@
+@if (metaData()) {
+<app-seller-promo-codes-list [metaData]="metaData()" [promoCodes]="promoCodes()" (pageChanged)="onPageChanged($event)"
+    (sortApplied)="onSortApplied($event)"></app-seller-promo-codes-list>
+}

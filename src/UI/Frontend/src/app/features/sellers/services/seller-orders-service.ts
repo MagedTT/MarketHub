@@ -9,6 +9,8 @@ import { StoreProductDto } from '../models/store-product-dto.interface';
 import { StoreProductDetailsDto } from '../models/store-product-details-dto.interface';
 import { BrandDto } from '../models/brand-dto.interface';
 import { CategoryDto } from '../models/category-dto.interface';
+import { PromoCodeParameters } from '../models/promocode-parameters.interface';
+import { PromoCodeDto } from '../models/promocode-dto.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -50,7 +52,6 @@ export class SellerOrdersService {
   }
 
   getProductDetails(storeId: string, productId: string): Observable<StoreProductDetailsDto> {
-    console.log(`https://localhost:5001/api/stores/productDetails/${storeId}/${productId}`);
     return this.httpClient.get<StoreProductDetailsDto>(`https://localhost:5001/api/stores/productDetails/${storeId}/${productId}`);
   }
 
@@ -72,5 +73,40 @@ export class SellerOrdersService {
 
   createProduct(formData: FormData): Observable<any> {
     return this.httpClient.post<any>(`https://localhost:5001/api/products`, formData);
+  }
+
+  getPromoCodes(promoCodeParameters: PromoCodeParameters): Observable<PagedResult<PromoCodeDto>> {
+    return this.httpClient.post<PromoCodeDto[]>(
+      `https://localhost:5001/api/promoCodes/all`,
+      promoCodeParameters,
+      {
+        observe: 'response'
+      }
+    ).pipe(
+      map(response => ({
+        items: response.body ?? [],
+        metadata: JSON.parse(response.headers.get('X-Pagination') ?? '{}')
+      }))
+    )
+  }
+
+  getTotalBrands(storeId: string): Observable<number> {
+    return this.httpClient.get<number>(`https://localhost:5001/api/stores/totalBrands/${storeId}`);
+  }
+
+  getTotalProducts(storeId: string): Observable<number> {
+    return this.httpClient.get<number>(`https://localhost:5001/api/stores/totalProducts/${storeId}`);
+  }
+
+  getTotalReviews(storeId: string): Observable<number> {
+    return this.httpClient.get<number>(`https://localhost:5001/api/stores/totalReviews/${storeId}`);
+  }
+
+  getTotalPromoCodes(storeId: string): Observable<number> {
+    return this.httpClient.get<number>(`https://localhost:5001/api/stores/totalPromoCodes/${storeId}`);
+  }
+
+  getTotalSales(storeId: string): Observable<number> {
+    return this.httpClient.get<number>(`https://localhost:5001/api/stores/totalSales/${storeId}`);
   }
 }

@@ -5,6 +5,7 @@ using MarketHub.Application.Features.Carts.Commands.RemoveCartItem;
 using MarketHub.Application.Features.Carts.Commands.UpdateCartItemQuantity;
 using MarketHub.Application.Features.Carts.Queries.GetAmountInCart;
 using MarketHub.Application.Features.Carts.Queries.GetCartByUserId;
+using MarketHub.Application.Features.Carts.Queries.GetTotalPriceInCart;
 using MarketHub.Application.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -40,6 +41,17 @@ public class CartsController : ControllerBase
 
         // return Ok(new { Amount = response.Amount });
         return Ok(response.Amount);
+    }
+
+    [HttpGet]
+    [Route("totalPrice/{cartId:guid}")]
+    public async Task<IActionResult> GetCartTotalPrice(Guid cartId)
+    {
+        GetTotalPriceInCartQuery request = new() { CartId = cartId };
+
+        decimal response = await _mediator.Send(request);
+
+        return Ok(response);
     }
 
     [HttpGet]

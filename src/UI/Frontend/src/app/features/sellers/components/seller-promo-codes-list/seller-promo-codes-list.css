@@ -1,0 +1,95 @@
+/* --- Dashboard Layout Containers --- */
+.orders-table-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.filter-header-bar {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* --- Action Buttons --- */
+.btn-add-product {
+    background-color: #0f172a;
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-add-product:hover {
+    background-color: #1e293b;
+    color: #ffffff;
+}
+
+/* --- Responsive Table Styling --- */
+.custom-orders-table {
+    width: 100%;
+    margin-bottom: 0;
+    color: #334155;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.custom-orders-table thead th {
+    background-color: #f8fafc;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1rem;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.custom-orders-table tbody td {
+    padding: 1.25rem 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 14px;
+}
+
+.custom-orders-table tbody tr:hover td {
+    background-color: #f8fafc;
+}
+
+/* --- Font Utility Classes --- */
+.fs-12 { font-size: 12px; }
+.fs-13 { font-size: 13px; }
+.fs-14 { font-size: 14px; }
+.fs-15 { font-size: 15px; }
+
+/* --- Badge & Interface Elements --- */
+.bg-success-subtle {
+    background-color: #dcfce7 !important;
+}
+
+.text-success {
+    color: #15803d !important;
+}
+
+.bg-secondary-subtle {
+    background-color: #f1f5f9 !important;
+}
+
+.text-secondary {
+    color: #64748b !important;
+}
+
+/* --- Interactive Dropdowns --- */
+.dropdown-item {
+    color: #334155;
+    transition: all 0.15s ease-in-out;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}

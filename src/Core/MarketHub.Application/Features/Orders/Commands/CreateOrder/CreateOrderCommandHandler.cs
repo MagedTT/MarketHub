@@ -1,3 +1,4 @@
+using System.Data;
 using System.Net;
 using AutoMapper;
 using FluentValidation.Results;
@@ -41,6 +42,7 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Bas
             return response;
         }
 
+        ////////////////////////// Need A lookup at the end ////////////////////////////////
         PromoCode? promoCode = null;
 
         if (request.PromoCode is not null)
@@ -53,6 +55,22 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Bas
                 response.StatusCode = (int)HttpStatusCode.BadRequest;
                 response.ValidationErrors = new() { "PromoCode,PromoCode is Invalid." };
                 return response;
+            }
+
+            else if (
+                promoCode.EndDate <= DateTime.Now ||
+                promoCode.UsageLimit <= promoCode.NumberOfTimesUsed ||
+                !promoCode.IsActive ||
+                promoCode.DiscountType == DiscountType.FixedAmount)
+            {
+                response.Success = false;
+                response.StatusCode = (int)HttpStatusCode.BadRequest;
+                response.ValidationErrors = new() { "PromoCode,PromoCode is Invalid." };
+                return response;
+            }
+            else
+            {
+                promoCode.NumberOfTimesUsed++;
             }
         }
 
@@ -103,43 +121,43 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Bas
             }
         }
 
-        decimal totalAmount = cart.Items.Sum(x => x.Quantity * x.Product.ProductPrice);
+        // decimal totalAmount = cart.Items.Sum(x => x.Quantity * x.Product.ProductPrice);
 
-        if (promoCode is not null)
-        {
-            if (promoCode.DiscountType == DiscountType.FixedAmount)
-            {
-                if (!(1 <= promoCode.DiscountValue && promoCode.DiscountValue <= totalAmount))
-                {
-                    response.Success = false;
-                    response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    response.ValidationErrors = new() { $"DiscountValue,Invalid discount value." };
+        // if (promoCode is not null)
+        // {
+        //     if (promoCode.DiscountType == DiscountType.FixedAmount)
+        //     {
+        //         if (!(1 <= promoCode.DiscountValue && promoCode.DiscountValue <= totalAmount))
+        //         {
+        //             response.Success = false;
+        //             response.StatusCode = (int)HttpStatusCode.BadRequest;
+        //             response.ValidationErrors = new() { $"DiscountValue,Invalid discount value." };
 
-                    return response;
-                }
+        //             return response;
+        //         }
 
-                totalAmount -= promoCode.DiscountValue;
-            }
+        //         totalAmount -= promoCode.DiscountValue;
+        //     }
 
-            else if (promoCode.DiscountType == DiscountType.Percentage)
-            {
-                if (!(1 <= promoCode.DiscountValue && promoCode.DiscountValue <= 100))
-                {
-                    response.Success = false;
-                    response.StatusCode = (int)HttpStatusCode.BadRequest;
-                    response.ValidationErrors = new() { $"DiscountValue,Invalid discount value." };
+        //     else if (promoCode.DiscountType == DiscountType.Percentage)
+        //     {
+        //         if (!(1 <= promoCode.DiscountValue && promoCode.DiscountValue <= 100))
+        //         {
+        //             response.Success = false;
+        //             response.StatusCode = (int)HttpStatusCode.BadRequest;
+        //             response.ValidationErrors = new() { $"DiscountValue,Invalid discount value." };
 
-                    return response;
-                }
+        //             return response;
+        //         }
 
-                totalAmount = totalAmount - totalAmount * (promoCode.DiscountValue / 100m);
-            }
+        //         totalAmount = totalAmount - totalAmount * (promoCode.DiscountValue / 100m);
+        //     }
 
-            promoCode.UsageLimit--;
+        //     promoCode.UsageLimit--;
 
-            if (promoCode.UsageLimit < 1)
-                promoCode.IsActive = false;
-        }
+        //     if (promoCode.UsageLimit < 1)
+        //         promoCode.IsActive = false;
+        // }
 
         ShippingAddress shippingAddressToCreate = _mapper.Map<ShippingAddress>(request.ShippingAddress);
 
@@ -149,7 +167,8 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Bas
             Status = OrderStatus.Pending,
             ShippingAddress = shippingAddressToCreate,
             PromoCodeId = promoCode?.Id,
-            TotalAmount = totalAmount
+            // TotalAmount = totalAmount
+            TotalAmount = request.Total
         };
 
         foreach (CartItemDto cartItem in cart.Items)

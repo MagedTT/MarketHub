@@ -1,6 +1,9 @@
 
+using System.Text.Json;
+using MarketHub.Application.DTOs.Persistence.PromoCodes;
 using MarketHub.Application.Features.PromoCodes.Commands.ActivatePromoCode;
 using MarketHub.Application.Features.PromoCodes.Commands.CheckValidPromoCode;
+using MarketHub.Application.Features.PromoCodes.Commands.CheckValidPromoCodeByCode;
 using MarketHub.Application.Features.PromoCodes.Commands.CreatePromoCode;
 using MarketHub.Application.Features.PromoCodes.Commands.DeactivatePromoCode;
 using MarketHub.Application.Features.PromoCodes.Commands.DeletePromoCode;
@@ -31,7 +34,11 @@ public class PromoCodesController : ControllerBase
     {
         GetAllPromoCodesQuery request = new() { PromoCodeParameters = promoCodeParameters, TrackChanges = false };
 
-        return Ok(await _mediator.Send(request));
+        (MetaData metaData, IEnumerable<PromoCodeDto> promoCodes) = await _mediator.Send(request);
+
+        Response.Headers.Append("X-Pagination", JsonSerializer.Serialize(metaData));
+
+        return Ok(promoCodes);
     }
 
     [HttpGet]
@@ -160,6 +167,23 @@ public class PromoCodesController : ControllerBase
             return BadRequest(response.Message);
 
         return Ok();
+    }
+
+    [HttpPost]
+    [Route("checkCodeValidity/{code}")]
+    public async Task<IActionResult> CheckPromoCodeValidity(string code)
+    {
+        CheckValidPromoCodeByCodeCommand request = new() { Code = code };
+
+        CheckValidPromoCodeByCodeCommandResponse response = await _mediator.Send(request);
+
+        if (!response.Success && response.StatusCode == StatusCodes.Status404NotFound)
+            return NotFound(response.Message);
+
+        if (!response.Success && response.StatusCode == StatusCodes.Status406NotAcceptable)
+            return BadRequest(response.Message);
+
+        return Ok(response.DiscountValue);
     }
 
     [HttpPost]

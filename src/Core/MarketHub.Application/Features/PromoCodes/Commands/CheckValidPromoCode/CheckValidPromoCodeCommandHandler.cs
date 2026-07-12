@@ -2,6 +2,7 @@ using System.Net;
 using MarketHub.Application.Contracts.Persistence;
 using MarketHub.Application.Responses;
 using MarketHub.Domain.Entities;
+using MarketHub.Domain.Enums;
 using MediatR;
 
 namespace MarketHub.Application.Features.PromoCodes.Commands.CheckValidPromoCode;
@@ -27,11 +28,23 @@ public class CheckValidPromoCodeCommandHandler : IRequestHandler<CheckValidPromo
             return response;
         }
 
-        if (DateTime.Now < promoCode.EndDate && promoCode.NumberOfTimesUsed < promoCode.UsageLimit && promoCode.IsActive)
+        // if (DateTime.Now < promoCode.EndDate && promoCode.NumberOfTimesUsed < promoCode.UsageLimit && promoCode.IsActive)
+        // {
+        //     response.Success = false;
+        //     response.StatusCode = (int)HttpStatusCode.NotAcceptable;
+        //     response.Message = "The PromoCode is not expired yet are you sure you want to deactivate?";
+        // }
+
+        if (
+            promoCode.EndDate <= DateTime.Now ||
+            promoCode.UsageLimit <= promoCode.NumberOfTimesUsed ||
+            !promoCode.IsActive ||
+            promoCode.DiscountType == DiscountType.FixedAmount)
         {
             response.Success = false;
             response.StatusCode = (int)HttpStatusCode.NotAcceptable;
-            response.Message = "The PromoCode is not expired yet are you sure you want to deactivate?";
+            response.Message = "Invalid Promo Code";
+            return response;
         }
 
         return response;

@@ -35,7 +35,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a routerLink="/seller/promo-codes" routerLinkActive="active"
+                    <a routerLink="/seller-promocodes" routerLinkActive="active"
                         class="nav-link d-flex align-items-center">
                         <i class="bi bi-ticket-perforated me-3 fs-5"></i>
                         <span>Promo Codes</span>
@@ -55,7 +55,7 @@
             <div class="menu-section-header text-uppercase">Other</div>
             <ul class="nav flex-column gap-1">
                 <li class="nav-item">
-                    <a routerLink="/seller/profile" routerLinkActive="active"
+                    <a (click)="navigateToStoreProfile()" routerLinkActive="active"
                         class="nav-link d-flex align-items-center">
                         <i class="bi bi-globe2 me-3 fs-5"></i>
                         <span>Profile</span>
