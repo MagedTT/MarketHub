@@ -24,9 +24,11 @@
                 </button>
 
                 <!-- Action Menu Options -->
-                <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                    <li><a class="dropdown-item py-2" href="#"><i class="bi bi-pencil me-2"></i>Mark as Shipped</a></li>
-                    <li><a class="dropdown-item py-2" href="#"><i class="bi bi-eye me-2"></i> Mark as Delivered</a></li>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm" style="cursor: pointer;">
+                    <li><a (click)="markAsShipped()" class="dropdown-item py-2"><i class="bi bi-pencil me-2"></i>Mark as
+                            Shipped</a></li>
+                    <li><a (click)="markAsDelivered()" class="dropdown-item py-2"><i class="bi bi-eye me-2"></i>
+                            Mark as Delivered</a></li>
                 </ul>
             </div>
 

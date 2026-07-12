@@ -54,6 +54,14 @@ export class SellerOrdersService {
     )
   }
 
+  markOrderAsShipped(orderId: string): Observable<any> {
+    return this.httpClient.post<any>(`https://localhost:5001/api/users/orders/markAsShipped/${orderId}`, {});
+  }
+
+  markOrderAsDelivered(orderId: string): Observable<any> {
+    return this.httpClient.post<any>(`https://localhost:5001/api/users/orders/markAsDelivered/${orderId}`, {});
+  }
+
   createPromoCode(request: CreatePromoCode): Observable<any> {
     return this.httpClient.post<any>(`https://localhost:5001/api/promoCodes`, request);
   }

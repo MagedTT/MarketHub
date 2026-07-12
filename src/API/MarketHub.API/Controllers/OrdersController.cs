@@ -2,6 +2,8 @@ using System.Text.Json;
 using MarketHub.Application.Features.Orders.Commands.CancelOrder;
 using MarketHub.Application.Features.Orders.Commands.Checkout;
 using MarketHub.Application.Features.Orders.Commands.CreateOrder;
+using MarketHub.Application.Features.Orders.Commands.MarkOrderAsDelivered;
+using MarketHub.Application.Features.Orders.Commands.MarkOrderAsShipped;
 using MarketHub.Application.Features.Orders.Queries.GetOrder;
 using MarketHub.Application.Features.Orders.Queries.GetOrders;
 using MarketHub.Application.Responses;
@@ -136,6 +138,60 @@ public class OrdersController : ControllerBase
 
             if (response.StatusCode == StatusCodes.Status409Conflict)
                 return Conflict(response.Message);
+        }
+
+        return NoContent();
+    }
+
+    [HttpPost]
+    [Route("orders/markAsShipped/{orderId:guid}")]
+    public async Task<IActionResult> MarkAShipped(Guid orderId)
+    {
+        MarkOrderAsShippedCommand request = new() { OrderId = orderId };
+        BaseResponse response = await _mediator.Send(request);
+
+        if (!response.Success)
+        {
+            if (response.StatusCode == StatusCodes.Status404NotFound)
+                return NotFound(response.Message);
+
+            if (response.StatusCode == StatusCodes.Status400BadRequest)
+            {
+                foreach (string error in response.ValidationErrors!)
+                {
+                    string[] errorDetails = error.Split(',');
+                    ModelState.TryAddModelError(errorDetails[0], errorDetails[1]);
+                }
+
+                return BadRequest(ModelState);
+            }
+        }
+
+        return NoContent();
+    }
+
+    [HttpPost]
+    [Route("orders/markAsDelivered/{orderId:guid}")]
+    public async Task<IActionResult> MarkAsDelivered(Guid orderId)
+    {
+        MarkOrderAsDeliveredCommand request = new() { OrderId = orderId };
+        BaseResponse response = await _mediator.Send(request);
+
+        if (!response.Success)
+        {
+            if (response.StatusCode == StatusCodes.Status404NotFound)
+                return NotFound(response.Message);
+
+            if (response.StatusCode == StatusCodes.Status400BadRequest)
+            {
+                foreach (string error in response.ValidationErrors!)
+                {
+                    string[] errorDetails = error.Split(',');
+                    ModelState.TryAddModelError(errorDetails[0], errorDetails[1]);
+                }
+
+                return BadRequest(ModelState);
+            }
         }
 
         return NoContent();

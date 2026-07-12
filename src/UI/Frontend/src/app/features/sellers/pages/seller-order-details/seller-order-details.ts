@@ -43,6 +43,28 @@ export class SellerOrderDetails implements OnInit, OnDestroy {
     });
   }
 
+  markAsShipped() {
+    this.storeOrdersService.markOrderAsShipped(this.orderId()).pipe(
+      takeUntil(this.destroy$),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    ).subscribe(() => {
+      this.order.update(order => order ? { ...order, status: OrderStatus.Shipped } : null);
+    });
+  }
+
+  markAsDelivered() {
+    this.storeOrdersService.markOrderAsDelivered(this.orderId()).pipe(
+      takeUntil(this.destroy$),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    ).subscribe(() => {
+      this.order.update(order => order ? { ...order, status: OrderStatus.Delivered } : null);
+    });
+  }
+
   convertOrderStatusFromEnumToString(orderStatus: OrderStatus): string {
     if (orderStatus === OrderStatus.Pending) {
       return 'Pending';
