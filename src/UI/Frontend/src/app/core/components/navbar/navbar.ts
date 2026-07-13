@@ -6,7 +6,7 @@ import { CartStore } from '../../services/stores/cart-store';
 import { AuthService } from '../../services/auth-service';
 import { NotificationSignalRService } from '../../services/notification-signal-rservice';
 import { NotificationService } from '../../services/notification-service';
-import { Subscription } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { NotificationDto } from '../../models/notification-dto.interface';
 import { DatePipe } from '@angular/common';
 import { NotificationType } from '../../models/notification-type.enum';
@@ -18,8 +18,6 @@ import { NotificationType } from '../../models/notification-type.enum';
   styleUrl: './navbar.css',
 })
 export class Navbar implements OnInit, OnDestroy {
-  // constructor(private router: Router, @Inject(AUTH_CONFIG) private config: AuthConfig) { }
-  private subs = new Subscription();
   private notificationSignalRService = inject(NotificationSignalRService);
   private notificationService = inject(NotificationService);
 
@@ -30,6 +28,7 @@ export class Navbar implements OnInit, OnDestroy {
   });
 
   private router = inject(Router);
+  private destroy$ = new Subject<void>();
   private config = inject(AUTH_CONFIG);
   private authService = inject(AuthService);
   cartStore = inject(CartStore);
@@ -38,56 +37,30 @@ export class Navbar implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     await this.notificationSignalRService.startConnection();
 
-    this.subs.add(
-      this.notificationService.notifications$.subscribe((notifications: NotificationDto[]) => {
-        this.notifications.set(notifications);
-      })
-    );
+    this.notificationService.notifications$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((notifications: NotificationDto[]) => {
+      this.notifications.set(notifications);
+    })
+
+    await this.notificationService.loadNotifications(this.session.user()?.id ?? '');
   }
 
-  // getNotificationIconClass(type: NotificationType): string {
-  //   switch (Number(type)) {
-  //     case NotificationType.OrderCreated: return 'bi-cart-plus text-primary';
-  //     case NotificationType.OrderConfirmed: return 'bi-cart-check-fill text-success';
-  //     case NotificationType.OrderShipped: return 'bi-truck text-info';
-  //     case NotificationType.OrderDelivered: return 'bi-bag-check-fill text-success';
-  //     case NotificationType.OrderCancelled: return 'bi-cart-x-fill text-danger';
-  //     case NotificationType.ProductApproved: return 'bi-box-seam-fill text-success';
-  //     case NotificationType.ProductRejected: return 'bi-box-arrow-down-left text-danger';
-  //     case NotificationType.ProductOutOfStock: return 'bi-exclamation-octagon-fill text-warning';
-  //     case NotificationType.NewReview: return 'bi-star-fill text-warning';
-  //     case NotificationType.StoreApproved: return 'bi-shop-window text-success';
-  //     case NotificationType.StoreRejected: return 'bi-x-octagon text-danger';
-  //     case NotificationType.ReportSubmitted: return 'bi-flag-fill text-warning';
-  //     case NotificationType.ReportResolved: return 'bi-shield-check text-success';
-  //     case NotificationType.PromoCodeReceived: return 'bi-ticket-perforated-fill text-purple'; // custom color target
-  //     case NotificationType.System:
-  //     default:
-  //       return 'bi-gear-fill text-secondary';
-  //   }
-  // }
-
-  markAllAsRead(event: Event): void {
+  async markAllAsRead(event: Event): Promise<void> {
     event.stopPropagation();
-    console.log('Sending transaction execution rules to mark all nodes read upstream.');
+    await this.notificationService.markAllNotificationsAsRead(this.session.user()?.id ?? '');
   }
 
-  getNotificationRoute(notification: NotificationDto): string[] {
-    const type = Number(notification.notificationType);
+  async navigateToReference(notificationId: string, referenceId: string, notificationType: NotificationType): Promise<void> {
 
-    if (type >= 1 && type <= 5) {
-      return ['/account/orders', notification.reference]; // Navigates directly into historical order view parameters
+    await this.notificationService.markNotificationAsRead(this.session.user()?.id ?? '', notificationId);
+
+    if (1 <= notificationType && notificationType <= 5) {
+      this.router.navigateByUrl('orders');
+      return;
     }
-    if (type === 6 || type === 7 || type === 8) {
-      return ['/seller/products/edit', notification.reference];
-    }
-    if (type === 9) {
-      return ['/products', notification.reference];
-    }
-    if (type === 14) {
-      return ['/checkout'];
-    }
-    return ['/account/dashboard'];
+
+    this.router.navigateByUrl('products');
   }
 
   navigateToLogin() {
@@ -115,6 +88,31 @@ export class Navbar implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subs.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
+
+
+
+// getNotificationIconClass(type: NotificationType): string {
+//   switch (Number(type)) {
+//     case NotificationType.OrderCreated: return 'bi-cart-plus text-primary';
+//     case NotificationType.OrderConfirmed: return 'bi-cart-check-fill text-success';
+//     case NotificationType.OrderShipped: return 'bi-truck text-info';
+//     case NotificationType.OrderDelivered: return 'bi-bag-check-fill text-success';
+//     case NotificationType.OrderCancelled: return 'bi-cart-x-fill text-danger';
+//     case NotificationType.ProductApproved: return 'bi-box-seam-fill text-success';
+//     case NotificationType.ProductRejected: return 'bi-box-arrow-down-left text-danger';
+//     case NotificationType.ProductOutOfStock: return 'bi-exclamation-octagon-fill text-warning';
+//     case NotificationType.NewReview: return 'bi-star-fill text-warning';
+//     case NotificationType.StoreApproved: return 'bi-shop-window text-success';
+//     case NotificationType.StoreRejected: return 'bi-x-octagon text-danger';
+//     case NotificationType.ReportSubmitted: return 'bi-flag-fill text-warning';
+//     case NotificationType.ReportResolved: return 'bi-shield-check text-success';
+//     case NotificationType.PromoCodeReceived: return 'bi-ticket-perforated-fill text-purple'; // custom color target
+//     case NotificationType.System:
+//     default:
+//       return 'bi-gear-fill text-secondary';
+//   }
+// }

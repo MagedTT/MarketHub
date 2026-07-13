@@ -1,10 +1,12 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { NotificationService } from '../../../../core/services/notification-service';
 import { NotificationSignalRService } from '../../../../core/services/notification-signal-rservice';
 import { NotificationDto } from '../../../../core/models/notification-dto.interface';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { SessionStoreService } from '../../../../core/services/session-store-service';
+import { NotificationType } from '../../../../core/models/notification-type.enum';
 
 @Component({
   selector: 'app-seller-navbar',
@@ -13,9 +15,11 @@ import { RouterLink } from '@angular/router';
   styleUrl: './seller-navbar.css',
 })
 export class SellerNavbar implements OnInit, OnDestroy {
-  private subs = new Subscription();
+  private destroy$ = new Subject<void>();
   private notificationSignalRService = inject(NotificationSignalRService);
   private notificationService = inject(NotificationService);
+  private session = inject(SessionStoreService);
+  private router = inject(Router);
 
   notifications: WritableSignal<NotificationDto[]> = signal([]);
 
@@ -26,37 +30,43 @@ export class SellerNavbar implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     await this.notificationSignalRService.startConnection();
 
-    this.subs.add(
-      this.notificationService.notifications$.subscribe((notifications: NotificationDto[]) => {
-        this.notifications.set(notifications);
-      })
-    )
+    this.notificationService.notifications$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((notifications: NotificationDto[]) => {
+      this.notifications.set(notifications);
+    });
+
+    await this.notificationService.loadNotifications(this.session.user()?.id ?? '');
   }
 
-  markAllAsRead(event: Event): void {
+  async markAllAsRead(event: Event): Promise<void> {
     event.stopPropagation();
-    console.log('Sending transaction execution rules to mark all nodes read upstream.');
+    await this.notificationService.markAllNotificationsAsRead(this.session.user()?.id ?? '');
   }
 
-  getNotificationRoute(notification: NotificationDto): string[] {
-    const type = Number(notification.notificationType);
+  async navigateToReference(notificationId: string, referenceId: string, notificationType: NotificationType): Promise<void> {
+    const type = Number(notificationType);
 
-    if (type >= 1 && type <= 5) {
-      return ['/account/orders', notification.reference]; // Navigates directly into historical order view parameters
+    await this.notificationService.markNotificationAsRead(this.session.user()?.id ?? '', notificationId);
+
+    if (1 <= type && type <= 5) {
+      this.router.navigate(['/seller-order-details', referenceId]);
+      return;
     }
-    if (type === 6 || type === 7 || type === 8) {
-      return ['/seller/products/edit', notification.reference];
+    if (6 <= type && type <= 8) {
+      this.router.navigate(['/seller-product-details', referenceId]);
+      return;
     }
     if (type === 9) {
-      return ['/products', notification.reference];
+      this.router.navigate(['/seller-review', referenceId]);
+      return;
     }
-    if (type === 14) {
-      return ['/checkout'];
-    }
-    return ['/account/dashboard'];
+
+    this.router.navigate(['/seller-dashboard']);
   }
 
   ngOnDestroy(): void {
-    this.subs.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

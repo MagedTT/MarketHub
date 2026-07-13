@@ -57,7 +57,7 @@
                         <span class="fw-bold text-dark fs-14">Notifications</span>
                         @if (hasUnreadNotifications()) {
                         <button type="button" class="btn p-0 border-0 text-primary fw-semibold fs-12 bg-transparent"
-                            (click Rama)="markAllAsRead($event)">
+                            (click)="markAllAsRead($event)">
                             Mark all read
                         </button>
                         }
@@ -68,7 +68,7 @@
                         @for (notification of notifications(); track notification.id) {
                         <li>
                             <a class="dropdown-item px-3 py-2.5 border-bottom d-flex gap-2 text-wrap align-items-start position-relative"
-                                [routerLink]="getNotificationRoute(notification)"
+                                (click)="navigateToReference(notification.id, notification.referenceId, notification.type)"
                                 [class]="{'bg-unread-tint': !notification.isRead}">
 
                                 <div class="mt-0.5 flex-shrink-0">

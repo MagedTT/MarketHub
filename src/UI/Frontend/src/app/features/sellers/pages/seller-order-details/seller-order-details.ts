@@ -27,9 +27,10 @@ export class SellerOrderDetails implements OnInit, OnDestroy {
   ngOnInit(): void {
     const storeId = this.session.user()?.storeId ?? '';
 
-    this.activatedRoute.paramMap.subscribe(params => this.orderId.set(params.get('id') ?? ''));
-
-    this.getOrderDetails(this.orderId(), storeId);
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.orderId.set(params.get('id') ?? '')
+      this.getOrderDetails(this.orderId(), storeId);
+    });
   }
 
   getOrderDetails(orderId: string, storeId: string) {

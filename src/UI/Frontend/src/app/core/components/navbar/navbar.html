@@ -77,8 +77,9 @@
                             @for (notification of notifications(); track notification.id) {
                             <li>
                                 <!-- Dynamic routing linking strategies bound strictly to backend type states -->
-                                <a class="dropdown-item px-3 py-2.5 border-bottom d-flex gap-2 text-wrap align-items-start position-relative"
-                                    [routerLink]="getNotificationRoute(notification)"
+                                <a style="cursor: pointer;"
+                                    class="dropdown-item px-3 py-2.5 border-bottom d-flex gap-2 text-wrap align-items-start position-relative"
+                                    (click)="navigateToReference(notification.id, notification.referenceId, notification.type)"
                                     [class]="{'bg-unread-tint': !notification.isRead}">
 
                                     <!-- Dynamic Context-Aware Bootstrap Icon Block wrapper -->
