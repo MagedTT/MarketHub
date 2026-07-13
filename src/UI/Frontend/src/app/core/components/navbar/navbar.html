@@ -40,32 +40,94 @@
             <!-- Right Micro Utilities Layout -->
             <div class="col-xl-3 col-md-3 col-6 order-2 order-md-3 d-flex justify-content-end gap-2 align-items-center">
 
-                <!-- INTEGRATION: Notifications Dropdown (Replaces old Orders link style) -->
                 <div class="dropdown">
                     <button class="utility-item-link bg-transparent border-0 p-0" type="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <div class="icon-badge-wrapper">
-                            <svg viewBox="0 0 24 24">
+                        <div class="icon-badge-wrapper position-relative">
+                            <svg viewBox="0 0 24 24" style="width: 24px; height: 24px;">
                                 <path
                                     d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" />
                             </svg>
-                            <!-- Optional floating ping indicator badge if unread notifications exist -->
-                            <span class="cart-badge-floating badge rounded-pill bg-primary p-1"><span
-                                    class="visually-hidden">New alert</span></span>
+                            <!-- Displays unread badge bubble if any notifications match unread conditions -->
+                            @if (hasUnreadNotifications()) {
+                            <span
+                                class="cart-badge-floating badge rounded-pill bg-danger border border-white position-absolute top-0 start-100 translate-middle p-1">
+                                <span class="visually-hidden">New alerts</span>
+                            </span>
+                            }
                         </div>
                         <span class="utility-label-text">Alerts</span>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-2"
-                        style="min-width: 280px; font-size: 13px;">
-                        <li class="px-3 py-2 border-bottom fw-bold text-dark">Notifications</li>
-                        <li><a class="dropdown-item py-2 border-bottom" routerLink="/account/orders">📦 Order #73262 has
-                                been shipped!</a></li>
-                        <li><a class="dropdown-item py-2 border-bottom" routerLink="/offers">🔥 20% Off coupon available
-                                in your profile.</a></li>
-                        <li class="text-center"><a class="dropdown-item py-2 text-primary fw-medium"
-                                routerLink="/account/notifications">View all alerts</a></li>
+
+                    <!-- Dropdown Menu Sheet Core Matrix -->
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border mt-2 p-0 overflow-hidden"
+                        style="min-width: 320px; font-size: 13px; border-radius: 12px;">
+                        <li
+                            class="px-3 p-2 py-2.5 bg-light border-bottom d-flex justify-content-between align-items-center">
+                            <span class="fw-bold text-dark fs-14">Notifications</span>
+                            @if (hasUnreadNotifications()) {
+                            <button type="button" class="btn p-0 border-0 text-primary fw-semibold fs-12 bg-transparent"
+                                (click)="markAllAsRead($event)">
+                                Mark all read
+                            </button>
+                            }
+                        </li>
+
+                        <div style="max-height: 360px; overflow-y: auto;">
+                            @for (notification of notifications(); track notification.id) {
+                            <li>
+                                <!-- Dynamic routing linking strategies bound strictly to backend type states -->
+                                <a class="dropdown-item px-3 py-2.5 border-bottom d-flex gap-2 text-wrap align-items-start position-relative"
+                                    [routerLink]="getNotificationRoute(notification)"
+                                    [class]="{'bg-unread-tint': !notification.isRead}">
+
+                                    <!-- Dynamic Context-Aware Bootstrap Icon Block wrapper -->
+                                    <div class="mt-0.5 flex-shrink-0">
+                                        <i class="bi fs-5"></i>
+                                    </div>
+
+                                    <!-- Data Content Blocks Structure Layout -->
+                                    <div class="w-100 text-start">
+                                        <div class="d-flex justify-content-between align-items-baseline mb-0.5 gap-2">
+                                            <span class="fw-bold text-dark text-truncate" style="max-width: 170px;">
+                                                {{ notification.title }}
+                                            </span>
+                                            <span class="text-muted font-monospace" style="font-size: 11px;">
+                                                <!-- Dynamic clean date formatting layout -->
+                                                {{ notification.createdAt | date:'shortTime' }}
+                                            </span>
+                                        </div>
+                                        <p class="mb-0 text-secondary" style="font-size: 12.5px; line-height: 1.4;">
+                                            {{ notification.message }}
+                                        </p>
+                                    </div>
+
+                                    <!-- Unread Status Dot Indicator -->
+                                    @if (!notification.isRead) {
+                                    <span
+                                        class="position-absolute end-0 top-50 translate-middle-y me-2 rounded-circle bg-primary"
+                                        style="width: 6px; height: 6px;" title="Unread Alert"></span>
+                                    }
+                                </a>
+                            </li>
+                            } @empty {
+                            <div class="text-center py-4 px-3 text-muted">
+                                <i class="bi bi-bell-slash d-block fs-2 text-secondary mb-1"></i>
+                                <span>Your alert inbox parameters are empty.</span>
+                            </div>
+                            }
+                        </div>
+
+                        <!-- ADDED: View All Notifications Footer Action Row Bar -->
+                        <li class="p-2 border-top text-center bg-light rounded-bottom">
+                            <a routerLink="/account/notifications"
+                                class="text-secondary text-decoration-none fs-12 fw-semibold d-block py-1">
+                                View all notifications
+                            </a>
+                        </li>
                     </ul>
                 </div>
+
 
                 <!-- Saved -->
                 <a (click)="navigateToWishlist()" routerLinkActive="active-link" class="utility-item-link">

@@ -15,6 +15,7 @@ public static class Extensions
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddControllers();
+        builder.Services.AddSignalR();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 

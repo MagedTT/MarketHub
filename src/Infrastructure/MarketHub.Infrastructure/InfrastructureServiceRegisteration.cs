@@ -2,6 +2,7 @@ using MarketHub.Application.Contracts.Infrastructure;
 using MarketHub.Application.Models.Mail;
 using MarketHub.Infrastructure.FileUpload;
 using MarketHub.Infrastructure.Mail;
+using MarketHub.Infrastructure.Notification.Service;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +14,7 @@ public static class InfrastructureServiceRegisteration
     {
         services.Configure<EmailSettings>(configuration.GetSection("EmailSettings"));
 
+        services.AddScoped<INotificationService, NotificationService>();
         services.AddScoped<IFileUploadService, FileUploadService>();
         services.AddTransient<IEmailService, EmailService>();
 

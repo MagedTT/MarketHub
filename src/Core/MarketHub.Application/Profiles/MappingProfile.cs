@@ -13,6 +13,7 @@ using MarketHub.Application.Features.Reviews.Commands.CreateReview;
 using MarketHub.Application.Features.Reviews.Commands.UpdateReview;
 using MarketHub.Application.Features.Stores.Commands.CreateStore;
 using MarketHub.Application.Models.Authentication;
+using MarketHub.Application.Models.Notification;
 using MarketHub.Domain.Entities;
 
 namespace MarketHub.Application.Profiles;
@@ -49,5 +50,7 @@ public class MappingProfile : Profile
         CreateMap<CreateStoreCommand, Store>();
 
         CreateMap<UpdatePromoCodeCommand, PromoCode>();
+
+        CreateMap<NotificationDto, Notification>();
     }
 }

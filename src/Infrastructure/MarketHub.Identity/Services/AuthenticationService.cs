@@ -286,6 +286,7 @@ public class AuthenticationService : IAuthenticationService
         {
             new Claim(JwtRegisteredClaimNames.Name, _user?.UserName!),
             new Claim(JwtRegisteredClaimNames.Sub, _user?.Id.ToString()!),
+            new Claim(ClaimTypes.NameIdentifier, _user?.Id.ToString()!),
             new Claim(JwtRegisteredClaimNames.Email, _user?.Email!),
         };
 

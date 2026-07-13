@@ -1,7 +1,9 @@
 using System.Net;
 using AutoMapper;
 using FluentValidation.Results;
+using MarketHub.Application.Contracts.Infrastructure;
 using MarketHub.Application.Contracts.Persistence;
+using MarketHub.Application.Models.Notification;
 using MarketHub.Application.Responses;
 using MarketHub.Domain.Entities;
 using MediatR;
@@ -11,10 +13,12 @@ namespace MarketHub.Application.Features.Orders.Commands.MarkOrderAsShipped;
 public class MarkOrderAsShippedCommandHandler : IRequestHandler<MarkOrderAsShippedCommand, BaseResponse>
 {
     private readonly IMapper _mapper;
+    private readonly INotificationService _notificationService;
     private readonly IRepositoryManager _repositoryManager;
-    public MarkOrderAsShippedCommandHandler(IMapper mapper, IRepositoryManager repositoryManager)
+    public MarkOrderAsShippedCommandHandler(IMapper mapper, INotificationService notificationService, IRepositoryManager repositoryManager)
     {
         _mapper = mapper;
+        _notificationService = notificationService;
         _repositoryManager = repositoryManager;
     }
 
@@ -68,6 +72,20 @@ public class MarkOrderAsShippedCommandHandler : IRequestHandler<MarkOrderAsShipp
         }
 
         order.Status = Domain.Enums.OrderStatus.Shipped;
+
+        NotificationDto notificationDto = new()
+        {
+            UserId = order.UserId,
+            Reference = order.Id,
+            Title = "Order Shipped",
+            Message = $"Order #{order.OrderNumber} has been shipped",
+            Type = Domain.Enums.NotificationType.OrderShipped,
+            IsRead = false
+        };
+
+        Notification notification = _mapper.Map<Notification>(notificationDto);
+
+        await _notificationService.SendToUserAsync(order.UserId.ToString(), notificationDto);
 
         await _repositoryManager.SaveAsync();
 
