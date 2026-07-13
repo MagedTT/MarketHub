@@ -20,6 +20,7 @@ public class RepositoryManager : IRepositoryManager
     private readonly Lazy<IPromoCodeRepository> _promoCodeRepository;
     private readonly Lazy<IOrderStatusHistoryRepository> _orderStatusHistoryRepository;
     private readonly Lazy<ICategoryRepository> _categoryRepository;
+    private readonly Lazy<INotificationRepository> _notificationRepository;
 
     public RepositoryManager(MarketHubDbContext context)
     {
@@ -39,6 +40,7 @@ public class RepositoryManager : IRepositoryManager
         _promoCodeRepository = new Lazy<IPromoCodeRepository>(() => new PromoCodeRepository(context));
         _orderStatusHistoryRepository = new Lazy<IOrderStatusHistoryRepository>(() => new OrderStatusHistoryRepository(context));
         _categoryRepository = new Lazy<ICategoryRepository>(() => new CategoryRepository(context));
+        _notificationRepository = new Lazy<INotificationRepository>(() => new NotificationRepository(context));
     }
     public IBrandRepository BrandRepository => _brandRepository.Value;
 
@@ -69,6 +71,8 @@ public class RepositoryManager : IRepositoryManager
     public IOrderStatusHistoryRepository OrderStatusHistoryRepository => _orderStatusHistoryRepository.Value;
 
     public ICategoryRepository CategoryRepository => _categoryRepository.Value;
+
+    public INotificationRepository NotificationRepository => _notificationRepository.Value;
 
     public async Task<int> SaveAsync()
         => await _context.SaveChangesAsync();

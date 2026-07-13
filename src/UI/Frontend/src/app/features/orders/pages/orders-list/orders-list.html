@@ -4,7 +4,7 @@
     <app-orders-filteration-header (orderStatusChanged)="queryOrdersWithStatus($event)"></app-orders-filteration-header>
 
     <!-- Primary Module Container -->
-    <app-order-details [orders]="orders()"></app-order-details>
+    <app-order-details [orders]="orders()" (orderCancelled)="onOrderCancelled($event)"></app-order-details>
 </div>
 
 @if (metaData()) {

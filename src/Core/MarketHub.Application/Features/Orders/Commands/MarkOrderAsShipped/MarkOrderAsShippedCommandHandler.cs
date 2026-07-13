@@ -76,16 +76,18 @@ public class MarkOrderAsShippedCommandHandler : IRequestHandler<MarkOrderAsShipp
         NotificationDto notificationDto = new()
         {
             UserId = order.UserId,
-            Reference = order.Id,
+            ReferenceId = order.Id,
             Title = "Order Shipped",
             Message = $"Order #{order.OrderNumber} has been shipped",
             Type = Domain.Enums.NotificationType.OrderShipped,
             IsRead = false
         };
 
+        await _notificationService.SendToUserAsync(order.UserId.ToString(), notificationDto);
+
         Notification notification = _mapper.Map<Notification>(notificationDto);
 
-        await _notificationService.SendToUserAsync(order.UserId.ToString(), notificationDto);
+        _repositoryManager.NotificationRepository.CreateNotification(notification);
 
         await _repositoryManager.SaveAsync();
 

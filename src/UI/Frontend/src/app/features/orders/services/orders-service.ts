@@ -25,4 +25,8 @@ export class OrdersService {
         }))
       );
   }
+
+  cancelOrder(obj: { userId: string, orderId: string }): Observable<any> {
+    return this.httpClient.post<any>(`https://localhost:5001/api/users/${obj.userId}/orders/cancel`, obj);
+  }
 }

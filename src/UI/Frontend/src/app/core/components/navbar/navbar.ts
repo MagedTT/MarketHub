@@ -68,7 +68,7 @@ export class Navbar implements OnInit, OnDestroy {
   // }
 
   markAllAsRead(event: Event): void {
-    event.stopPropagation(); // Avoid closing out dropdown panels unexpectedly 
+    event.stopPropagation();
     console.log('Sending transaction execution rules to mark all nodes read upstream.');
   }
 

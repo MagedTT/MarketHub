@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { OrderDto } from '../../models/order-dto.interface';
 import { CurrencyPipe, DatePipe, KeyValuePipe, SlicePipe } from '@angular/common';
 import { OrderStatus } from '../../models/order-parameters.interface';
@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class OrderDetails {
   @Input() orders: OrderDto[] = [];
+  @Output() orderCancelled = new EventEmitter<string>();
   private router = inject(Router);
 
   convertOrderStatusFromEnumToStrign(orderStatus: OrderStatus): string {
@@ -27,6 +28,10 @@ export class OrderDetails {
     } else if (orderStatus === OrderStatus.Shipped) {
       return 'Shipped';
     } return 'Pending';
+  }
+
+  onOrderCancelled(orderId: string) {
+    this.orderCancelled.emit(orderId);
   }
 
   navigateToProductDetailsPage(productId: string) {

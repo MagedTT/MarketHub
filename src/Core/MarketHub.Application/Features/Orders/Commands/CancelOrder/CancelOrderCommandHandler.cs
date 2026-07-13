@@ -1,7 +1,10 @@
 using System.Net;
+using AutoMapper;
 using FluentValidation.Results;
+using MarketHub.Application.Contracts.Infrastructure;
 using MarketHub.Application.Contracts.Persistence;
 using MarketHub.Application.Exceptions;
+using MarketHub.Application.Models.Notification;
 using MarketHub.Application.Responses;
 using MarketHub.Domain.Entities;
 using MediatR;
@@ -11,9 +14,15 @@ namespace MarketHub.Application.Features.Orders.Commands.CancelOrder;
 
 public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, BaseResponse>
 {
+    private readonly IMapper _mapper;
+    private readonly INotificationService _notificationService;
     private readonly IRepositoryManager _repositoryManager;
-    public CancelOrderCommandHandler(IRepositoryManager repositoryManager)
-        => _repositoryManager = repositoryManager;
+    public CancelOrderCommandHandler(IMapper mapper, INotificationService notificationService, IRepositoryManager repositoryManager)
+    {
+        _mapper = mapper;
+        _notificationService = notificationService;
+        _repositoryManager = repositoryManager;
+    }
 
     public async Task<BaseResponse> Handle(CancelOrderCommand request, CancellationToken cancellationToken)
     {
@@ -98,8 +107,41 @@ public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand, Bas
 
         _repositoryManager.OrderStatusHistoryRepository.Create(orderStatusHistory);
 
+        Guid? storeUserId = await _repositoryManager.StoreRepository.GetStoreUserIdForOrderAsync(order.Id);
+
+        if (storeUserId is null)
+            throw new OrderHasNoStoreException($"Order with Id: {order.Id} has no store assigned to it");
+
         try
         {
+            NotificationDto notificationForUserDto = new()
+            {
+                UserId = order.UserId,
+                ReferenceId = order.Id,
+                Title = "Order Cancelled",
+                Message = $"Order #{order.OrderNumber} has been Cancelled",
+                Type = Domain.Enums.NotificationType.OrderCancelled
+            };
+
+            NotificationDto notificationForStoreDto = new()
+            {
+                UserId = storeUserId!.Value,
+                ReferenceId = order.Id,
+                Title = "Order Cancelled",
+                Message = $"Order #{order.OrderNumber} has been Cancelled",
+                Type = Domain.Enums.NotificationType.OrderCancelled
+            };
+
+            await _notificationService.SendToUserAsync(order.UserId.ToString(), notificationForUserDto);
+            await _notificationService.SendToUserAsync(storeUserId?.ToString()!, notificationForStoreDto);
+
+
+            Notification notificationForUser = _mapper.Map<Notification>(notificationForUserDto);
+            Notification notificationForStore = _mapper.Map<Notification>(notificationForStoreDto);
+
+            _repositoryManager.NotificationRepository.CreateNotification(notificationForUser);
+            _repositoryManager.NotificationRepository.CreateNotification(notificationForStore);
+
             await _repositoryManager.SaveAsync();
             return response;
         }

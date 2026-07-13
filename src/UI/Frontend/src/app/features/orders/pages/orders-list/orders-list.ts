@@ -37,6 +37,23 @@ export class OrdersList implements OnInit, OnDestroy {
     this.getOrders(this.orderParameters);
   }
 
+  onOrderCancelled(orderId: string) {
+    console.log(orderId);
+    // const obj = { userId: this.session.user()?.id ?? '', orderId };
+
+    // this.ordersService.cancelOrder(obj).pipe(
+    //   takeUntil(this.destroy$)
+    // ).subscribe(() => {
+    //   this.orders.update(orders =>
+    //     orders.map(order =>
+    //       order.id === orderId
+    //         ? { ...order, status: 5 }
+    //         : order
+    //     )
+    //   )
+    // });
+  }
+
   getOrders(orderParameters: OrderParameters) {
     orderParameters.userId = this.session.user()?.id;
 

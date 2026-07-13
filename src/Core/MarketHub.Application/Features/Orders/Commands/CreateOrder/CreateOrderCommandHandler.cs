@@ -2,9 +2,12 @@ using System.Data;
 using System.Net;
 using AutoMapper;
 using FluentValidation.Results;
+using MarketHub.Application.Contracts.Infrastructure;
 using MarketHub.Application.Contracts.Persistence;
 using MarketHub.Application.DTOs.Persistence.Carts;
 using MarketHub.Application.DTOs.Persistence.PromoCodes;
+using MarketHub.Application.Exceptions;
+using MarketHub.Application.Models.Notification;
 using MarketHub.Application.Responses;
 using MarketHub.Domain.Entities;
 using MarketHub.Domain.Enums;
@@ -16,10 +19,12 @@ namespace MarketHub.Application.Features.Orders.Commands.CreateOrder;
 public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, BaseResponse>
 {
     private readonly IMapper _mapper;
+    private readonly INotificationService _notificationService;
     private readonly IRepositoryManager _repositoryManager;
-    public CreateOrderCommandHandler(IMapper mapper, IRepositoryManager repositoryManager)
+    public CreateOrderCommandHandler(IMapper mapper, INotificationService notificationService, IRepositoryManager repositoryManager)
     {
         _mapper = mapper;
+        _notificationService = notificationService;
         _repositoryManager = repositoryManager;
     }
 
@@ -159,6 +164,8 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Bas
         //         promoCode.IsActive = false;
         // }
 
+
+
         ShippingAddress shippingAddressToCreate = _mapper.Map<ShippingAddress>(request.ShippingAddress);
 
         Order order = new()
@@ -170,6 +177,11 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Bas
             // TotalAmount = totalAmount
             TotalAmount = request.Total
         };
+
+        Guid? storeUserId = await _repositoryManager.StoreRepository.GetStoreUserIdForProductAsync(cart.Items.First().Product.ProductId);
+
+        if (storeUserId is null)
+            throw new OrderHasNoStoreException("Products don't belong to any store");
 
         foreach (CartItemDto cartItem in cart.Items)
         {
@@ -193,6 +205,24 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Bas
         {
             inventoryReservation.Inventory.ReservedQuantity -= inventoryReservation.Quantity;
             inventoryReservation.Status = InventoryReservationStatus.Completed;
+
+            if (inventoryReservation.Inventory.AvailableQuantity == 0)
+            {
+                NotificationDto notificationDto = new()
+                {
+                    UserId = storeUserId.Value,
+                    ReferenceId = inventoryReservation.ProductId,
+                    Title = "Product Went out of stock",
+                    Message = $"A Product went out of stock click to check it",
+                    Type = NotificationType.ProductOutOfStock
+                };
+
+                await _notificationService.SendToUserAsync(storeUserId.ToString()!, notificationDto);
+
+                Notification notification = _mapper.Map<Notification>(notificationDto);
+
+                _repositoryManager.NotificationRepository.CreateNotification(notification);
+            }
         }
 
         Cart? cartToDelete = await _repositoryManager.CartRepository.GetCartByIdAsync(cart.CartId);
@@ -203,9 +233,25 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Bas
 
         try
         {
+            NotificationDto notificationDto = new()
+            {
+                UserId = storeUserId.Value,
+                ReferenceId = order.Id,
+                Title = "Order Created",
+                Message = $"Order #{order.OrderNumber} has been Created",
+                Type = NotificationType.OrderCreated
+            };
+
+            await _notificationService.SendToUserAsync(storeUserId.ToString()!, notificationDto);
+
+            Notification notification = _mapper.Map<Notification>(notificationDto);
+
+            _repositoryManager.NotificationRepository.CreateNotification(notification);
+
             await _repositoryManager.SaveAsync();
             return response;
         }
+
         catch (DbUpdateConcurrencyException)
         {
             response.Success = false;

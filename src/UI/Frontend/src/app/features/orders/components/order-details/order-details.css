@@ -119,3 +119,7 @@ div[col-md-6][click],
 .product-item-wrapper {
     cursor: pointer;
 }
+
+.gap-1\.5 {
+    gap: 0.375rem !important; /* 6px internal spacing grid alignment */
+}

@@ -83,30 +83,30 @@
 /* ==========================================================================
    ADDED: DROPDOWN MENU PANEL CUSTOM STYLES
    ========================================================================== */
-.notification-dropdown {
+/* .notification-dropdown {
     width: 320px;
     border-color: #e2e8f0 !important;
     border-radius: 12px !important;
     overflow: hidden;
-}
+} */
 
 /* Limits panel stretching and provides smooth scrolling overflow */
-.notification-scroll-area {
+/* .notification-scroll-area {
     max-height: 280px;
     overflow-y: auto;
 }
 
 .notification-item {
-    white-space: normal !important; /* Forces longer tracking strings to wrap text instead of clipping */
+    white-space: normal !important; 
     transition: background-color 0.15s ease;
 }
 
 .notification-item:hover {
     background-color: #f8fafc;
-}
+} */
 
 /* Circular backdrop wrappers behind list item icons */
-.notification-avatar-dot {
+/* .notification-avatar-dot {
     width: 36px;
     height: 36px;
     border-radius: 50%;
@@ -114,7 +114,7 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-}
+} */
 
 /* Color palettes matching alert statuses */
 .bg-primary-light { background-color: #e6f0ff; }
@@ -126,3 +126,58 @@
 .fs-13 { font-size: 13px; }
 .fs-12 { font-size: 12px; }
 .fs-11 { font-size: 11px; }
+
+
+.bg-unread-tint {
+    background-color: #f8fafc !important; /* Soft steel tint contrasting unread entries */
+}
+
+.text-purple {
+    color: #8b5cf6 !important;
+}
+
+.fs-14 { font-size: 14px; }
+.fs-12 { font-size: 12px; }
+
+/* Custom smooth scrollbar tracker rules for deep alert logs lists */
+div::-webkit-scrollbar {
+    width: 6px;
+}
+div::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+/* Container block configuration */
+.dropdown {
+    display: inline-block;
+}
+
+/* Parent activation trigger and hover transitions */
+button.utility-item-link {
+    outline: none !important;
+    box-shadow: none !important;
+    color: #4a5568;
+    transition: color 0.15s ease;
+}
+
+button.utility-item-link:hover {
+    color: #2563eb;
+}
+
+/* Contrast layer for unread state items */
+.bg-unread-tint {
+    background-color: #f8fafc !important;
+}
+
+/* Typography Utility Scales */
+.fs-14 { font-size: 14px; }
+.fs-12 { font-size: 12px; }
+
+/* Custom panel scrollbar styling rules */
+div::-webkit-scrollbar {
+    width: 6px;
+}
+div::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}

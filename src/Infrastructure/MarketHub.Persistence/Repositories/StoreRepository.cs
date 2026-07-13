@@ -31,4 +31,13 @@ public class StoreRepository : IStoreRepository
 
     public async Task<Guid> GetStoreIdAsync(Guid userId)
         => await _context.Stores.Where(x => x.UserId == userId).Select(x => x.Id).FirstOrDefaultAsync();
+
+    public async Task<Guid?> GetStoreUserIdForOrderAsync(Guid orderId)
+    {
+        return await _context.OrderItems.Where(x => x.OrderId == orderId)
+            .Select(x => x.Product.Store.UserId).FirstOrDefaultAsync();
+    }
+
+    public async Task<Guid?> GetStoreUserIdForProductAsync(Guid productId)
+        => await _context.Products.Where(x => x.Id == productId).Select(x => x.Store.UserId).FirstOrDefaultAsync();
 }
