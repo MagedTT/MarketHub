@@ -33,6 +33,7 @@ public class ReviewRepository : IReviewRepository
             {
                 Id = x.Id,
                 ReviewerName = x.User.FirstName + " " + x.User.LastName,
+                ProductId = x.ProductId,
                 ReviewerRating = x.Rating,
                 Comment = x.Comment,
                 CreatedAt = x.CreatedAt
@@ -51,7 +52,9 @@ public class ReviewRepository : IReviewRepository
             {
                 Id = x.Id,
                 ReviewerName = x.User.FirstName + " " + x.User.LastName,
+                ProductId = x.ProductId,
                 ReviewerRating = x.Rating,
+                ReviewerId = x.UserId,
                 Comment = x.Comment,
                 CreatedAt = x.CreatedAt
             });

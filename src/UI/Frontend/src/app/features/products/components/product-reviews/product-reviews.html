@@ -1,0 +1,90 @@
+<!-- <div class="details-tabs-row mb-4">
+    <a href="#" class="tab-trigger-link" role="tab">Reviews (0)</a>
+</div> -->
+
+<!-- Tab Navigation Row Bar -->
+
+<div class="details-tabs-row mb-4">
+    <!-- Dynamic reviews array length display tracker -->
+    <a style="cursor: pointer;" class="tab-trigger-link active" role="tab">
+        Reviews ({{ reviews.length }})
+    </a>
+</div>
+
+<!-- DATA MATRIX: REVIEWS PERFORMANCE AREA -->
+<div class="reviews-list-container d-flex flex-column gap-3">
+    @for (review of reviews; track review.id) {
+    <div class="review-card border p-3 bg-white position-relative rounded-3 shadow-sm text-start">
+
+        <!-- ABSOLUTE POSITIONED ACTIONS ACTION DROPDOWN (Top Right Placement) -->
+        <div class="dropdown position-absolute top-0 end-0 mt-2.5 me-2.5">
+            <button
+                class="btn btn-sm nav-action-icon p-1 text-muted d-flex align-items-center justify-content-center border-0 bg-transparent shadow-none no-caret"
+                type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Review Actions Context Menu">
+                <svg xmlns="http://w3.org" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0" />
+                </svg>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border p-1 mt-1"
+                style="min-width: 130px; border-radius: 8px; font-size: 13px;">
+                @if (currentUserId === review.reviewerId)
+                {
+                <li>
+                    <a class="dropdown-item d-flex align-items-center gap-2 py-2 rounded-2 text-danger"
+                        style="cursor: pointer;" (click)="onDeleteReview(review.id)">
+                        <i class="bi bi-trash"></i>
+                        <span>Delete</span>
+                    </a>
+                </li>
+                }
+                @else
+                {
+                <li>
+                    <a class="dropdown-item d-flex align-items-center gap-2 py-2 rounded-2 text-dark"
+                        style="cursor: pointer;" (click)="onReportReview(review)">
+                        <i class="bi bi-flag text-secondary"></i>
+                        <span>Report Review</span>
+                    </a>
+                </li>
+                }
+            </ul>
+        </div>
+
+        <!-- Review Meta Content Layout (Author and Stars Block) -->
+        <div class="d-flex align-items-center gap-2 mb-2">
+            <!-- CHANGED: Maps to reviewerName property -->
+            <div class="fw-bold text-dark fs-14">{{ review.reviewerName }}</div>
+            <div class="text-warning d-flex gap-0.5" aria-hidden="true">
+                <!-- CHANGED: Generating an analytical 5-star loop matrix using reviewerRating -->
+                @for (star of [1, 2, 3, 4, 5]; track star) {
+                <i class="bi" [class]="star <= review.reviewerRating ? 'bi-star-fill' : 'bi-star'"></i>
+                }
+            </div>
+        </div>
+
+        <!-- Content Narrative Body -->
+        <!-- CHANGED: Added structural check wrapper in case comment string evaluates to undefined -->
+        @if (review.comment) {
+        <p class="mb-1 text-secondary fs-13" style="line-height: 1.5; padding-right: 24px;">
+            {{ review.comment }}
+        </p>
+        } @else {
+        <p class="mb-1 text-muted fs-13 fst-italic" style="padding-right: 24px;">
+            Left a rating score without a written description overview.
+        </p>
+        }
+
+        <small class="text-muted font-monospace" style="font-size: 11px;">
+            Posted {{ review.createdAt | date:'mediumDate' }}
+        </small>
+    </div>
+    } @empty {
+    <!-- Fallback Empty State Frame layout context blocks -->
+    <div class="text-center py-5 border rounded-3 bg-light bg-opacity-50 text-muted">
+        <i class="bi bi-chat-square-text d-block fs-1 text-secondary-subtle mb-2"></i>
+        <p class="mb-0 fs-14 fw-medium">No reviews published yet for this listing.</p>
+        <small class="text-muted fs-12">Be the first to share your customer journey insight parameters.</small>
+    </div>
+    }
+</div>

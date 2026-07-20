@@ -13,6 +13,6 @@ export interface ProductDetailsDto {
     specifications: Record<string, any>;
     numberOfReviews: number;
     averageRating: number;
-    reviews?: ReviewDto[];
+    // reviews?: ReviewDto[];
     imagesUrls: string[];
 }

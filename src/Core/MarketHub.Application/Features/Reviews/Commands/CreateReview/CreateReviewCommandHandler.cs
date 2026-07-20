@@ -44,6 +44,13 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, B
         //////// Reviews should be after order is delivered ////////
         ////////////////////////////////////////////////////////////
 
+        Product product = (await _repositoryManager.ProductRepository.GetByIdAsync(request.ProductId, true))!;
+
+        decimal ratingsSum = product.AverageRating * product.NumberOfReviews + request.Rating;
+
+        product.NumberOfReviews++;
+        product.AverageRating = ratingsSum / product.NumberOfReviews;
+
         Review review = _mapper.Map<Review>(request);
 
         _repositoryManager.ReviewRepository.CreateReview(review);

@@ -17,6 +17,6 @@ public class ProductDetailsDto
     public JsonElement Specifications { get; set; }
     public int NumberOfReviews { get; set; }
     public decimal AverageRating { get; set; }
-    public ICollection<ReviewDto>? Reviews { get; set; }
+    // public ICollection<ReviewDto>? Reviews { get; set; }
     public ICollection<string> ImagesUrls { get; set; } = new List<string>();
 }

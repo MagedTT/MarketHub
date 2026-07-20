@@ -146,9 +146,7 @@
 
     <!-- Bottom Tabs Layout Matrix Container -->
     <div class="mt-5 pt-4">
-        <div class="details-tabs-row mb-4">
-            <a href="#" class="tab-trigger-link active" role="tab">Description</a>
-            <a href="#" class="tab-trigger-link" role="tab">Reviews ({{ productDetails()?.reviews!.length }})</a>
-        </div>
+        <app-product-reviews [currentUserId]="session.user()?.id ?? ''" [metaData]="reviewsMetaData()"
+            [reviews]="reviews()" (reviewDeleted)="onReviewDeleted($event)"></app-product-reviews>
     </div>
 </main>

@@ -22,7 +22,9 @@ public class CreateReviewCommandValidator : AbstractValidator<CreateReviewComman
             .MustAsync(ProductExists)
             .WithMessage("Product is not found.")
             .MustAsync(ReviewDoesntExist)
-            .WithMessage("A Review for that product already exists");
+            .WithMessage("A Review for that product already exists.")
+            .MustAsync(ProductOrderedByUserAndDelivered)
+            .WithMessage("Order Not Delivered Yet.");
 
         RuleFor(x => x.Rating)
             .NotEmpty()
@@ -45,4 +47,7 @@ public class CreateReviewCommandValidator : AbstractValidator<CreateReviewComman
 
     private async Task<bool> ReviewDoesntExist(CreateReviewCommand command, Guid productId, CancellationToken cancellationToken)
         => !await _repositoryManager.ReviewRepository.ReviewExists(command.UserId, productId);
+
+    private async Task<bool> ProductOrderedByUserAndDelivered(CreateReviewCommand command, Guid productId, CancellationToken cancellationToken)
+        => await _repositoryManager.ProductRepository.ProductOrderedByUserAndDeliveredAsync(command.UserId, productId);
 }

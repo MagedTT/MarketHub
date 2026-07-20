@@ -9,10 +9,14 @@ import { SessionStoreService } from '../../../../core/services/session-store-ser
 import { CartService } from '../../../../shared/services/cart-service';
 import { CartStore } from '../../../../core/services/stores/cart-store';
 import { FormsModule } from '@angular/forms';
+import { ReviewDto } from '../../models/review-dto.interface';
+import { PaginationMetadata } from '../../../../shared/models/paginationMetadata.interface';
+import { ReviewsListRequest } from '../../models/ReviewsListRequest.interface';
+import { ProductReviews } from "../../components/product-reviews/product-reviews";
 
 @Component({
   selector: 'app-product-details',
-  imports: [CurrencyPipe, KeyValuePipe, FormsModule],
+  imports: [CurrencyPipe, KeyValuePipe, FormsModule, ProductReviews],
   templateUrl: './product-details.html',
   styleUrl: './product-details.css',
 })
@@ -20,17 +24,29 @@ export class ProductDetails implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private productsService = inject(ProductsService);
   private activatedRoute = inject(ActivatedRoute);
-  private session = inject(SessionStoreService);
   private cartService = inject(CartService);
   private cartStore = inject(CartStore);
+  session = inject(SessionStoreService);
 
   private timeoutId: any = null;
   onSale: WritableSignal<boolean> = signal(false);
   productDetails: WritableSignal<ProductDetailsDto | null> = signal(null);
+  reviews: WritableSignal<ReviewDto[]> = signal([]);
+  reviewsMetaData: WritableSignal<PaginationMetadata | null> = signal(null);
   selectedImageUrl: WritableSignal<string | null> = signal(null);
   selectedQuantity: number = 1;
   alertMessage: WritableSignal<string | null> = signal(null);
   isSuccess: WritableSignal<boolean> = signal(false);
+
+
+  reviewsRequest: ReviewsListRequest = {
+    productId: '',
+    requestParameters: {
+      pageNumber: 1,
+      pageSize: 10
+    },
+    trackChanges: false
+  };
 
 
   ngOnInit(): void {
@@ -41,6 +57,9 @@ export class ProductDetails implements OnInit, OnDestroy {
 
       if (productId) {
         this.getProductDetails(productId);
+
+        this.reviewsRequest.productId = productId;
+        this.getProductReviews(this.reviewsRequest);
       }
     });
   }
@@ -54,6 +73,17 @@ export class ProductDetails implements OnInit, OnDestroy {
     ).subscribe(response => {
       this.productDetails.set(response);
       this.selectedImageUrl.set(this.productDetails()?.imagesUrls.length ? this.productDetails()?.imagesUrls[0]! : null);
+    });
+  }
+
+  getProductReviews(request: ReviewsListRequest) {
+    this.productsService.getProductReviews(request).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe(response => {
+      this.reviews.set(response.items);
+      this.reviewsMetaData.set(response.metadata);
+      console.log(this.reviews());
+      console.log(this.reviewsMetaData());
     });
   }
 
@@ -96,6 +126,19 @@ export class ProductDetails implements OnInit, OnDestroy {
           this.clearAlert();
         }, 2000);
       }
+    });
+  }
+
+  onReviewDeleted(reviewId: string) {
+    this.productsService.deleteReview(reviewId).pipe(
+      takeUntil(this.destroy$),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => error);
+      })
+    ).subscribe(() => {
+      this.reviews.update(reviews =>
+        reviews.filter(review => review.id !== reviewId)
+      )
     });
   }
 

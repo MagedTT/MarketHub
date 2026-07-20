@@ -69,7 +69,7 @@ public class MarkOrderAsDeliveredCommandHandler : IRequestHandler<MarkOrderAsDel
             UserId = order.UserId,
             ReferenceId = order.Id,
             Title = "Order Delivered",
-            Message = $"Order #{order.OrderNumber} has been Delivered",
+            Message = $"Order #{order.OrderNumber} has been Delivered, You Can leave a review now.",
             Type = Domain.Enums.NotificationType.OrderDelivered
         };
 

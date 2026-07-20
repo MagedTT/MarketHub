@@ -56,7 +56,7 @@ public class ReviewsController : ControllerBase
         return Ok(response.Review);
     }
 
-    [HttpGet]
+    [HttpPost]
     [Route("reviews")]
     [AllowAnonymous]
     public async Task<IActionResult> GetReviews([FromBody] GetReviewsListQuery request)

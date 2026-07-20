@@ -4,7 +4,8 @@ public class ReviewDto
 {
     public Guid Id { get; set; }
     public string ReviewerName { get; set; } = string.Empty;
-    // public Guid ProductId { get; set; }
+    public Guid ProductId { get; set; }
+    public Guid ReviewerId { get; set; }
     public int ReviewerRating { get; set; }
     public string? Comment { get; set; }
     public DateTime CreatedAt { get; set; }

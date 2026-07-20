@@ -52,6 +52,33 @@ public class DeleteReviewCommandHandler : IRequestHandler<DeleteReviewCommand, B
             return response;
         }
 
+        Product? product = await _repositoryManager.ProductRepository.GetByIdAsync(review.ProductId, true);
+
+        if (product is null)
+        {
+            response.Success = false;
+            response.StatusCode = (int)HttpStatusCode.NotFound;
+            response.Message = $"Product for review with Id: {review.Id} is not found";
+
+            return response;
+        }
+
+        if (product.NumberOfReviews == 1)
+        {
+            product.AverageRating = 0;
+            product.NumberOfReviews = 0;
+        }
+        else
+        {
+            decimal productRatingsSum = product.AverageRating * product.NumberOfReviews;
+
+            productRatingsSum -= review.Rating;
+
+            product.NumberOfReviews--;
+
+            product.AverageRating = productRatingsSum / product.NumberOfReviews;
+        }
+
         _repositoryManager.ReviewRepository.DeleteReview(review);
 
         await _repositoryManager.SaveAsync();

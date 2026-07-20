@@ -21,6 +21,7 @@ public interface IProductRepository
 
     /////// Store Product Methods ///////
     Task<bool> StoreOwnsProductAsync(Guid storeId, Guid productId);
+    Task<bool> ProductOrderedByUserAndDeliveredAsync(Guid userId, Guid productId);
     Task<int> TotalProductsByStoreIdAsync(Guid storeId);
     Task<int> TotalProductsInStockByStoreIdAsync(Guid storeId);
     Task<int> TotalProductsOutOfStockByStoreIdAsync(Guid storeId);

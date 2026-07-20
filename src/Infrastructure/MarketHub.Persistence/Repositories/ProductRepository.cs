@@ -109,14 +109,6 @@ public class ProductRepository : IProductRepository
                 x.Specifications,
                 x.NumberOfReviews,
                 x.AverageRating,
-                Reviews = x.Reviews.Take(20).Select(r => new ReviewDto
-                {
-                    Id = r.Id,
-                    ReviewerName = r.User.FirstName + " " + r.User.LastName,
-                    ReviewerRating = r.Rating,
-                    Comment = r.Comment,
-                    CreatedAt = r.CreatedAt
-                }).ToList(),
                 ImagesUrls = x.Images.Select(i => i.ImageUrl).ToList()
             }).FirstOrDefaultAsync();
 
@@ -137,7 +129,6 @@ public class ProductRepository : IProductRepository
             Specifications = JsonSerializer.Deserialize<JsonElement>(product.Specifications),
             NumberOfReviews = product.NumberOfReviews,
             AverageRating = product.AverageRating,
-            Reviews = product.Reviews,
             ImagesUrls = product.ImagesUrls
         };
 
@@ -293,4 +284,7 @@ public class ProductRepository : IProductRepository
 
     public async Task<bool> CheckProductExistsForStoreByIsAsync(Guid productId)
         => await _context.Products.AnyAsync(x => x.Id == productId);
+
+    public async Task<bool> ProductOrderedByUserAndDeliveredAsync(Guid userId, Guid productId)
+        => await _context.Orders.AnyAsync(x => x.Status == Domain.Enums.OrderStatus.Delivered && x.UserId == userId && x.OrderItems.Any(oi => oi.ProductId == productId));
 }
