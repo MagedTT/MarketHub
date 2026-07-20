@@ -18,8 +18,8 @@ export class SellerNavbar implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   private notificationSignalRService = inject(NotificationSignalRService);
   private notificationService = inject(NotificationService);
-  private session = inject(SessionStoreService);
   private router = inject(Router);
+  session = inject(SessionStoreService);
 
   notifications: WritableSignal<NotificationDto[]> = signal([]);
 

@@ -146,7 +146,8 @@
 
     <!-- Bottom Tabs Layout Matrix Container -->
     <div class="mt-5 pt-4">
-        <app-product-reviews [currentUserId]="session.user()?.id ?? ''" [metaData]="reviewsMetaData()"
-            [reviews]="reviews()" (reviewDeleted)="onReviewDeleted($event)"></app-product-reviews>
+        <app-product-reviews [productId]="productId()" [currentUserId]="session.user()?.id ?? ''"
+            [metaData]="reviewsMetaData()" [reviews]="reviews()" (reviewDeleted)="onReviewDeleted($event)"
+            (reviewCreated)="onReviewCreated($event)" [serverErrors]="serverErrors()"></app-product-reviews>
     </div>
 </main>

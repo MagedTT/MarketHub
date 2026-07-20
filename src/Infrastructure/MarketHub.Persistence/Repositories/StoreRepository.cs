@@ -1,4 +1,5 @@
 using MarketHub.Application.Contracts.Persistence;
+using MarketHub.Application.Features.Stores.Queries.GetStoreIdAndStatus;
 using MarketHub.Domain.Entities;
 using MarketHub.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -29,8 +30,14 @@ public class StoreRepository : IStoreRepository
     public void CreateStore(Store store)
         => _context.Stores.Add(store);
 
-    public async Task<Guid> GetStoreIdAsync(Guid userId)
-        => await _context.Stores.Where(x => x.UserId == userId).Select(x => x.Id).FirstOrDefaultAsync();
+    public async Task<StoreStatusDto?> GetStoreIdAndActiveStatusAsync(Guid userId)
+        => await _context.Stores
+            .Where(x => x.UserId == userId)
+            .Select(x => new StoreStatusDto
+            {
+                StoreId = x.Id,
+                IsActive = x.IsActive
+            }).FirstOrDefaultAsync();
 
     public async Task<Guid?> GetStoreUserIdForOrderAsync(Guid orderId)
     {

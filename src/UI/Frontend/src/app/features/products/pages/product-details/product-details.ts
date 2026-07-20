@@ -13,6 +13,8 @@ import { ReviewDto } from '../../models/review-dto.interface';
 import { PaginationMetadata } from '../../../../shared/models/paginationMetadata.interface';
 import { ReviewsListRequest } from '../../models/ReviewsListRequest.interface';
 import { ProductReviews } from "../../components/product-reviews/product-reviews";
+import { CreateReviewCommand } from '../../models/createReviewCommand.interface';
+import { ValidationErrors } from '../../../../shared/models/validation-errors.interface';
 
 @Component({
   selector: 'app-product-details',
@@ -37,6 +39,9 @@ export class ProductDetails implements OnInit, OnDestroy {
   selectedQuantity: number = 1;
   alertMessage: WritableSignal<string | null> = signal(null);
   isSuccess: WritableSignal<boolean> = signal(false);
+  productId: WritableSignal<string> = signal('');
+  serverErrors: WritableSignal<ValidationErrors | null> = signal(null);
+
 
 
   reviewsRequest: ReviewsListRequest = {
@@ -57,7 +62,7 @@ export class ProductDetails implements OnInit, OnDestroy {
 
       if (productId) {
         this.getProductDetails(productId);
-
+        this.productId.set(productId);
         this.reviewsRequest.productId = productId;
         this.getProductReviews(this.reviewsRequest);
       }
@@ -82,8 +87,6 @@ export class ProductDetails implements OnInit, OnDestroy {
     ).subscribe(response => {
       this.reviews.set(response.items);
       this.reviewsMetaData.set(response.metadata);
-      console.log(this.reviews());
-      console.log(this.reviewsMetaData());
     });
   }
 
@@ -126,6 +129,23 @@ export class ProductDetails implements OnInit, OnDestroy {
           this.clearAlert();
         }, 2000);
       }
+    });
+  }
+
+  onReviewCreated(request: CreateReviewCommand) {
+    this.productsService.createReview(request).pipe(
+      takeUntil(this.destroy$),
+      catchError((error: HttpErrorResponse) => {
+        this.serverErrors.set(error.error as ValidationErrors);
+
+        setTimeout(() => {
+          this.serverErrors.set(null);
+        }, 3000);
+
+        return throwError(() => error);
+      })
+    ).subscribe(response => {
+      this.reviews.update(reviews => [response, ...reviews]);
     });
   }
 

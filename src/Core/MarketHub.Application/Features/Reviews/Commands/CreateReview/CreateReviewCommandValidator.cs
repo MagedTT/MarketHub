@@ -35,6 +35,8 @@ public class CreateReviewCommandValidator : AbstractValidator<CreateReviewComman
             .WithMessage("Rating should be between 0 and 5");
 
         RuleFor(x => x.Comment)
+            .MinimumLength(20)
+            .WithMessage("Comment length should be graeter than 20 characters.")
             .MaximumLength(500)
             .WithMessage("Comment length should be less than 500 characters.");
     }

@@ -1,5 +1,5 @@
 @if (session.user()?.storeId !== '00000000-0000-0000-0000-000000000000') {
-
+@if (session.user()?.isActive === 'True') {
 <div class="d-flex min-vh-100">
     <app-seller-sidebar></app-seller-sidebar>
 
@@ -13,6 +13,10 @@
 
     </div>
 </div>
+}
+@else {
+<app-inactive-seller></app-inactive-seller>
+}
 } @else {
 <app-navbar class="app-header-container"></app-navbar>
 

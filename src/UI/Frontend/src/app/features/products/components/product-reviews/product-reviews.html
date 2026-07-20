@@ -1,15 +1,54 @@
-<!-- <div class="details-tabs-row mb-4">
-    <a href="#" class="tab-trigger-link" role="tab">Reviews (0)</a>
-</div> -->
-
 <!-- Tab Navigation Row Bar -->
-
 <div class="details-tabs-row mb-4">
     <!-- Dynamic reviews array length display tracker -->
     <a style="cursor: pointer;" class="tab-trigger-link active" role="tab">
         Reviews ({{ reviews.length }})
     </a>
 </div>
+
+<form (ngSubmit)="onSubmitReview()" class="row g-3 text-start">
+
+    <!-- Minimal Interactive Rating Line -->
+    <div class="col-12 d-flex align-items-center gap-2">
+        <span class="text-secondary fs-13 fw-semibold">Your Rating:</span>
+        <div class="text-warning d-flex gap-1 fs-14">
+            @for (star of [1, 2, 3, 4, 5]; track star) {
+            <i class="bi cursor-pointer" [class]="star <= newReviewRating() ? 'bi-star-fill' : 'bi-star'"
+                (click)="setRating(star)"></i>
+            }
+        </div>
+    </div>
+
+    <!-- Frameless Input Box -->
+    <div class="col-12">
+        <label for="newReviewComment" class="visually-hidden">Review Comment Text</label>
+        <textarea class="form-control review-input-field" id="newReviewComment" name="newReviewComment" rows="2"
+            [ngModel]="newReviewComment()" (ngModelChange)="newReviewComment.set($event)"
+            placeholder="Share your experience with this product..." required></textarea>
+    </div>
+
+    <!-- Small Action Button Group -->
+    <div class="col-12 d-flex mb-4 justify-content-end">
+        <button class="btn btn-sm btn-primary px-3 py-1.5 fw-semibold" type="submit"
+            [disabled]="newReviewRating() === 0 || !newReviewComment().trim()">
+            Submit Review
+        </button>
+    </div>
+</form>
+
+@if (serverErrors)
+{
+<ul>
+    @for (field of serverErrors | keyvalue; track field.key)
+    {
+    @for (message of field.value; track $index)
+    {
+    <li class="text-danger">{{ message }}</li>
+    }
+    }
+</ul>
+}
+
 
 <!-- DATA MATRIX: REVIEWS PERFORMANCE AREA -->
 <div class="reviews-list-container d-flex flex-column gap-3">
@@ -42,7 +81,7 @@
                 {
                 <li>
                     <a class="dropdown-item d-flex align-items-center gap-2 py-2 rounded-2 text-dark"
-                        style="cursor: pointer;" (click)="onReportReview(review)">
+                        style="cursor: pointer;">
                         <i class="bi bi-flag text-secondary"></i>
                         <span>Report Review</span>
                     </a>
@@ -53,10 +92,8 @@
 
         <!-- Review Meta Content Layout (Author and Stars Block) -->
         <div class="d-flex align-items-center gap-2 mb-2">
-            <!-- CHANGED: Maps to reviewerName property -->
             <div class="fw-bold text-dark fs-14">{{ review.reviewerName }}</div>
             <div class="text-warning d-flex gap-0.5" aria-hidden="true">
-                <!-- CHANGED: Generating an analytical 5-star loop matrix using reviewerRating -->
                 @for (star of [1, 2, 3, 4, 5]; track star) {
                 <i class="bi" [class]="star <= review.reviewerRating ? 'bi-star-fill' : 'bi-star'"></i>
                 }
@@ -64,7 +101,6 @@
         </div>
 
         <!-- Content Narrative Body -->
-        <!-- CHANGED: Added structural check wrapper in case comment string evaluates to undefined -->
         @if (review.comment) {
         <p class="mb-1 text-secondary fs-13" style="line-height: 1.5; padding-right: 24px;">
             {{ review.comment }}

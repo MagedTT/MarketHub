@@ -12,7 +12,7 @@ using MarketHub.Application.Features.Products.Queries.GetTotalProductsOutOfStock
 using MarketHub.Application.Features.PromoCodes.Queries.GetTotalPromoCodesForStore;
 using MarketHub.Application.Features.Reviews.Queries.GetRatingCountForStore;
 using MarketHub.Application.Features.Reviews.Queries.GetTotalReviewsForStore;
-using MarketHub.Application.Features.Stores.Queries.GetStoreId;
+using MarketHub.Application.Features.Stores.Queries.GetStoreIdAndStatus;
 using MarketHub.Application.Features.Stores.Queries.GetTotalSalesForStore;
 using MarketHub.Application.Shared;
 using MarketHub.Domain.Entities;
@@ -42,10 +42,10 @@ public class StoresController : ControllerBase
     [Route("storeId/{userId:guid}")]
     public async Task<IActionResult> GetStoreId(Guid userId)
     {
-        GetStoreIdQuery request = new() { UserId = userId };
-        Guid? storeId = await _mediator.Send(request);
+        GetStoreIdAnsActiveStatusQuery request = new() { UserId = userId };
+        StoreStatusDto? storeSttaus = await _mediator.Send(request);
 
-        return Ok(storeId);
+        return Ok(storeSttaus?.StoreId);
     }
 
     [HttpGet]

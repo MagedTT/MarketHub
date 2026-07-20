@@ -82,7 +82,7 @@ public class ReviewsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CreateReview([FromBody] CreateReviewCommand request)
     {
-        BaseResponse response = await _mediator.Send(request);
+        CreateReviewCommandResponse response = await _mediator.Send(request);
 
         if (!response.Success && response.StatusCode == StatusCodes.Status400BadRequest)
         {
@@ -95,7 +95,7 @@ public class ReviewsController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        return NoContent();
+        return Ok(response.Review);
     }
 
     [HttpPut]

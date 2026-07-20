@@ -8,7 +8,7 @@ using FluentValidation.Results;
 using MarketHub.Application.Contracts.Identity;
 using MarketHub.Application.Contracts.Infrastructure;
 using MarketHub.Application.Features.Stores.Commands.CreateStore;
-using MarketHub.Application.Features.Stores.Queries.GetStoreId;
+using MarketHub.Application.Features.Stores.Queries.GetStoreIdAndStatus;
 using MarketHub.Application.FluentValidations.Identity;
 using MarketHub.Application.Models.Authentication;
 using MarketHub.Application.Models.Mail;
@@ -290,11 +290,12 @@ public class AuthenticationService : IAuthenticationService
             new Claim(JwtRegisteredClaimNames.Email, _user?.Email!),
         };
 
-        GetStoreIdQuery request = new() { UserId = _user?.Id ?? Guid.Empty };
+        GetStoreIdAnsActiveStatusQuery request = new() { UserId = _user?.Id ?? Guid.Empty };
 
-        Guid? storeId = await _mediator.Send(request);
+        StoreStatusDto? storeStatus = await _mediator.Send(request);
 
-        claims.Add(new Claim("storeId", storeId.ToString() ?? string.Empty));
+        claims.Add(new Claim("storeId", storeStatus?.StoreId.ToString() ?? string.Empty));
+        claims.Add(new Claim("isActive", storeStatus?.IsActive.ToString() ?? string.Empty));
 
         IList<string> roles = await _userManager.GetRolesAsync(_user ?? new());
 

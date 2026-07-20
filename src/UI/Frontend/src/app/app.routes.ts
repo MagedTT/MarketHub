@@ -3,6 +3,7 @@ import { AuthLayout } from './core/layouts/auth-layout/auth-layout';
 import { MainLayout } from './core/layouts/main-layout/main-layout';
 import { sellerGuard } from './core/guards/seller-guard';
 import { buyerGuard } from './core/guards/buyer-guard';
+import { inactiveSellerGuard } from './core/guards/inactive-seller-guard';
 
 export const routes: Routes = [
     {
@@ -54,6 +55,13 @@ export const routes: Routes = [
             //     redirectTo: 'seller-dashboard',
             //     pathMatch: 'full'
             // },
+            {
+                path: 'inactive-seller',
+                canActivate: [inactiveSellerGuard],
+                loadComponent: () =>
+                    import('./features/sellers/components/inactive-seller/inactive-seller')
+                        .then(c => c.InactiveSeller)
+            },
             {
                 path: 'seller-dashboard',
                 canActivate: [sellerGuard],

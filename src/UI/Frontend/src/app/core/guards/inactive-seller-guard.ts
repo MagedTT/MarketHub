@@ -2,23 +2,17 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { SessionStoreService } from '../services/session-store-service';
 
-export const sellerGuard: CanActivateFn = (route, state) => {
+export const inactiveSellerGuard: CanActivateFn = (route, state) => {
   const session = inject(SessionStoreService);
   const router = inject(Router);
 
   const user = session.user();
 
-  if (!user) {
+  if (!user)
     return router.createUrlTree(['/auth/login']);
-  }
 
-  if (user.storeId === null) {
-    return router.createUrlTree(['/']);
-  }
-
-  if (user.isActive === 'False') {
-    return router.createUrlTree(['/inactive-seller']);
-  }
+  if (user.isActive === 'True')
+    return router.createUrlTree(['/seller-dashboard']);
 
   return true;
 };

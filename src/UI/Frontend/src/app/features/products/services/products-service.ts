@@ -8,6 +8,7 @@ import { AddToWishListRequest } from '../models/add-to-wish-list.interface';
 import { ProductDetailsDto } from '../models/product-details-dto.interface';
 import { ReviewDto } from '../models/review-dto.interface';
 import { ReviewsListRequest } from '../models/ReviewsListRequest.interface';
+import { CreateReviewCommand } from '../models/createReviewCommand.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +44,10 @@ export class ProductsService {
           metadata: JSON.parse(response.headers.get('X-Pagination') ?? '{}')
         }))
       );
+  }
+
+  createReview(request: CreateReviewCommand): Observable<ReviewDto> {
+    return this.httpClient.post<ReviewDto>(`https://localhost:5001/api/reviews`, request);
   }
 
   deleteReview(reviewId: string): Observable<any> {

@@ -2,13 +2,13 @@ using System.Net;
 using AutoMapper;
 using FluentValidation.Results;
 using MarketHub.Application.Contracts.Persistence;
-using MarketHub.Application.Responses;
+using MarketHub.Application.DTOs.Persistence.Review;
 using MarketHub.Domain.Entities;
 using MediatR;
 
 namespace MarketHub.Application.Features.Reviews.Commands.CreateReview;
 
-public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, BaseResponse>
+public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, CreateReviewCommandResponse>
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryManager _repositoryManager;
@@ -18,9 +18,9 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, B
         _repositoryManager = repositoryManager;
     }
 
-    public async Task<BaseResponse> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
+    public async Task<CreateReviewCommandResponse> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
     {
-        BaseResponse response = new();
+        CreateReviewCommandResponse response = new();
         CreateReviewCommandValidator validator = new(_repositoryManager);
 
         ValidationResult validationResult = await validator.ValidateAsync(request);
@@ -53,9 +53,21 @@ public class CreateReviewCommandHandler : IRequestHandler<CreateReviewCommand, B
 
         Review review = _mapper.Map<Review>(request);
 
+        ReviewDto reviewToReturn = new()
+        {
+            Id = review.Id,
+            ReviewerId = request.UserId,
+            ProductId = request.ProductId,
+            ReviewerRating = request.Rating,
+            CreatedAt = review.CreatedAt,
+            Comment = request.Comment
+        };
+
         _repositoryManager.ReviewRepository.CreateReview(review);
 
         await _repositoryManager.SaveAsync();
+
+        response.Review = reviewToReturn;
 
         return response;
     }
