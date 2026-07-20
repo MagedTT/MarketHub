@@ -11,9 +11,9 @@ import { BrandDto } from '../models/brand-dto.interface';
 import { CategoryDto } from '../models/category-dto.interface';
 import { PromoCodeParameters } from '../models/promocode-parameters.interface';
 import { PromoCodeDto } from '../models/promocode-dto.interface';
-import { PromoCodeEditModel } from '../../../shared/models/promo-code-edit.interface';
 import { PromoCodeUpate } from '../models/promo-code-update.interface';
 import { CreatePromoCode } from '../../../shared/models/promo-code-create.interface';
+import { StoreDto } from '../models/store-dto.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -139,5 +139,9 @@ export class SellerOrdersService {
 
   getTotalSales(storeId: string): Observable<number> {
     return this.httpClient.get<number>(`https://localhost:5001/api/stores/totalSales/${storeId}`);
+  }
+
+  getSellerProfile(storeId: string): Observable<StoreDto> {
+    return this.httpClient.get<StoreDto>(`https://localhost:5001/api/stores/${storeId}`);
   }
 }

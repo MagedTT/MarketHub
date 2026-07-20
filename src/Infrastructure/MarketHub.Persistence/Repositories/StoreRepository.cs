@@ -1,4 +1,5 @@
 using MarketHub.Application.Contracts.Persistence;
+using MarketHub.Application.Features.Stores.Queries.GetStore;
 using MarketHub.Application.Features.Stores.Queries.GetStoreIdAndStatus;
 using MarketHub.Domain.Entities;
 using MarketHub.Domain.Enums;
@@ -15,6 +16,22 @@ public class StoreRepository : IStoreRepository
 
     public async Task<Store?> GetByIdAsync(Guid storeId)
         => await _context.Stores.FirstOrDefaultAsync(x => x.Id == storeId);
+
+    public async Task<StoreDto?> GetStoreDtoByIdAsync(Guid storeId)
+        => await _context.Stores
+            .Where(x => x.Id == storeId)
+            .Select(x => new StoreDto
+            {
+                Id = x.Id,
+                UserId = x.UserId,
+                Name = x.Name,
+                UserName = x.User.UserName!,
+                Description = x.Description,
+                LogoUrl = x.LogoUrl,
+                IsActive = x.IsActive,
+                Email = x.User.Email!,
+                CreatedAt = x.CreatedAt
+            }).FirstOrDefaultAsync();
 
     public async Task<bool> CheckStoreExistsAsync(Guid id)
         => await _context.Stores.AnyAsync(store => store.Id.Equals(id));

@@ -1,0 +1,179 @@
+<div class="container my-5" style="max-width: 1050px;">
+
+    <!-- UPPER ROW SUMMARY RIBBON PANEL (Linear Gradient Hero Container) -->
+    <div class="store-profile-header-card shadow-sm mb-4">
+        <div class="row align-items-center g-4">
+
+            <!-- Left Spot: Logo Placement (logoUrl signal) -->
+            <div class="col-auto d-flex justify-content-center">
+                <div class="store-logo-frame position-relative">
+                    <!-- Invoke the signal method signature inside template bindings -->
+                    <img [src]="store()?.logoUrl" alt="Store Logo Preview" class="store-logo-img"
+                        [class.opacity-75]="editable()">
+
+                    <!-- Interactive Image Upload Overlay Tracking State Toggles -->
+                    <label
+                        class="position-absolute top-50 start-50 translate-middle btn btn-sm btn-dark bg-opacity-75 rounded-circle p-2 m-0"
+                        style="cursor: pointer;" title="Change Logo" [class.d-none]="!editable()">
+                        <i class="bi bi-camera text-white fs-5"></i>
+                        <!-- Dynamic hook bound directly to your component file execution parameters -->
+                        <input type="file" class="d-none" accept="image/*" (change)="onFileSelected($event)">
+                    </label>
+                </div>
+            </div>
+
+            <!-- Center Spot: Name and Description Text Blocks -->
+            <div class="col text-center text-md-start">
+                <div class="mb-2">
+                    <span class="badge-custom-tint bg-success-tint">
+                        <i class="bi bi-circle-fill" style="font-size: 6px; vertical-align: middle;"></i> Verified Store
+                        Active
+                    </span>
+                </div>
+                <!-- Dynamic Header title tracks changes live as user typing inputs -->
+                <h1 class="h3 fw-bold mb-2 text-white">{{ store()?.name }}</h1>
+                <p class="mb-0 opacity-75 text-wrap max-width-600 fs-14-5" style="color: #cbd5e1;">
+                    @if (editable()) {
+                    Editing Profile Configuration Mode
+                    } @else {
+                    Public Live Profile Interface Overview
+                    }
+                </p>
+            </div>
+
+            <!-- Right Spot: Master State Action Toolbar -->
+            <!-- <div class="col-xl-4 col-md-5 col-12 text-center text-md-end"> -->
+            @if (!editable()) {
+            <button style="cursor: pointer;" class="btn btn-primary d-inline-flex align-items-center gap-2 px-4 py-2"
+                type="button" (click)="editable.set(true)">
+                <i class="bi bi-pencil-square"></i>
+                <span>Edit Profile</span>
+            </button>
+            } @else {
+            <button class="btn btn-light px-4 py-2 fw-semibold border me-2" type="button" (click)="editable.set(false)">
+                Cancel
+            </button>
+            }
+            <!-- </div> -->
+
+        </div>
+    </div>
+
+    <!-- LOWER SECTION MATRIX: FORM METADATA MATRIX -->
+    <form (ngSubmit)="onSubmit()" class="row g-4">
+
+        <!-- Left Grid: Registration Configuration Logs Block -->
+        <div class="col-md-6 col-lg-7">
+            <div class="card info-detail-card p-4 h-100 shadow-sm border-0">
+                <h5 class="fw-bold mb-4 text-dark d-flex align-items-center gap-2">
+                    <i class="bi bi-shop text-primary"></i> Store Configuration Details
+                </h5>
+
+                <div class="row g-3">
+                    <!-- Store Title Form Field -->
+                    <div class="col-12 text-start">
+                        <label for="storeTitle"
+                            class="form-label form-label-custom mb-1 fw-semibold text-secondary">Official Store
+                            Title</label>
+                        @if (!editable()) {
+                        <div class="detail-value-text">{{ store()?.name }}</div>
+                        } @else {
+                        <!-- Two-way binding straight onto your writable tracking signal parameter variables -->
+                        <input type="text" class="form-control border-secondary-subtle" id="storeTitle"
+                            name="storeTitle" [(ngModel)]="storeTitle" required>
+                        }
+                    </div>
+
+                    <!-- Store Description Narrative Form Field -->
+                    <div class="col-12 text-start">
+                        <label for="storeDescription"
+                            class="form-label form-label-custom mb-1 fw-semibold text-secondary">Store Description
+                            Narrative</label>
+                        @if (!editable()) {
+                        <div class="detail-value-text text-secondary" style="line-height: 1.5;">{{ store()?.description
+                            }}
+                        </div>
+                        } @else {
+                        <!-- Two-way binding straight onto your writable tracking signal parameter variables -->
+                        <textarea class="form-control border-secondary-subtle" id="storeDescription"
+                            name="storeDescription" rows="4" style="line-height: 1.5;" [(ngModel)]="storeDescription"
+                            required></textarea>
+                        }
+                    </div>
+
+                    <div class="col-12">
+                        <hr class="info-divider my-2">
+                    </div>
+
+                    <!-- System Locked Metadata Blocks -->
+                    <div class="col-sm-6 text-start">
+                        <span class="form-label-custom">Registration Timestamp</span>
+                        <div class="detail-value-text"><i class="bi bi-calendar3 me-2 text-muted"></i>{{
+                            store()?.createdAt | date }}
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 text-start">
+                        <span class="form-label-custom">Fulfillment Channel State</span>
+                        <div class="detail-value-text text-success fw-semibold"><i
+                                class="bi bi-check-circle-fill me-2"></i>Operational Open</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Grid: Associated Owner Profile Account Details -->
+        <div class="col-md-6 col-lg-5">
+            <div class="card info-detail-card p-4 h-100 shadow-sm border-0">
+                <h5 class="fw-bold mb-4 text-dark d-flex align-items-center gap-2">
+                    <i class="bi bi-person-badge text-primary"></i> Linked Merchant Account
+                </h5>
+
+                <div class="d-flex align-items-center gap-3 mb-4 text-start">
+                    <div class="owner-avatar bg-primary text-white d-flex align-items-center justify-content-center fw-bold fs-4 shadow-sm"
+                        style="width: 54px; height: 54px; border-radius: 50%;">
+                        MT
+                    </div>
+                    <div>
+                        <div class="fw-bold text-dark fs-16">{{ store()?.userName }}</div>
+                        <small class="text-muted">Primary Store Administrator</small>
+                    </div>
+                </div>
+
+                <!-- Static Administrative ID Fields -->
+                <div class="row g-3">
+                    <div class="col-12 text-start">
+                        <span class="form-label-custom">Linked Merchant User ID</span>
+                        <div class="detail-value-text font-monospace text-muted" style="font-size: 13px;">
+                            {{ store()?.userId }}</div>
+                    </div>
+                    <div class="col-12 text-start">
+                        <span class="form-label-custom">Contact Email Address</span>
+                        <div class="detail-value-text text-secondary">{{ store()?.email }}</div>
+                    </div>
+                </div>
+
+                <!-- Action Footers -->
+                <!-- <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top mt-auto">
+                    <button class="btn btn-sm btn-outline-primary px-3 py-2 fw-semibold rounded-2" type="button">
+                        <i class="bi bi-envelope me-1"></i> Contact Merchant
+                    </button>
+                </div> -->
+            </div>
+        </div>
+
+        <!-- BOTTOM ACTION PANEL ACTION BAR: Renders dynamically during active edit lifecycles -->
+        @if (editable()) {
+        <div class="col-12 d-flex justify-content-end gap-2 mt-2 pt-3 border-top">
+            <button class="btn btn-light border px-4 py-2 fw-semibold rounded-2 text-secondary" type="button"
+                (click)="editable.set(false)">
+                Cancel
+            </button>
+            <button class="btn btn-primary px-4 py-2 fw-semibold rounded-2" type="submit">
+                <i class="bi bi-check-lg me-2"></i>Save Changes
+            </button>
+        </div>
+        }
+
+    </form>
+</div>

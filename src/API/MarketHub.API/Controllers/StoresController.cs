@@ -12,6 +12,7 @@ using MarketHub.Application.Features.Products.Queries.GetTotalProductsOutOfStock
 using MarketHub.Application.Features.PromoCodes.Queries.GetTotalPromoCodesForStore;
 using MarketHub.Application.Features.Reviews.Queries.GetRatingCountForStore;
 using MarketHub.Application.Features.Reviews.Queries.GetTotalReviewsForStore;
+using MarketHub.Application.Features.Stores.Queries.GetStore;
 using MarketHub.Application.Features.Stores.Queries.GetStoreIdAndStatus;
 using MarketHub.Application.Features.Stores.Queries.GetTotalSalesForStore;
 using MarketHub.Application.Shared;
@@ -28,6 +29,31 @@ public class StoresController : ControllerBase
     private readonly IMediator _mediator;
     public StoresController(IMediator mediator)
         => _mediator = mediator;
+
+    [HttpGet]
+    [Route("{storeId:guid}")]
+    public async Task<IActionResult> GetStore(Guid storeId)
+    {
+        GetStoreQuery request = new() { StoreId = storeId };
+
+        GetStoreQueryResponse response = await _mediator.Send(request);
+
+        if (!response.Success && response.StatusCode == StatusCodes.Status400BadRequest)
+        {
+            foreach (string error in response.ValidationErrors!)
+            {
+                string[] errorDetails = error.Split(',');
+                ModelState.TryAddModelError(errorDetails[0], errorDetails[1]);
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        if (!response.Success && response.StatusCode == StatusCodes.Status404NotFound)
+            return NotFound(response.Message);
+
+        return Ok(response.Store);
+    }
 
     [HttpGet]
     [Route("totalBrands/{storeId:guid}")]
