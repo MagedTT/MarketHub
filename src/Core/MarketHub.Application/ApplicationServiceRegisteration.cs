@@ -14,10 +14,12 @@ public static class ApplicationServiceRegisteration
             configs.AddProfile<MappingProfile>();
         });
 
-        services.AddMediatR(cfg =>
-        {
-            cfg.RegisterServicesFromAssembly(typeof(ApplicationServiceRegisteration).Assembly);
-        });
+        services.AddMediatR(typeof(ApplicationServiceRegisteration).Assembly);
+
+        // services.AddMediatR(cfg =>
+        // {
+        //     cfg.RegisterServicesFromAssembly(typeof(ApplicationServiceRegisteration).Assembly);
+        // });
 
         return services;
     }
